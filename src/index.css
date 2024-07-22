@@ -19,10 +19,7 @@ html{
     /* font-family: "Poppins", sans-serif; */
     font-family: "Roboto Condensed", sans-serif;
 }
-body{
-    width: ;
-    height: 100vh;
-}
+
 
 .menu{
     @apply text-4xl;

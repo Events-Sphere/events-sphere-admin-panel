@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useAddEventMutation } from '../App/Features/apiSlice';
 
 const AddEvent = () => {
   const [formData, setFormData] = useState({
@@ -67,10 +68,36 @@ const AddEvent = () => {
     setTicketType({ ticket_type: '', ticket_amount: '', No_of_ticket: '' });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
     console.log(formData);
+    try {
+      await AddEvent(formData).unwrap();
+      alert('Event added successfully');
+    formData({
+      eventName: '',
+      eventAddress: '',
+      userId: '',
+      eventRegStDate: '',
+      eventRegEndDate: '',
+      latitude: '',
+      longitude: '',
+      eventCat: '',
+      evTags: '',
+      ticket_type: '',
+      ticket_amount: '',
+      No_of_ticket: '',
+      image: '',
+      coverImage: '',
+      subEvents: []
+    });
+    } catch (error) {
+      alert('Failed to add event:' ,error);
+    }
+   
   };
+
+
 
   return (
     <div className='flex justify-center items-center min-h-screen bg-gray-100'>
