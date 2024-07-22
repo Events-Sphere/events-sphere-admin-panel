@@ -1,386 +1,249 @@
-import React, { useState } from "react";
-import axiosInstance from "../utilities/axiosInstance";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from 'react';
 
-const AddEvent = ({ shoeMenu, setShowMenu }) => {
-  const [showEvent, setShowEvent] = useState(false);
-  const navigate = useNavigate();
- const[tagInput,setTagInput]=useState("")
-  const [values, setValues] = useState({
-    eventName: "",
-    eventAddress: "",
-    userId: "",
-    eventRegStDate: "",
-    eventRegEndDate: "",
-    latitude:0,
-    longitude: 0,
-    eventCat: "",
-    evTags: [],
-    subEvents: [], 
+const AddEvent = () => {
+  const [formData, setFormData] = useState({
+    eventName: '',
+    eventAddress: '',
+    userId: '',
+    eventRegStDate: '',
+    eventRegEndDate: '',
+    latitude: '',
+    longitude: '',
+    eventCat: '',
+    evTags: '',
+    ticket_type: '',
+    ticket_amount: '',
+    No_of_ticket: '',
+    image: '',
+    coverImage: '',
+    subEvents: []
   });
 
-  console.log(values);
+  const [currentSubEvent, setCurrentSubEvent] = useState({
+    Sub_Event_name: '',
+    description: '',
+    type_of_event: '',
+    Ev_image: '',
+    event_video_url: '',
+    Event_start_date: '',
+    Event_start_time: '',
+    ticketTypes: []
+  });
 
-  const handleInput = (e) => {
-    const { name, value } = e.target;
-    setValues((prevValues) => ({
-      ...prevValues,
-      [name]: value,
-    }));
+  const [ticketType, setTicketType] = useState({
+    ticket_type: '',
+    ticket_amount: '',
+    No_of_ticket: ''
+  });
+
+  const [addSubEvents, setAddSubEvents] = useState(false);
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleInputSub = (e, index) => {
-    const { name, value } = e.target;
-    setValues((prevValues) => {
-      const newSubEvents = [...prevValues.subEvents];
-      newSubEvents[index] = { ...newSubEvents[index], [name]: value };
-      return {
-        ...prevValues,
-        subEvents: newSubEvents,
-      };
-    });
+  const handleSubEventChange = (e) => {
+    setCurrentSubEvent({ ...currentSubEvent, [e.target.name]: e.target.value });
   };
 
-  const handleImageChange = (e, index) => {
-    const files = Array.from(e.target.files);
-    setValues((prevValues) => {
-      const newSubEvents = [...prevValues.subEvents];
-      const newImages = files.map((file) => URL.createObjectURL(file)); 
-      newSubEvents[index] = { ...newSubEvents[index], Ev_image: [...newSubEvents[index].Ev_image, ...newImages] };
-      return {
-        ...prevValues,
-        subEvents: newSubEvents,
-      };
-    });
+  const handleTicketTypeChange = (e) => {
+    setTicketType({ ...ticketType, [e.target.name]: e.target.value });
   };
 
-  const handleDeleteImage = (subIndex, imgIndex) => {
-    setValues((prevValues) => {
-      const newSubEvents = [...prevValues.subEvents];
-      newSubEvents[subIndex].Ev_image = newSubEvents[subIndex].Ev_image.filter((_, index) => index !== imgIndex);
-      return {
-        ...prevValues,
-        subEvents: newSubEvents,
-      };
-    });
-  };
-console.log(tagInput)
-const handleAddTag = () => {
-  if (tagInput.trim() !== "") {
-    setValues((prevValues) => ({
-      ...prevValues,
-      evTags: [...prevValues.evTags, tagInput.trim()],
-    }));
-    setTagInput("");
-  }
-};
-
-const handleDeleteTag = (removeTag) => {
-  setValues((prevValues) => ({
-    ...prevValues,
-    evTags: prevValues.evTags.filter((tag) => tag !== removeTag),
-  }));
-};
-
-  // const handleKey = (e) => {
-  //   if (e.key === "Enter") {
-  //     e.preventDefault();
-  //     handleInput();
-  //   }
-  // };
-  
- 
 
   const addSubEvent = () => {
-    setValues((prevValues) => ({
-      ...prevValues,
-      subEvents: [
-        ...prevValues.subEvents,
-        {
-          Sub_Event_name: "",
-          description: "",
-          type_of_event: "",
-          Ev_image: [""], 
-          event_video_url: "",
-          Event_start_date: "",
-          Event_start_time: "",
-          ticketTypes: [
-            { ticket_type: "", ticket_amount: "", No_of_ticket: "" },
-          ],
-        },
-      ],
-    }));
-  };
-
-  const addTicket = (subIndex) => {
-    setValues((prevValues) => {
-      const newSubEvents = [...prevValues.subEvents];
-      const newTicketTypes = [...newSubEvents[subIndex].ticketTypes];
-      newTicketTypes.push({ ticket_type: "", ticket_amount: "", No_of_ticket: "" });
-      newSubEvents[subIndex] = { ...newSubEvents[subIndex], ticketTypes: newTicketTypes };
-      return {
-        ...prevValues,
-        subEvents: newSubEvents,
-      };
+    setFormData({ ...formData, subEvents: [...formData.subEvents, currentSubEvent] });
+    setCurrentSubEvent({ ...currentSubEvent, ticketTypes: [...currentSubEvent.ticketTypes, ticketType] });
+    setCurrentSubEvent({
+      Sub_Event_name: '',
+      description: '',
+      type_of_event: '',
+      Ev_image: '',
+      event_video_url: '',
+      Event_start_date: '',
+      Event_start_time: '',
+      ticketTypes: []
     });
+    setTicketType({ ticket_type: '', ticket_amount: '', No_of_ticket: '' });
   };
 
-  const handleTicket = (e, subIndex, ticketIndex) => {
-    const { name, value } = e.target;
-    setValues((prevValues) => {
-      const newSubEvents = [...prevValues.subEvents];
-      const newTicketTypes = [...newSubEvents[subIndex].ticketTypes];
-      newTicketTypes[ticketIndex] = { ...newTicketTypes[ticketIndex], [name]: value };
-      newSubEvents[subIndex] = { ...newSubEvents[subIndex], ticketTypes: newTicketTypes };
-      return {
-        ...prevValues,
-        subEvents: newSubEvents,
-      };
-    });
-  };
-
-  const handleDeleteTicket = (subIndex, ticketIndex) => {
-    setValues((prevValues) => {
-      const newSubEvents = [...prevValues.subEvents];
-      const newTicketTypes = newSubEvents[subIndex].ticketTypes.filter((_, index) => index !== ticketIndex);
-      newSubEvents[subIndex] = { ...newSubEvents[subIndex], ticketTypes: newTicketTypes };
-      return {
-        ...prevValues,
-        subEvents: newSubEvents,
-      };
-    });
-  };
-
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    try {
-      // const formData = new FormData();
-      
-      // Object.keys(values).forEach((key) => {
-      //   if (Array.isArray(values[key])) {
-      //     values[key].forEach((item, index) => {
-      //       if (key === 'subEvents') {
-      //         item.Ev_image.forEach((img, imgIndex) => {
-      //           formData.append(`subEvents[${index}].Ev_image[${imgIndex}]`, img);
-      //         });
-      //       }
-      //       formData.append(`${key}[${index}]`, JSON.stringify(item));
-      //     });
-      //   } else {
-      //     formData.append(key, values[key]);
-      //   }
-      // });
-      const jsonData = JSON.stringify(values);
-
-     
-      const response = await axiosInstance.post('event/addevent', jsonData, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      // const response = await axiosInstance.post('event/addevent', formData, {
-      //   headers: {
-      //     'Content-Type': 'multipart/form-data',
-      //   },
-      // });
-      console.log(JSON.stringify(response, null, 2));
-      if (response.data) {
-        navigate('/dashboard');
-      }
-    } catch (error) {
-      console.log(error);
-    }
+    console.log(formData);
   };
 
   return (
-    <div>
-      <div className="w-full">
-        <h1>Add Event</h1>
-        <div className={`flex flex-wrap justify-center gap-4 pt-8 px-4`}>
-          <form onSubmit={handleSubmit}>
-            <div>
-              <label htmlFor="eventName">Event Name</label>
-              <input name="eventName" type="text" value={values.eventName} onChange={handleInput} />
+    <div className='flex justify-center items-center min-h-screen bg-gray-100'>
+      <form onSubmit={handleSubmit} autoComplete='off' className="w-full max-w-3xl space-y-6 p-6 bg-white rounded shadow-md">
+        <h2 className="text-2xl font-bold text-blue-600 mb-4">Add Event</h2>
+        <div className="space-y-4">
+          <div className='flex flex-wrap -mx-2'>
+            <div className='w-full md:w-1/2 px-2'>
+              <label className="block font-semibold">
+                Event Name:
+                <input type="text" name="eventName" value={formData.eventName} onChange={handleChange} className="mt-1 block w-full p-2 border border-gray-300 rounded shadow-sm" />
+              </label>
             </div>
-            <div>
-              <label htmlFor="eventAddress">Event Address</label>
-              <textarea name="eventAddress" value={values.eventAddress} onChange={handleInput}></textarea>
+            <div className='w-full md:w-1/2 px-2'>
+              <label className="block font-semibold">
+                Event Address:
+                <input type="text" name="eventAddress" value={formData.eventAddress} onChange={handleChange} className="mt-1 block w-full p-2 border border-gray-300 rounded shadow-sm" />
+              </label>
             </div>
-            <div>
-              <label htmlFor="userId">User Id</label>
-              <input type="text" name="userId" value={values.userId} onChange={handleInput} />
+          </div>
+          <label className="block font-semibold">
+            User ID:
+            <input type="text" name="userId" value={formData.userId} onChange={handleChange} className="mt-1 block w-full p-2 border border-gray-300 rounded shadow-sm" />
+          </label>
+          <div className='flex flex-wrap -mx-2'>
+            <div className='w-full md:w-1/2 px-2'>
+              <label className="block font-semibold">
+                Registration Start Date
+                <input type="date" name="eventRegStDate" value={formData.eventRegStDate} onChange={handleChange} className="mt-1 block w-full p-2 border border-gray-300 rounded shadow-sm" />
+              </label>
             </div>
-            <div>
-              <label htmlFor="eventRegStDate">Event Registration Start Date</label>
-              <input type="text" name="eventRegStDate" value={values.eventRegStDate} onChange={handleInput} />
+            <div className='w-full md:w-1/2 px-2'>
+              <label className="block font-semibold">
+                Registration End Date
+                <input type="date" name="eventRegEndDate" value={formData.eventRegEndDate} onChange={handleChange} className="mt-1 block w-full p-2 border border-gray-300 rounded shadow-sm" />
+              </label>
             </div>
-            <div>
-              <label htmlFor="eventRegEndDate">Event Registration End Date</label>
-              <input type="text" name="eventRegEndDate" value={values.eventRegEndDate} onChange={handleInput} />
+          </div>
+          <div className='flex flex-wrap -mx-2'>
+            <div className='w-full md:w-1/2 px-2'>
+              <label className="block font-semibold">
+                Latitude:
+                <input type="text" name="latitude" value={formData.latitude} onChange={handleChange} className="mt-1 block w-full p-2 border border-gray-300 rounded shadow-sm" />
+              </label>
             </div>
-            <div>
-              <label htmlFor="latitude">Latitude</label>
-              <input type="text" name="latitude" value={values.latitude} onChange={handleInput} />
+            <div className='w-full md:w-1/2 px-2'>
+              <label className="block font-semibold">
+                Longitude:
+                <input type="text" name="longitude" value={formData.longitude} onChange={handleChange} className="mt-1 block w-full p-2 border border-gray-300 rounded shadow-sm" />
+              </label>
             </div>
-            <div>
-              <label htmlFor="longitude">Longitude</label>
-              <input type="text" name="longitude" value={values.longitude} onChange={handleInput} />
-            </div>
-            <div>
-              <label htmlFor="eventCat">Event Category</label>
-              <input type="text" name="eventCat" value={values.eventCat} onChange={handleInput} />
-            </div>
-            <div>
-              <label htmlFor="evTags">Event Tags</label>
-              <div className="flex">
-                {values.evTags.length >0 && values.evTags.map((tag, index) => (
-                  <div key={index} className="flex items-center gap-2 mb-2">
-                    <span className="text-blue">{tag}</span>
-                    <button 
-                      type="button"
-                      onClick={() => handleDeleteTag(tag)}
-                      className="text-red  p-1 rounded"
-                    >
-                      X
-                    </button>
-                  </div>
-                ))}
-              </div>
-              <input
-                type="text"
-                value={tagInput}
-                onChange={(e)=>setTagInput(e.target.value)}
-                placeholder="Add Tag"
-              />
-              <button type="button" onClick={()=>handleAddTag()}>Add Tag</button>
-            </div>
-            <div>
-              <button type="button" onClick={() => setShowEvent(!showEvent)}>
-                {showEvent ? "Hide Sub Events" : "Add Sub Event"}
-              </button>
-              {showEvent && (
+          </div>
+          <label className="block font-semibold">
+            Event Category:
+            <input type="text" name="eventCat" value={formData.eventCat} onChange={handleChange} className="mt-1 block w-full p-2 border border-gray-300 rounded shadow-sm" />
+          </label>
+          <label className="block font-semibold">
+            Event Tags (comma separated):
+            <input type="text" name="evTags" value={formData.evTags} onChange={handleChange} className="mt-1 block w-full p-2 border border-gray-300 rounded shadow-sm" />
+          </label>
+          <label className="block font-semibold">
+            Ticket Type:
+            <input type="text" name="ticket_type" value={formData.ticket_type} onChange={handleChange} className="mt-1 block w-full p-2 border border-gray-300 rounded shadow-sm" />
+          </label>
+          <label className="block font-semibold">
+            Ticket Amount:
+            <input type="number" name="ticket_amount" value={formData.ticket_amount} onChange={handleChange} className="mt-1 block w-full p-2 border border-gray-300 rounded shadow-sm" />
+          </label>
+          <label className="block font-semibold">
+            Number of Tickets:
+            <input type="number" name="No_of_ticket" value={formData.No_of_ticket} onChange={handleChange} className="mt-1 block w-full p-2 border border-gray-300 rounded shadow-sm" />
+          </label>
+          <label className="block font-semibold">
+            Image URL:
+            <input type="text" name="image" value={formData.image} onChange={handleChange} className="mt-1 block w-full p-2 border border-gray-300 rounded shadow-sm" />
+          </label>
+          <label className="block font-semibold">
+            Cover Images (comma separated):
+            <input type="text" name="coverImage" value={formData.coverImage} onChange={handleChange} className="mt-1 block w-full p-2 border border-gray-300 rounded shadow-sm" />
+          </label>
+          <label className="block font-semibold">
+            Add Sub Events:
+            <input
+              type="checkbox"
+              checked={addSubEvents}
+              onChange={() => setAddSubEvents(!addSubEvents)}
+              className="ml-2"
+            />
+          </label>
+        </div>
+
+        {formData.subEvents.length > 0 && (
+          <div className="mt-4">
+            <h4 className="text-lg font-bold text-blue-600">Sub Events List</h4>
+            {formData.subEvents.map((subEvent, index) => (
+              <div key={index} className="p-2 border rounded mb-2">
+                <p><strong>Name:</strong> {subEvent.Sub_Event_name}</p>
+                <p><strong>Description:</strong> {subEvent.description}</p>
+                <p><strong>Type:</strong> {subEvent.type_of_event}</p>
+                <p><strong>Images:</strong> {subEvent.Ev_image}</p>
+                <p><strong>Video URL:</strong> {subEvent.event_video_url}</p>
+                <p><strong>Start Date:</strong> {subEvent.Event_start_date}</p>
+                <p><strong>Start Time:</strong> {subEvent.Event_start_time}</p>
                 <div>
-                  <h1>Sub Events</h1>
-                  {values.subEvents.map((subEvent, subIndex) => (
-                    <div key={subIndex}>
-                      <h2>Sub Event {subIndex + 1}</h2>
-                      <label htmlFor={`Sub_Event_name_${subIndex}`}>Sub Event Name</label>
-                      <input
-                        type="text"
-                        name="Sub_Event_name"
-                        value={subEvent.Sub_Event_name}
-                        onChange={(e) => handleInputSub(e, subIndex)}
-                      />
-                      <label htmlFor={`description_${subIndex}`}>Description</label>
-                      <input
-                        type="text"
-                        name="description"
-                        value={subEvent.description}
-                        onChange={(e) => handleInputSub(e, subIndex)}
-                      />
-                      <label htmlFor={`type_of_event_${subIndex}`}>Type Of Event</label>
-                      <input
-                        type="text"
-                        name="type_of_event"
-                        value={subEvent.type_of_event}
-                        onChange={(e) => handleInputSub(e, subIndex)}
-                      />
-                      <label htmlFor={`event_video_url_${subIndex}`}>Event Video URL</label>
-                      <input
-                        type="text"
-                        name="event_video_url"
-                        value={subEvent.event_video_url}
-                        onChange={(e) => handleInputSub(e, subIndex)}
-                      />
-                      <label htmlFor={`Event_start_date_${subIndex}`}>Event Start Date</label>
-                      <input
-                        type="text"
-                        name="Event_start_date"
-                        value={subEvent.Event_start_date}
-                        onChange={(e) => handleInputSub(e, subIndex)}
-                      />
-                      <label htmlFor={`Event_start_time_${subIndex}`}>Event Start Time</label>
-                      <input
-                        type="text"
-                        name="Event_start_time"
-                        value={subEvent.Event_start_time}
-                        onChange={(e) => handleInputSub(e, subIndex)}
-                      />
-                      <label htmlFor={`No_of_ticket_${subIndex}`}>No of Tickets</label>
-                      <input
-                        type="text"
-                        name="No_of_ticket"
-                        value={subEvent.No_of_ticket}
-                        onChange={(e) => handleInputSub(e, subIndex)}
-                      />
-                      <label htmlFor={`subEvent_images_${subIndex}`}>Event Images</label>
-                      <input
-                        type="file"
-                        multiple
-                        onChange={(e) => handleImageChange(e, subIndex)}
-                      />
-                      <div>
-                        {subEvent.Ev_image.map((img, imgIndex) => (
-                          <div key={imgIndex} className="relative inline-block mr-2">
-                            <img
-                              src={img}
-                              alt={`Sub Event ${subIndex} Image ${imgIndex}`}
-                              style={{ width: "100px", height: "100px", objectFit: "cover" }}
-                            />
-                            <button
-                              type="button"
-                              onClick={() => handleDeleteImage(subIndex, imgIndex)}
-                              className="absolute top-0 right-0 bg-red-500 text-white p-1 rounded"
-                            >
-                              Delete
-                            </button>
-                          </div>
-                        ))}
-                      </div>
-                      <button type="button" onClick={() => addTicket(subIndex)}>Add Ticket</button>
-                      {subEvent.ticketTypes.map((ticket, ticketIndex) => (
-                        <div key={ticketIndex}>
-                          <label htmlFor={`ticket_type_${subIndex}_${ticketIndex}`}>Ticket Type</label>
-                          <input
-                            type="text"
-                            name="ticket_type"
-                            value={ticket.ticket_type}
-                            onChange={(e) => handleTicket(e, subIndex, ticketIndex)}
-                          />
-                          <label htmlFor={`ticket_amount_${subIndex}_${ticketIndex}`}>Ticket Amount</label>
-                          <input
-                            type="text"
-                            name="ticket_amount"
-                            value={ticket.ticket_amount}
-                            onChange={(e) => handleTicket(e, subIndex, ticketIndex)}
-                          />
-                          <label htmlFor={`No_of_ticket_${subIndex}_${ticketIndex}`}>No of Tickets</label>
-                          <input
-                            type="text"
-                            name="No_of_ticket"
-                            value={ticket.No_of_ticket}
-                            onChange={(e) => handleTicket(e, subIndex, ticketIndex)}
-                          />
-                          <button
-                            type="button"
-                            onClick={() => handleDeleteTicket(subIndex, ticketIndex)}
-                            className="bg-red-500 text-white p-1 rounded"
-                          >
-                            Delete Ticket
-                          </button>
-                        </div>
-                      ))}
+                  <strong>Ticket Types:</strong>
+                  {subEvent.ticketTypes.map((ticket, index) => (
+                    <div key={index}>
+                      <p>Type: {ticket.ticket_type}</p>
+                      <p>Amount: {ticket.ticket_amount}</p>
+                      <p>Number: {ticket.No_of_ticket}</p>
                     </div>
                   ))}
-                  <button type="button" onClick={addSubEvent}>Add Another Sub Event</button>
                 </div>
-              )}
+              </div>
+            ))}
+          </div>
+        )}
+
+        {addSubEvents && (
+          <div className="mt-4 p-4 bg-gray-200 rounded">
+            <h3 className="text-xl font-semibold mb-2">Sub Event</h3>
+            <div className="space-y-4">
+              <label className="block">
+                Sub Event Name:
+                <input type="text" name="Sub_Event_name" value={currentSubEvent.Sub_Event_name} onChange={handleSubEventChange} className="mt-1 block w-full p-2 border border-gray-300 rounded shadow-sm" />
+              </label>
+              <label className="block">
+                Description:
+                <textarea name="description" value={currentSubEvent.description} onChange={handleSubEventChange} className="mt-1 block w-full p-2 border border-gray-300 rounded shadow-sm"></textarea>
+              </label>
+              <label className="block">
+                Type of Event:
+                <input type="text" name="type_of_event" value={currentSubEvent.type_of_event} onChange={handleSubEventChange} className="mt-1 block w-full p-2 border border-gray-300 rounded shadow-sm" />
+              </label>
+              <label className="block">
+                Event Image URL (comma separated):
+                <input type="text" name="Ev_image" value={currentSubEvent.Ev_image} onChange={handleSubEventChange} className="mt-1 block w-full p-2 border border-gray-300 rounded shadow-sm" />
+              </label>
+              <label className="block">
+                Event Video URL:
+                <input type="text" name="event_video_url" value={currentSubEvent.event_video_url} onChange={handleSubEventChange} className="mt-1 block w-full p-2 border border-gray-300 rounded shadow-sm" />
+              </label>
+              <label className="block">
+                Event Start Date:
+                <input type="date" name="Event_start_date" value={currentSubEvent.Event_start_date} onChange={handleSubEventChange} className="mt-1 block w-full p-2 border border-gray-300 rounded shadow-sm" />
+              </label>
+              <label className="block">
+                Event Start Time:
+                <input type="time" name="Event_start_time" value={currentSubEvent.Event_start_time} onChange={handleSubEventChange} className="mt-1 block w-full p-2 border border-gray-300 rounded shadow-sm" />
+              </label>
             </div>
-            <button type="submit">Submit</button>
-          </form>
-        </div>
-      </div>
+            <div className="mt-4">
+              <h4 className="text-lg font-medium mb-2">Ticket Types</h4>
+              <div className="space-y-4">
+                <label className="block">
+                  Ticket Type:
+                  <input type="text" name="ticket_type" value={ticketType.ticket_type} onChange={handleTicketTypeChange} className="mt-1 block w-full p-2 border border-gray-300 rounded shadow-sm" />
+                </label>
+                <label className="block">
+                  Ticket Amount:
+                  <input type="number" name="ticket_amount" value={ticketType.ticket_amount} onChange={handleTicketTypeChange} className="mt-1 block w-full p-2 border border-gray-300 rounded shadow-sm" />
+                </label>
+                <label className="block">
+                  Number of Tickets:
+                  <input type="number" name="No_of_ticket" value={ticketType.No_of_ticket} onChange={handleTicketTypeChange} className="mt-1 block w-full p-2 border border-gray-300 rounded shadow-sm" />
+                </label>
+              </div>
+              <button type="button" onClick={addSubEvent} className="mt-4 w-full px-4 py-2 bg-blue text-white font-semibold rounded shadow">Add Sub Event</button>
+            </div>
+          </div>
+        )}
+        <button type="submit" className="mt-6 w-full px-4 py-2 bg-red text-white font-semibold rounded shadow">Submit</button>
+      </form>
     </div>
   );
 };
