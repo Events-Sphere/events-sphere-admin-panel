@@ -13,8 +13,8 @@ export const apiSlice = createApi({
         url: Config.createEvent,
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
-          authorization: `Bearer ${accessToken}`,
+          "Content-Type"  : "application/json",
+          "authorization" : `Bearer ${Config.token}`,
         },
         body: newEvent,
       }),

@@ -28,10 +28,6 @@ const AddEvent = () => {
     event_video_url: '',
     Event_start_date: '',
     Event_start_time: '',
-    ticketTypes: []
-  });
-
-  const [ticketType, setTicketType] = useState({
     ticket_type: '',
     ticket_amount: '',
     No_of_ticket: ''
@@ -47,14 +43,11 @@ const AddEvent = () => {
     setCurrentSubEvent({ ...currentSubEvent, [e.target.name]: e.target.value });
   };
 
-  const handleTicketTypeChange = (e) => {
-    setTicketType({ ...ticketType, [e.target.name]: e.target.value });
-  };
-
-
   const addSubEvent = () => {
-    setFormData({ ...formData, subEvents: [...formData.subEvents, currentSubEvent] });
-    setCurrentSubEvent({ ...currentSubEvent, ticketTypes: [...currentSubEvent.ticketTypes, ticketType] });
+    setFormData({
+      ...formData,
+      subEvents: [...formData.subEvents, currentSubEvent]
+    });
     setCurrentSubEvent({
       Sub_Event_name: '',
       description: '',
@@ -63,41 +56,49 @@ const AddEvent = () => {
       event_video_url: '',
       Event_start_date: '',
       Event_start_time: '',
-      ticketTypes: []
-    });
-    setTicketType({ ticket_type: '', ticket_amount: '', No_of_ticket: '' });
-  };
-
-  const handleSubmit = async(e) => {
-    e.preventDefault();
-    console.log(formData);
-    try {
-      await AddEvent(formData).unwrap();
-      alert('Event added successfully');
-    formData({
-      eventName: '',
-      eventAddress: '',
-      userId: '',
-      eventRegStDate: '',
-      eventRegEndDate: '',
-      latitude: '',
-      longitude: '',
-      eventCat: '',
-      evTags: '',
       ticket_type: '',
       ticket_amount: '',
-      No_of_ticket: '',
-      image: '',
-      coverImage: '',
-      subEvents: []
+      No_of_ticket: ''
     });
-    } catch (error) {
-      alert('Failed to add event:' ,error);
-    }
-   
   };
 
+  const [submitEvent, { isLoading, isSuccess, isError }] = useAddEventMutation();
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await submitEvent(formData).unwrap();
+      if (isSuccess) {
+        alert('Event added successfully');
+
+        // <-------------------------------------->
+        console.log(formData);
+
+        setFormData({
+          eventName: '',
+          eventAddress: '',
+          userId: '',
+          eventRegStDate: '',
+          eventRegEndDate: '',
+          latitude: '',
+          longitude: '',
+          eventCat: '',
+          evTags: '',
+          ticket_type: '',
+          ticket_amount: '',
+          No_of_ticket: '',
+          image: '',
+          coverImage: '',
+          subEvents: []
+        });
+      }
+       else if (isError) {
+        throw new Error('Failed to add event');
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+  };
 
   return (
     <div className='flex justify-center items-center min-h-screen bg-gray-100'>
@@ -125,13 +126,13 @@ const AddEvent = () => {
           <div className='flex flex-wrap -mx-2'>
             <div className='w-full md:w-1/2 px-2'>
               <label className="block font-semibold">
-                Registration Start Date
+                Registration Start Date:
                 <input type="date" name="eventRegStDate" value={formData.eventRegStDate} onChange={handleChange} className="mt-1 block w-full p-2 border border-gray-300 rounded shadow-sm" />
               </label>
             </div>
             <div className='w-full md:w-1/2 px-2'>
               <label className="block font-semibold">
-                Registration End Date
+                Registration End Date:
                 <input type="date" name="eventRegEndDate" value={formData.eventRegEndDate} onChange={handleChange} className="mt-1 block w-full p-2 border border-gray-300 rounded shadow-sm" />
               </label>
             </div>
@@ -202,14 +203,10 @@ const AddEvent = () => {
                 <p><strong>Start Date:</strong> {subEvent.Event_start_date}</p>
                 <p><strong>Start Time:</strong> {subEvent.Event_start_time}</p>
                 <div>
-                  <strong>Ticket Types:</strong>
-                  {subEvent.ticketTypes.map((ticket, index) => (
-                    <div key={index}>
-                      <p>Type: {ticket.ticket_type}</p>
-                      <p>Amount: {ticket.ticket_amount}</p>
-                      <p>Number: {ticket.No_of_ticket}</p>
-                    </div>
-                  ))}
+                  <strong>Ticket Type:</strong>
+                  <p>Type: {subEvent.ticket_type}</p>
+                  <p>Amount: {subEvent.ticket_amount}</p>
+                  <p>Number: {subEvent.No_of_ticket}</p>
                 </div>
               </div>
             ))}
@@ -248,25 +245,20 @@ const AddEvent = () => {
                 Event Start Time:
                 <input type="time" name="Event_start_time" value={currentSubEvent.Event_start_time} onChange={handleSubEventChange} className="mt-1 block w-full p-2 border border-gray-300 rounded shadow-sm" />
               </label>
+              <label className="block">
+                Ticket Type:
+                <input type="text" name="ticket_type" value={currentSubEvent.ticket_type} onChange={handleSubEventChange} className="mt-1 block w-full p-2 border border-gray-300 rounded shadow-sm" />
+              </label>
+              <label className="block">
+                Ticket Amount:
+                <input type="number" name="ticket_amount" value={currentSubEvent.ticket_amount} onChange={handleSubEventChange} className="mt-1 block w-full p-2 border border-gray-300 rounded shadow-sm" />
+              </label>
+              <label className="block">
+                Number of Tickets:
+                <input type="number" name="No_of_ticket" value={currentSubEvent.No_of_ticket} onChange={handleSubEventChange} className="mt-1 block w-full p-2 border border-gray-300 rounded shadow-sm" />
+              </label>
             </div>
-            <div className="mt-4">
-              <h4 className="text-lg font-medium mb-2">Ticket Types</h4>
-              <div className="space-y-4">
-                <label className="block">
-                  Ticket Type:
-                  <input type="text" name="ticket_type" value={ticketType.ticket_type} onChange={handleTicketTypeChange} className="mt-1 block w-full p-2 border border-gray-300 rounded shadow-sm" />
-                </label>
-                <label className="block">
-                  Ticket Amount:
-                  <input type="number" name="ticket_amount" value={ticketType.ticket_amount} onChange={handleTicketTypeChange} className="mt-1 block w-full p-2 border border-gray-300 rounded shadow-sm" />
-                </label>
-                <label className="block">
-                  Number of Tickets:
-                  <input type="number" name="No_of_ticket" value={ticketType.No_of_ticket} onChange={handleTicketTypeChange} className="mt-1 block w-full p-2 border border-gray-300 rounded shadow-sm" />
-                </label>
-              </div>
-              <button type="button" onClick={addSubEvent} className="mt-4 w-full px-4 py-2 bg-blue text-white font-semibold rounded shadow">Add Sub Event</button>
-            </div>
+            <button type="button" onClick={addSubEvent} className="mt-4 w-full px-4 py-2 bg-blue text-white font-semibold rounded shadow">Add Sub Event</button>
           </div>
         )}
         <button type="submit" className="mt-6 w-full px-4 py-2 bg-red text-white font-semibold rounded shadow">Submit</button>
