@@ -36,11 +36,11 @@ const SideMenuBar = ({showMenu,setShowMenu }) => {
       options: [
         {
           value: "Add Category",
-          link: "",
+          link: "/add-category",
         },
         {
           value: "List Category",
-          link: "",
+          link: "/categories-list",
         },
       ],
     },
@@ -100,7 +100,7 @@ const SideMenuBar = ({showMenu,setShowMenu }) => {
       </div>
       <div className="px-2 pt-4">
         {general.map((data, index) => (
-          <div className="py-2 px-2 flex justify-start gap-2 ">
+          <div key={index} className="py-2 px-2 flex justify-start gap-2 ">
             <span className="text-xl">{data.initialIcon}</span>
             <div className="w-36">
               <div className="flex justify-between">

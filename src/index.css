@@ -31,5 +31,6 @@ html{
     @apply py-2 pl-5;
 }
 .paginate li a{
-    @apply  text-white p-2 border-2 border-r-sky-blue hover:cursor-pointer hover:bg-dark-blue;
+    @apply  
+    text-white p-2 border-2 border-r-sky-blue hover:cursor-pointer hover:bg-dark-blue;
 }
