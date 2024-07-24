@@ -18,7 +18,7 @@ const Paginate = ({ totalPage, page, setPage }) => {
 
   return (
     <>
-      <ul className="flex justify-center items-center paginate  ">
+      <ul className="flex justify-center items-center paginate ">
         <li>
           <a className="bg-blue" href="#" onClick={prevPage}>
             Prev
@@ -27,7 +27,7 @@ const Paginate = ({ totalPage, page, setPage }) => {
         {[...Array(totalPage)].map((_, index) => (
           <li key={index} >
             <a
-              className={`bg-blue ${page == index + 1 ? " bg-red" : ""}`}
+              className={`bg-blue  ${page == index + 1 ? " bg-red" : ""}`}
               href="#"
               onClick={() => changePage(index + 1)}
             >
@@ -36,11 +36,18 @@ const Paginate = ({ totalPage, page, setPage }) => {
           </li>
         ))}
         <li>
-          {page < totalPage && (
+          {page < totalPage ? (
             <a className="bg-blue" href="#" onClick={nextPage}>
               Next
             </a>
-          )}
+          )
+          :
+          (
+            <a className="bg-blue opacity-50 cursor-not-allowed" href="#" >
+              Next
+            </a>
+          )
+        }
         </li>
       </ul>
     </>
