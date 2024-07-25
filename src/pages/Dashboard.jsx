@@ -57,8 +57,8 @@ const Dashboard = () => {
         <h1 className="heading">DASHBOARD</h1>
       </div>
       <div className="flex flex-wrap justify-center gap-3 pt-4">
-        {data.map((data) => (
-          <div className="flex justify-between items-center  bg-white p-2 px-4 rounded shadow-lg hover:scale-105 w-56">
+        {data.map((data , index) => (
+          <div key={index} className="flex justify-between items-center  bg-white p-2 px-4 rounded shadow-lg hover:scale-105 w-56">
             <div className="flex flex-col  text-center gap-2">
               <span className="flex flex-wrap">{data.title}</span>
               <span span className="text-xl font-bold">

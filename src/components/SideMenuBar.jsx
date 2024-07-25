@@ -6,6 +6,14 @@ import { FiUsers } from "react-icons/fi";
 import { VscDebugBreakpointLog } from "react-icons/vsc";
 import { GoOrganization } from "react-icons/go";
 import { RiArrowDropDownLine } from "react-icons/ri";
+import { BiLogOut } from "react-icons/bi";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { logOut } from "../App/Features/Auth/authSlice";
+import { setCredentials } from "../App/Features/Auth/authSlice";
+import { useSelector } from "react-redux";
+
+import Config from "../App/service/config";
 
 const SideMenuBar = ({showMenu,setShowMenu }) => {
   const [selected, setSelected] = useState(null);
@@ -89,8 +97,22 @@ const SideMenuBar = ({showMenu,setShowMenu }) => {
       ],
     }
   ];
+
+const navigate = useNavigate();
+const dispatch = useDispatch();
+
+  const hanldleLogOut = ()=>{
+    localStorage.clear();
+    dispatch(logOut(null));
+    navigate('/');
+  }
+
+  const accessToken = localStorage.getItem('token');
+
   return (
-    <div className="bg-blue h-screen text-white w-52 fixed top-0 ">
+    
+      (accessToken) &&
+        <div className="bg-blue h-screen text-white w-52 fixed top-0 ">
       <div className="flex justify-between p-2 ">
         <h1 className="pt-1 text-xl">Event Sphere</h1>
         <IoCloseOutline
@@ -129,9 +151,9 @@ const SideMenuBar = ({showMenu,setShowMenu }) => {
               </div>
 
               <div className="flex flex-col">
-                {data.options.map((data) =>
+                {data.options.map((data , i) =>
                   selected == index ? (
-                    <span className="flex gap-1">
+                    <span key={i} className="flex gap-1">
                       <a className="pt-3" href="">
                         <VscDebugBreakpointLog />
                       </a>
@@ -147,8 +169,13 @@ const SideMenuBar = ({showMenu,setShowMenu }) => {
             </div>
           </div>
         ))}
+        <div className="fixed bottom-6 flex align-middle px-2 py-4 cursor-pointer " onClick={hanldleLogOut}>
+          <span className="pr-2  pt-1 "> <BiLogOut /></span>
+          <span className="pb-1">Log out</span>
+        </div>
       </div>
     </div>
+     
   );
 };
 

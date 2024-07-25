@@ -1,12 +1,15 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import Config from "../service/config";
+import Config from "../../service/config";
 
-export const apiSlice = createApi({
-  reducerPath: "event",
+export const EventApiSlice = createApi({
+  reducerPath: "eventApi",
   baseQuery: fetchBaseQuery({ baseUrl: Config.baseUrl }),
   endpoints: (builder) => ({
     getEvents: builder.query({
       query: () => Config.getEvent,
+    }),
+    getEventById: builder.query({
+      query: () => Config.getEventById,
     }),
     addEvent: builder.mutation({
       query: (newEvent) => ({
@@ -14,7 +17,7 @@ export const apiSlice = createApi({
         method: "POST",
         headers: {
           "Content-Type"  : "application/json",
-          "authorization" : `Bearer ${Config.token}`,
+          "authorization" : `Bearer ${localStorage.getItem('token')}`,
         },
         body: newEvent,
       }),
@@ -22,4 +25,4 @@ export const apiSlice = createApi({
   }),
 });
 
-export const { useGetEventsQuery, useAddEventMutation } = apiSlice;
+export const { useGetEventsQuery,useGetEventByIdQuery ,useAddEventMutation } = EventApiSlice;

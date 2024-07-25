@@ -1,80 +1,121 @@
-import React from "react";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import axiosInstance from "../utilities/axiosInstance.js";
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useLoginMutation } from '../App/Features/Api/authApiSlice';
+import { useDispatch } from 'react-redux';
+import { setCredentials } from '../App/Features/Auth/authSlice';
+import Dashboard from './Dashboard';
+
 const Login = () => {
-    const navigate=useNavigate()
-  const [values, setvalues] = useState({
-    email: "",
-    password: "",
-  });
-  const [error, setError] = useState({});
-  const handleValues = (e) => {
-    setvalues({ ...values, [e.target.name]: e.target.value });
-  };
-  console.log(values);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [errors, setErrors] = useState({ email: '', password: '' });
+  const [loading , setLoading] = useState(false);
 
-  const handleSubmit = async(e) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [submitLogin] = useLoginMutation();
+
+  const validate = () => {
+    let valid = true;
+    let errors = { email: '', password: '' };
+
+    if (!email) {
+      errors.email = 'Email is required';
+      valid = false;
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      errors.email = 'Email address is invalid';
+      valid = false;
+    }
+
+    if (!password) {
+      errors.password = 'Password is required';
+      valid = false;
+    }
+
+    setErrors(errors);
+    return valid;
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("clicked");
-    const errors = {};
-    if (!values.email) {
-      errors.email = "Please enter email";
-    }
-    if (!values.password) {
-      errors.password = "Please enter password";
-    }
-    setError(errors);
-    if (Object.keys(errors).length == 0) {
-      try{
-        const response=await axiosInstance.post('admin/admin-login',values);
-        console.log(JSON.stringify(response,null,2));
-        if(response.data && response.data.accessToken){
-          
-            localStorage.setItem('token',response.data.accessToken);
-            navigate('/dashboard')
+  
+    if (validate()) {
+      try {
+        const response = await submitLogin({ email, password }).unwrap();
+         if (response.status === true) {
+           dispatch(setCredentials({ token: response.accessToken }));
+          navigate('/dashboard');
+        } else {
+            alert(`Login failed: ${response.message}`);
         }
-      }
-      catch(error){
-        if(error.response && error.response.data && error.response.data.message){
-            const errors={}
-            errors.message=error.response.data.message
-            setError(errors)
-        }
-        console.log(error)
-
+      } catch (error) {
+        alert(error.data.message);
+      }finally{
+        setLoading(false);
+        setEmail(''),
+        setPassword('')
       }
     }
   };
-  return (
-    <div className="">
-      <form action="" onSubmit={handleSubmit}>
-        <h1>Sign in to account</h1>
+  
+  const accessToken = localStorage.getItem('token');
 
-        <div>
-          <label htmlFor="">Email Address</label>
-          <input
-            name="email"
-            value={values.email}
-            type="text"
-            onChange={handleValues}
-          />
-          {error.email && <span className="text-red">{error.email}</span>}
-        </div>
-        <div>
-          <label htmlFor="">Email Address</label>
-          <input
-            name="password"
-            value={values.password}
-            type="text"
-            onChange={handleValues}
-          />
-          {error.password && <span>{error.password}</span>}
-        </div>
-        <button type="submit">Sign In</button>
-        {error.message && <span>{error.message}</span>}
-      </form>
-    </div>
+  return (
+   (accessToken) ? (
+       <Dashboard/>
+   ):  <div className="min-h-screen flex items-center justify-center bg-background">
+   <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+     <h2 className="text-2xl font-bold mb-6 text-primary">Login</h2>
+     <form autoComplete='off' onSubmit={handleSubmit} className="space-y-6">
+       <div>
+         <label htmlFor="email" className="block text-sm font-semibold text-gray-700">
+           Email:
+         </label>
+         <input
+           type="email"
+           id="email"
+           value={email}
+           onChange={(e) => setEmail(e.target.value)}
+           required
+           className={`mt-2 w-full p-3 border ${errors.email ? 'border-red-500' : 'border-gray-300'} rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary`}
+           placeholder="Enter your email"
+         />
+         {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
+       </div>
+       <div>
+         <label htmlFor="password" className="block text-sm font-semibold text-gray-700">
+           Password:
+         </label>
+         <input
+           type="password"
+           id="password"
+           value={password}
+           onChange={(e) => setPassword(e.target.value)}
+           required
+           className={`mt-2 w-full p-3 border ${errors.password ? 'border-red-500' : 'border-gray-300'} rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary`}
+           placeholder="Enter your password"
+         />
+         {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password}</p>}
+       </div>
+       <div className="flex justify-end">
+        {
+         loading ? 
+         (<button
+           type="submit"
+           className="w-full py-3 bg-primary text-white  font-semibold rounded-lg shadow hover:bg-primary-dark transition"
+         >Loading...</button>) 
+         :
+         <button
+         type="submit"
+         className="w-full py-3 bg-primary text-white font-semibold rounded-lg shadow hover:bg-primary-dark transition"
+       >
+         Login
+       </button>
+        }
+       </div>
+     </form>
+   </div>
+ </div>
   );
 };
 

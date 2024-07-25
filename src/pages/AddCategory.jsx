@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useAddCategoryMutation } from '../App/Features/Api/categoryApiSlice';
 
 const AddCategory = () => {
   const [formData, setFormData] = useState({
@@ -15,9 +16,35 @@ const AddCategory = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const [addCategory ]  = useAddCategoryMutation();
+
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
+
+    const data = new FormData();
+    data.append('category_name', formData.category_name);
+    if (formData.category_img) {
+      data.append('category_img', formData.category_img);
+    }
+
+    try {
+      const response = await addCategory(data).unwrap();
+      console.log(response);
+
+      if (response.status === true) {
+        alert(response.message);
+      } else {
+        alert(response.message);
+      }
+    } catch (error) {
+      alert(error.data?.message || 'An error occurred');
+    } finally {
+      setFormData({
+        category_name: '',
+        category_img: null,
+      });
+    }
   };
 
   return (
