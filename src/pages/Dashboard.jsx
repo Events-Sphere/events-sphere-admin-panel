@@ -52,7 +52,7 @@ const Dashboard = () => {
   
 
   return (
-    <div className="pt-1 px-4 w-full">
+    <div className="pl-52 pt-1 px-4 w-full">
       <div>
         <h1 className="heading">DASHBOARD</h1>
       </div>
@@ -97,7 +97,7 @@ const Dashboard = () => {
             <CartesianGrid strokeDasharray="3 3" />
             <Tooltip />
             <Legend />
-            <Bar dataKey="count" fill="#829232" />
+            <Bar dataKey="count" fill="#855472" />
           </BarChart>
         </div>
       </div>

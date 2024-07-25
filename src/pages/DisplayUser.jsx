@@ -37,7 +37,7 @@ const DisplayUser = ({ showMenu, setShowMenu }) => {
   // const keys = Object.keys(data[0]);
 
   return (
-    <div className="px-4">
+    <div className="">
       <h1 className="heading">USERS LIST</h1>
       <div className="flex justify-around items-center">
         <Search
@@ -49,10 +49,11 @@ const DisplayUser = ({ showMenu, setShowMenu }) => {
         />
         <Filter roles={roles} setRoles={setRoles} />
       </div>
-      <div className="flex justify-center ">
+      <div className="border w-full mt-2"></div>
+      <div className="flex justify-center mt-4  ">
         <DisplayTable data={data} page={page} setPage={setPage} title={title} />
       </div>
-      <div className="mt-4 absolute bottom-[10%] left-[calc(56%+52px)]">
+      <div className="mt-4 absolute bottom-[10%] left-[56%]">
         <Paginate totalPage={totalPage} page={page} setPage={setPage} />
       </div>
     </div>

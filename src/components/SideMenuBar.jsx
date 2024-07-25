@@ -10,12 +10,11 @@ import { BiLogOut } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logOut } from "../App/Features/Auth/authSlice";
-import { setCredentials } from "../App/Features/Auth/authSlice";
 import { useSelector } from "react-redux";
 
 import Config from "../App/service/config";
 
-const SideMenuBar = ({showMenu,setShowMenu }) => {
+const SideMenuBar = ({ showMenu, setShowMenu }) => {
   const [selected, setSelected] = useState(null);
   const toggle = (i) => {
     if (selected == i) {
@@ -63,7 +62,7 @@ const SideMenuBar = ({showMenu,setShowMenu }) => {
         },
         {
           value: "Verify Users",
-          link: "",
+          link: "/get-all-verification-requests",
         },
       ],
     },
@@ -93,26 +92,25 @@ const SideMenuBar = ({showMenu,setShowMenu }) => {
           value: "Add Event",
           link: "add-event",
         },
-       
+
       ],
     }
   ];
 
-const navigate = useNavigate();
-const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const hanldleLogOut = ()=>{
+  const hanldleLogOut = () => {
     localStorage.clear();
-    dispatch(logOut(null));
-    navigate('/');
+    dispatch(logOut());
+    navigate('/login');
   }
 
-  const accessToken = localStorage.getItem('token');
+  // const { token } = useSelector((state) => state.auth);
+  const token = localStorage.getItem('token');
 
   return (
-    
-      (accessToken) &&
-        <div className="bg-blue h-screen text-white w-52 fixed top-0 ">
+    <div className={token ? "bg-blue h-screen text-white w-52 fixed top-0" : 'hidden'}>
       <div className="flex justify-between p-2 ">
         <h1 className="pt-1 text-xl">Event Sphere</h1>
         <IoCloseOutline
@@ -151,7 +149,7 @@ const dispatch = useDispatch();
               </div>
 
               <div className="flex flex-col">
-                {data.options.map((data , i) =>
+                {data.options.map((data, i) =>
                   selected == index ? (
                     <span key={i} className="flex gap-1">
                       <a className="pt-3" href="">
@@ -175,7 +173,7 @@ const dispatch = useDispatch();
         </div>
       </div>
     </div>
-     
+
   );
 };
 

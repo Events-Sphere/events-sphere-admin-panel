@@ -20,7 +20,15 @@ export default {
       'accent': '#2563EB', 
       'background': '#F3F4F6', 
       'border': '#E5E7EB', 
-      'black':'#000000'
+      'black':'#000000',
+      'dark-blue': '#1E3A8A',
+      'light-blue': '#3B82F6',
+      'dark-gray': '#374151',
+      'light-gray': '#D1D5DB',
+      'red-700' : '#6c0c02',
+      'red-100' : '#c2857f',
+      'green-100':'#a7e4aa',
+      'green-700': '#03a10b'
     }
   },
   plugins: [],

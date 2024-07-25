@@ -13,7 +13,7 @@ const Filter = ({roles,setRoles}) => {
         <div className="flex">
           <h1 className="font-bold">ROLE:</h1>
           {role.map((role, index) => (
-            <div className="px-2 flex align-middle" key={index}>
+            <div className="px-4 flex align-middle" key={index}>
               <input type="checkbox" id={role} value={role} onChange={handleFilter} />
               <label className="pl-1" htmlFor={role}>
                 {role}
