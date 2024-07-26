@@ -51,7 +51,7 @@ const DisplayUserVerification = () => {
     };
 
     return (
-        <div className="overflow-x-hidden p-4 container">
+        <div className="h-[100vh] overflow-x-hidden p-4 container bg-[url('../../public/bg.jpg')] bg-no-repeat bg-cover">
             <table className="w-full bg-white border border-grey shadow-lg rounded-lg overflow-hidden">
                 <thead>
                     <tr className="bg-dark-blue text-white">

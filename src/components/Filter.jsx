@@ -11,9 +11,9 @@ const Filter = ({roles,setRoles}) => {
     <div className="px-2">
       {role.length > 0 && (
         <div className="flex">
-          <h1 className="font-bold">ROLE:</h1>
+          <h1 className="font-bold text-white">ROLE:</h1>
           {role.map((role, index) => (
-            <div className="px-4 flex align-middle" key={index}>
+            <div className="px-4 flex align-middle text-white" key={index}>
               <input type="checkbox" id={role} value={role} onChange={handleFilter} />
               <label className="pl-1" htmlFor={role}>
                 {role}
@@ -24,11 +24,11 @@ const Filter = ({roles,setRoles}) => {
       )}
       {user.length > 0 && (
         <div className="flex">
-          <h1 className="font-bold">STATUS:</h1>
+          <h1 className="font-bold text-white">STATUS:</h1>
           {user.map((user, index) => (
             <div className="px-2 flex align-middle " key={index}>
               <input className="" type="checkbox" id={user} />
-              <label className="pl-1" htmlFor={user}>
+              <label className="pl-1 text-white" htmlFor={user}>
                 {user}
               </label>
             </div>

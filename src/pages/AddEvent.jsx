@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useAddEventMutation } from '../App/Features/Api/eventApiSlice';
+import { BiGame } from 'react-icons/bi';
 
 const AddEvent = () => {
   const [formData, setFormData] = useState({
@@ -101,8 +102,8 @@ const AddEvent = () => {
   };
 
   return (
-    <div className='flex justify-center items-center min-h-screen bg-gray-100'>
-      <form onSubmit={handleSubmit} autoComplete='off' className="w-full max-w-3xl space-y-6 p-6 bg-white rounded shadow-md">
+    <div className="flex justify-center items-center min-h-screen bg-[url('../../public/bg.jpg')] bg-cover bg-no-repeat">
+      <form onSubmit={handleSubmit} autoComplete='off' className="w-full max-w-3xl space-y-6 p-6 bg-white rounded shadow-md backdrop-filter backdrop-blur-lg bg-opacity-40">
         <h2 className="text-2xl font-bold text-blue-600 mb-4">Add Event</h2>
         <div className="space-y-4">
           <div className='flex flex-wrap -mx-2'>

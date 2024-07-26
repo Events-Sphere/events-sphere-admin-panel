@@ -27,8 +27,8 @@ const CategoriesList = () => {
     };
 
     return (
-        <div className="container mx-auto p-6 bg-background">
-            <h2 className="text-2xl font-bold mb-4 text-primary">Categories List</h2>
+        <div className="h-[100vh] container mx-auto p-6 bg-background bg-[url('../../public/bg.jpg')] bg-cover bg-no-repeat">
+            <h2 className="text-2xl font-bold mb-4 text-white ">Categories List</h2>
             <table className="min-w-full bg-white rounded-lg shadow overflow-hidden">
                 <thead>
                     <tr className="bg-secondary text-white">

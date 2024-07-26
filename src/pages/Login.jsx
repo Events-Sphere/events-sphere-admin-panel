@@ -8,7 +8,6 @@ const Login = () => {
 
   useEffect(()=>{},[]);
 
-
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({ email: '', password: '' });
@@ -39,6 +38,7 @@ const Login = () => {
     return valid;
   };
 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -61,12 +61,13 @@ const Login = () => {
     }
   };
 
-  return (<div className="min-h-screen flex items-center justify-center bg-background">
-    <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-      <h2 className="text-2xl font-bold mb-6 text-primary">Login</h2>
+
+   return (<div className="min-h-screen flex items-center justify-center bg-background bg-[url('../../public/login_page_bg.jpg')] bg-no-repeat bg-cover ">
+    <div className="bg-white backdrop-filter backdrop-blur-sm bg-opacity-40 p-8 rounded-lg shadow-lg w-full max-w-md">
+      <h2 className="text-2xl font-bold mb-6  text-grey">Login</h2>
       <form autoComplete='off' onSubmit={handleSubmit} className="space-y-6">
         <div>
-          <label htmlFor="email" className="block text-sm font-semibold text-gray-700">
+          <label htmlFor="email" className="block text-sm font-semibold text-grey">
             Email:
           </label>
           <input
@@ -81,7 +82,7 @@ const Login = () => {
           {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
         </div>
         <div>
-          <label htmlFor="password" className="block text-sm font-semibold text-gray-700">
+          <label htmlFor="password" className="block text-sm font-semibold text-grey">
             Password:
           </label>
           <input

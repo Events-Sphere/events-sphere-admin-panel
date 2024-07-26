@@ -37,11 +37,11 @@ const DisplayUser = ({ showMenu, setShowMenu }) => {
   // const keys = Object.keys(data[0]);
 
   return (
-    <div className="">
-      <h1 className="heading">USERS LIST</h1>
+    <div className="h-[100vh] bg-[url('../../public/bg.jpg')] bg-cover bg-no-repeat">
+      <h1 className="heading text-white">USERS LIST</h1>
       <div className="flex justify-around items-center">
         <Search
-          className="h-8 w-64 border-2 border-blue rounded p-2"
+          className="h-10 w-[30%] ml-1 border-2 border-blue  rounded-lg p-2"
           placeholder="🔍 Search user"
           type="text"
           setSearch={setSearch}
@@ -49,7 +49,7 @@ const DisplayUser = ({ showMenu, setShowMenu }) => {
         />
         <Filter roles={roles} setRoles={setRoles} />
       </div>
-      <div className="border w-full mt-2"></div>
+      <div className="border w-full mt-2 border-white"></div>
       <div className="flex justify-center mt-4  ">
         <DisplayTable data={data} page={page} setPage={setPage} title={title} />
       </div>

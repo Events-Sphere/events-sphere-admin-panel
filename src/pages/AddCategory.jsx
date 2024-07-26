@@ -48,31 +48,31 @@ const AddCategory = () => {
   };
 
   return (
-    <div className="flex justify-center h-[90vh] items-center  bg-gray-100">
-      <form onSubmit={handleSubmit} autoComplete="off" className="w-full max-w-lg p-8 bg-white rounded-lg shadow-lg">
+    <div className="flex justify-center h-[100vh] items-center  bg-[url('../../public/bg.jpg')] bg-cover bg-no-repeat">
+      <form onSubmit={handleSubmit} autoComplete="off" className="w-full max-w-lg p-8 backdrop-filter backdrop-blur-lg bg-opacity-30 rounded-lg shadow-lg  border-2 border-sky-blue">
         <h2 className="text-3xl font-bold text-sky-blue mb-6 text-center">Add Category</h2>
         <div className="space-y-6">
           <div className="flex flex-col">
-            <label className="font-semibold text-gray-700">Category Name:</label>
+            <label className="font-semibold text-white">Category Name:</label>
             <input
               type="text"
               name="category_name"
               value={formData.category_name}
               onChange={handleChange}
-              className="mt-2 p-3 border border-gray rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="mt-2 p-3 border border-grey rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue"
               placeholder="Enter category name"
             />
           </div>
           <div className="flex flex-col">
-            <label className="font-semibold text-gray">Category Image:</label>
-            <div className="mt-2 flex items-center justify-center p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-blue transition">
+            <label className="font-semibold text-grey">Category Image:</label>
+            <div className="mt-2 flex items-center justify-center p-4 border-2 border-dashed border-grey rounded-lg hover:border-blue transition">
               <label className="flex flex-col items-center justify-center w-full h-32 cursor-pointer">
                 {formData.category_img ? (
-                  <span className="text-sm text-gray">{formData.category_img.name}</span>
+                  <span className="text-sm text-white">{formData.category_img.name}</span>
                 ) : (
                   <>
                     <svg
-                      className="w-10 h-10 text-gray"
+                      className="w-10 h-10 text-grey"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -85,7 +85,7 @@ const AddCategory = () => {
                         d="M7 16V4m10 12V4m-6 8V4m8 4H3"
                       ></path>
                     </svg>
-                    <span className="text-sm text-gray">Click to select a file</span>
+                    <span className="text-sm text-grey">Click to select a file</span>
                   </>
                 )}
                 <input
@@ -101,7 +101,7 @@ const AddCategory = () => {
         </div>
         <button
           type="submit"
-          className="mt-6 w-full py-3 bg-blue text-white font-semibold rounded-lg shadow hover:bg-blue transition"
+          className="mt-6 w-full py-3 bg-white text-blue font-semibold rounded-lg shadow hover:bg-blue hover:text-white transition"
         >
           Add Category
         </button>

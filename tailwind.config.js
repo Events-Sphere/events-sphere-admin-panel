@@ -28,7 +28,10 @@ export default {
       'red-700' : '#6c0c02',
       'red-100' : '#c2857f',
       'green-100':'#a7e4aa',
-      'green-700': '#03a10b'
+      'green-700': '#03a10b',
+      'slate-500' : '#64748b',
+      'slate-300' : '#cbd5e1',
+
     }
   },
   plugins: [],
