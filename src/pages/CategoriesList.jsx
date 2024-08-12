@@ -59,7 +59,7 @@ const CategoriesList = () => {
                         <tr key={category.id} className="border-b border-border">
                             <td className="py-3 px-4">{category.id}</td>
                             <td className="py-3 px-4">
-                            <img src={`http://localhost:3000/ev_category/${category.image}`} alt="" className="w-16 h-16 object-cover rounded"  />
+                            <img src={`https://event-backend-9.onrender.com/ev_category/${category.image}`} alt="" className="w-16 h-16 object-cover rounded"  />
                               
                             </td>
                             <td className="py-3 px-4">{category.name}</td>

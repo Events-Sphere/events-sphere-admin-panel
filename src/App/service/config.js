@@ -1,5 +1,5 @@
 export default class Config{
-    static baseUrl = 'http://localhost:3000/api/v1';
+    static baseUrl = 'https://event-backend-9.onrender.com/api/v1';
     static login = '/admin/login';
     static createEvent = '/event/events/create';
     static getEvent = '';
