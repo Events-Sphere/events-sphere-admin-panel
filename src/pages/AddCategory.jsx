@@ -23,9 +23,9 @@ const AddCategory = () => {
     e.preventDefault();
 
     const data = new FormData();
-    data.append('category_name', formData.category_name);
+    data.append('title', formData.category_name);
     if (formData.category_img) {
-      data.append('category_img', formData.category_img);
+      data.append('category', formData.category_img);
     }
 
     try {

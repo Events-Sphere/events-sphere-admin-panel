@@ -60,10 +60,7 @@ const SideMenuBar = ({ showMenu, setShowMenu }) => {
           value: "List Users",
           link: "/get-all-user",
         },
-        {
-          value: "Verify Users",
-          link: "/get-all-verification-requests",
-        },
+        
       ],
     },
     {
@@ -74,11 +71,24 @@ const SideMenuBar = ({ showMenu, setShowMenu }) => {
       options: [
         {
           value: "Add Organizer",
-          link: "",
+          link: "/add-organizer",
+        },
+       
+      ],
+    },
+    {
+      selector: "Internal Team",
+      initialIcon: <GoOrganization />,
+      endIcon: <RiArrowDropDownLine />,
+
+      options: [
+        {
+          value: "Add Employee",
+          link: "/add-internal-team",
         },
         {
-          value: "List Organizer",
-          link: "",
+          value: "List Employee",
+          link: "/list-internal-team",
         },
       ],
     },
@@ -90,6 +100,10 @@ const SideMenuBar = ({ showMenu, setShowMenu }) => {
       options: [
         {
           value: "Add Event",
+          link: "add-event",
+        },
+        {
+          value: "List Event",
           link: "add-event",
         },
 

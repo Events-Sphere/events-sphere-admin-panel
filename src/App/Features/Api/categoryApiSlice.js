@@ -16,7 +16,7 @@ export const CategoryApiSlice = createApi({
         url: Config.addCategory,
         method: "POST",
         headers: {
-          'Content-Type': 'multipart/form-data',
+          
           "authorization" : `Bearer ${localStorage.getItem('token')}`,
         },
         body: newCategory,

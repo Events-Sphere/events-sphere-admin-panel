@@ -11,13 +11,17 @@ import NavBar from "./components/NavBar";
 import SideMenuBar from "./components/SideMenuBar";
 import  AddCategory  from "./pages/AddCategory";
 import CategoriesList from "./pages/CategoriesList";
+import AddInternalTeam from "./pages/AddInternalTeam";
+import InternalTeamList from "./pages/InternalTeamList";
+import AddOrganizer from "./pages/AddOrganizer";
 const App = () => {
   const [showMenu, setShowMenu] = useState(false);
 
   // const { isAuthenticated } = useSelector((state) => state.auth);
   const token = localStorage.getItem('token');
+  
  
-  useEffect(()=>{},token);
+  useEffect(()=>{},[token]);
 
   return (
     <div>
@@ -33,6 +37,9 @@ const App = () => {
           <Route path="/get-all-verification-requests" element={<DisplayUserVerification/>}></Route>
           <Route path='/add-event' element={<AddEvent />}></Route>
           <Route path="/login" element={<Login />}></Route>
+          <Route path='/add-internal-team' element={<AddInternalTeam/>}></Route>
+          <Route path='/list-internal-team' element={<InternalTeamList/>}></Route>
+          <Route path='/add-organizer' element={<AddOrganizer/>}></Route>
         </Routes>
       </div>
     </div>
