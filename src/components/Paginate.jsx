@@ -17,7 +17,7 @@ const Paginate = ({ totalPage, page, setPage }) => {
   //
 
   return (
-    <>
+    <div className=" flex justify-center mb-2 ">
       <ul className="flex justify-center items-center paginate ">
         <li>
           <a className="bg-blue" href="#" onClick={prevPage}>
@@ -50,7 +50,7 @@ const Paginate = ({ totalPage, page, setPage }) => {
         }
         </li>
       </ul>
-    </>
+    </div>
   );
 };
 

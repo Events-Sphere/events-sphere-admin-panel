@@ -104,7 +104,7 @@ const SideMenuBar = ({ showMenu, setShowMenu }) => {
         },
         {
           value: "List Event",
-          link: "add-event",
+          link: "events",
         },
 
       ],

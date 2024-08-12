@@ -22,7 +22,7 @@ const Filter = ({roles,setRoles,userCategory,status,setStatus}) => {
     }
 
   }
-  console.log(roles);
+  
    
 
   

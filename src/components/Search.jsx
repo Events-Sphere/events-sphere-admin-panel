@@ -7,7 +7,7 @@ const Search = ({ placeholder,type,className,setSearch,search }) => {
 
   }
   return (
-    <>
+    <div className="">
       <input
         className={className}
         placeholder={placeholder}
@@ -16,7 +16,7 @@ const Search = ({ placeholder,type,className,setSearch,search }) => {
         onChange={handleSearch}
         
       />
-    </>
+    </div>
   );
 };
 

@@ -14,6 +14,7 @@ import CategoriesList from "./pages/CategoriesList";
 import AddInternalTeam from "./pages/AddInternalTeam";
 import InternalTeamList from "./pages/InternalTeamList";
 import AddOrganizer from "./pages/AddOrganizer";
+import ListEvents from "./pages/ListEvents";
 const App = () => {
   const [showMenu, setShowMenu] = useState(false);
 
@@ -40,6 +41,7 @@ const App = () => {
           <Route path='/add-internal-team' element={<AddInternalTeam/>}></Route>
           <Route path='/list-internal-team' element={<InternalTeamList/>}></Route>
           <Route path='/add-organizer' element={<AddOrganizer/>}></Route>
+          <Route path='/events' element={<ListEvents/>}></Route>
         </Routes>
       </div>
     </div>

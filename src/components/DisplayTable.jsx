@@ -1,23 +1,25 @@
 import React from "react";
-const DisplayTable = ({ title, data, page, popup, setPopup,popupEdit, setPopupEdit, setUserId }) => {
+const DisplayTable = ({ title, data, page, popup, setPopup,popupEdit, setPopupEdit, setUserId,getUserDetail }) => {
   const userTitle = [...title, "DETAIL"];
   const employeeTitle = [...title, "DETAIL", "EDIT"];
 
   const handleUserId = (id) => {
     console.log("idddd", id);
     setPopup(!popup);
-    setUserId(id);
+    
+    getUserDetail(id);
   };
   const handleUserEdit = (id) => {
     console.log("emp", id);
     setUserId(id);
+    
     setPopupEdit(!popupEdit);
     
   };
   return (
-    <div className=" p-4 container">
+    <div className=" mx-4 mt-2 mb-2 container max-h-[30rem] overflow-y-scroll">
       <table className="w-full bg-white border border-gray-200 shadow-lg rounded-lg">
-        <thead className="">
+        <thead className="sticky top-0">
           <tr className="bg-dark-blue text-white">
             {
               data && userTitle.includes("user_id")
