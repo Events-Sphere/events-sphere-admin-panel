@@ -52,7 +52,7 @@ const Dashboard = () => {
   
 
   return (
-    <div className="pt-1 px-4 w-full bg-[url('../../public/bg.jpg')] bg-no-repeat bg-cover h-[100vh]">
+    <div className="pt-1 px-4 w-full  bg-no-repeat bg-cover h-[100vh]">
       <div>
         <h1 className="heading text-white">DASHBOARD</h1>
       </div>
