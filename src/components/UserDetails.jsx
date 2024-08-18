@@ -1,20 +1,57 @@
-import React from "react";
+import React, { useState } from "react";
 import { IoClose } from "react-icons/io5";
 import axiosInstance from "../utilities/axiosInstance";
+import Config from "../App/service/config";
+import { useNavigate } from "react-router-dom";
 const UserDetails = ({ popup, setPopup, userDetail }) => {
+  const navigate = useNavigate();
+  const[reason,setReason]=useState(false);
+  const[orgreason,setOrgReason]=useState(false);
+  console.log(userDetail)
+  const[value,setValue]=useState("");
+  console.log(reason)
   const handleApprove = async (role, id) => {
     try {
+      console.log(role, id);
       let response;
       if (role == "organizer") {
-        response = await axiosInstance.put("/organizers/approve", {
+        response = await axiosInstance.put(Config.approveOrganizer, {
           org_id: id,
         });
       } else {
-        response = await axiosInstance.put("/users/approve", {
+        response = await axiosInstance.put(Config.approveUser, {
           user_id: id,
         });
       }
-      alert(response.data.message);
+
+      // navigate('/get-all-user')
+      setPopup(!popup);
+
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleReject = async (role, id) => {
+    try {
+      console.log(role, id);
+      let response;
+      if (role == "organizer") {
+        response = await axiosInstance.put(Config.rejectOrganizer, {
+          org_id: id,
+          reason:value
+        });
+      } else {
+        response = await axiosInstance.put(Config.rejectUser, {
+          user_id: id,
+          reason:value
+        });
+      }
+
+      // navigate('/get-all-user')
+      setPopup(!popup);
+
+      console.log(response);
     } catch (error) {
       console.log(error);
     }
@@ -22,7 +59,7 @@ const UserDetails = ({ popup, setPopup, userDetail }) => {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center w-full z-40  bg-black bg-opacity-75 pt-8 pb-8">
-      <div className="bg-white px-8 pb-3  rounded-lg shadow-lg  w-full h-full max-w-md overflow-scroll ">
+      <div className="bg-white px-8 pb-3  rounded-lg shadow-lg  w-full h-full max-w-md overflow-scroll relative ">
         {userDetail.length > 0 ? (
           <div>
             <div className="flex justify-between items-center sticky top-0 bg-white z-20">
@@ -38,8 +75,6 @@ const UserDetails = ({ popup, setPopup, userDetail }) => {
             </div>
             {userDetail.map((data, index) => (
               <div key={index}>
-               
-
                 {data.user_role === "organizer" && (
                   <div>
                     <p>
@@ -141,34 +176,89 @@ const UserDetails = ({ popup, setPopup, userDetail }) => {
                     <div className="mt-4 flex justify-center">
                       {data.verified_status === "pending" && (
                         <>
-                          <button className="bg-primary text-white px-4 py-2 rounded mr-2">
+                          <button
+                            onClick={() =>
+                              handleApprove(data.user_role, data.org_id)
+                            }
+                            className="bg-primary text-white px-4 py-2 rounded mr-2"
+                          >
                             Approve
                           </button>
-                          <button className="bg-red text-white px-4 py-2 rounded">
+                          <button 
+                          onClick={() =>
+                            setOrgReason(!orgreason)
+                          }
+                          className="bg-red text-white px-4 py-2 rounded">
                             Reject
                           </button>
                         </>
                       )}
                       {data.verified_status === "active" && (
-                        <button
-                          onClick={() => handle(data.user_role, data.org_id)}
-                          className="bg-red text-white px-4 py-2 rounded"
-                        >
+                        <button onClick={() =>
+                          setOrgReason(!orgreason)
+                        } className="bg-red text-white px-4 py-2 rounded">
                           Reject
                         </button>
                       )}
                       {data.verified_status === "rejected" && (
-                        <button className="bg-primary text-white px-4 py-2 rounded">
+                        <button
+                          onClick={() =>
+                            handleApprove(data.user_role, data.org_id)
+                          }
+                          className="bg-primary text-white px-4 py-2 rounded"
+                        >
                           Approve
                         </button>
                       )}
+                      {
+                  orgreason && <div className="bg-blue bottom-52 py-7 px-2 text-white absolute">
+                    <label htmlFor="">Reason</label>
+                    <input type="text" onChange={(e)=>setValue(e.target.value)} className="text-black" />
+                    <div className="mt-2 flex justify-around">
+                      <button className="bg-red text-white px-4 py-2 rounded" onClick={()=>setOrgReason(!orgreason)}>cancel</button>
+                      <button className="bg-primary text-white px-4 py-2 rounded" onClick={() =>
+                            handleReject(data.user_role, data.org_id)
+                          }>confirm</button>
+                    </div>
+                    </div>
+                }
+                    </div>
+                  </div>
+                )}
+               
+
+                
+                
+                {data.role == "it_team" && (
+                  <div>
+                    <p>
+                      <span className="font-bold">User ID:</span> {data.emp_id}
+                    </p>
+                    
+                    <p>
+                      <span className="font-bold">Email ID:</span> {data.email}
+                    </p>
+                    <p>
+                      <span className="font-bold">Full Name:</span> {data.full_name}
+                    </p>
+                  
+                    
+                    <p>
+                      <span className="font-bold">Mobile No:</span> {data.mobile}
+
+                    </p>
+                    {/* <img src={} alt="" /> */}
+
+                    
+                    <div className="mt-4 flex justify-center">
+                     
+                      
+                      
                     </div>
                   </div>
                 )}
 
-                
-
-                {data.user_role !== "organizer" && (
+{data.user_role == "student" && (
                   <div>
                     <p>
                       <span className="font-bold">User ID:</span> {data.user_id}
@@ -239,30 +329,55 @@ const UserDetails = ({ popup, setPopup, userDetail }) => {
                     <div className="mt-4 flex justify-center">
                       {data.verified_status === "pending" && (
                         <>
-                          <button className="bg-primary text-white px-4 py-2 rounded mr-2">
+                          <button
+                            onClick={() =>
+                              handleApprove(data.user_role, data.user_id)
+                            }
+                            className="bg-primary text-white px-4 py-2 rounded mr-2"
+                          >
                             Approve
                           </button>
-                          <button className="bg-red text-white px-4 py-2 rounded">
+                          <button onClick={() =>
+                            setReason(!reason)
+                          } className="bg-red text-white px-4 py-2 rounded">
                             Reject
                           </button>
                         </>
                       )}
                       {data.verified_status === "active" && (
-                        <button
-                          onClick={() => handle(data.user_role, data.org_id)}
-                          className="bg-red text-white px-4 py-2 rounded"
-                        >
+                        <button onClick={() =>
+                          setReason(!reason)
+                        } className="bg-red text-white px-4 py-2 rounded">
                           Reject
                         </button>
                       )}
                       {data.verified_status === "rejected" && (
-                        <button className="bg-primary text-white px-4 py-2 rounded">
+                        <button
+                          onClick={() =>
+                            handleApprove(data.user_role, data.user_id)
+                          }
+                          className="bg-primary text-white px-4 py-2 rounded"
+                        >
                           Approve
                         </button>
                       )}
+                       {
+                  reason && <div className="bg-blue bottom-52 py-7 px-2 text-white absolute">
+                    <label htmlFor="">Reason</label>
+                    <input type="text" onChange={(e)=>setValue(e.target.value)} className="text-black" />
+                    <div className="mt-2 flex justify-around">
+                      <button className="bg-red text-white px-4 py-2 rounded" onClick={()=>setReason(!reason)}>cancel</button>
+                      <button className="bg-primary text-white px-4 py-2 rounded" onClick={() =>
+                            handleReject(data.user_role, data.user_id)
+                          }>confirm</button>
+                    </div>
+                    </div>
+                }
                     </div>
                   </div>
                 )}
+                
+               
               </div>
             ))}
           </div>

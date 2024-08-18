@@ -13,10 +13,9 @@ export const CategoryApiSlice = createApi({
     }),
     addCategory: builder.mutation({
       query: (newCategory) => ({
-        url: Config.addCategory,
+        url: Config.createEventCategory,
         method: "POST",
         headers: {
-          
           "authorization" : `Bearer ${localStorage.getItem('token')}`,
         },
         body: newCategory,

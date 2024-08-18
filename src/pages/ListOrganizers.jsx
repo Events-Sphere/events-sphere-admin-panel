@@ -6,13 +6,14 @@ import Search from "../components/Search";
 import axiosInstance from "../utilities/axiosInstance";
 import ClipLoader from "react-spinners/ClipLoader";
 import UserDetails from "../components/UserDetails";
-const DisplayUser = ({ showMenu, setShowMenu }) => {
+const ListOrganizer = ({ showMenu, setShowMenu }) => {
   const [page, setPage] = useState(1);
   const [data, setData] = useState([]);
   const [title, setTitle] = useState([]);
+  const [user, setUser] = useState(["true", "false"]);
   const [totalPage, setTotalPage] = useState(null);
   const [search, setSearch] = useState("");
-  const [roles, setRoles] = useState([]);
+  const [roles, setRoles] = useState("organizer");
   const [limit, setLimit] = useState("");
   const [status, setStatus] = useState([]);
   const [sortColumn, setsortColumn] = useState("");
@@ -22,7 +23,16 @@ const DisplayUser = ({ showMenu, setShowMenu }) => {
   const [userDetail, setUserDetail] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loadingDetail, setLoadingDetail] = useState(false);
+  const handleStatus=(e)=>{
+    if(status.includes(e.target.value)){
+      const role=status.filter((data)=>data != e.target.value);
+      setStatus(role);
+    }
+    else{
+      setStatus([...status,e.target.value])
+    }
 
+  }
   const getAllUser = async () => {
     try {
       setLoading(true);
@@ -79,13 +89,21 @@ const DisplayUser = ({ showMenu, setShowMenu }) => {
           setSearch={setSearch}
           search={search}
         />
-        <Filter
-          roles={roles}
-          setRoles={setRoles}
-          status={status}
-          setStatus={setStatus}
-          userCategory={userCategory}
-        />
+        <div>
+        {user.length > 0 && (
+        <div className="flex">
+          <h1 className="font-bold text-black">STATUS:</h1>
+          {user.map((user, index) => (
+            <div className="px-2 flex align-middle " key={index}>
+              <input className="" type="checkbox" id={user} value={user} onChange={handleStatus} />
+              <label className="pl-1 text-black" htmlFor={user}>
+                {user === 'true'?'Verified':'Unverified'}
+              </label>
+            </div>
+          ))}
+        </div>
+      )}
+        </div>
       </div>
       {loading ? (
         <div className="flex justify-center items-center mt-56">
@@ -158,4 +176,4 @@ const DisplayUser = ({ showMenu, setShowMenu }) => {
   );
 };
 
-export default DisplayUser;
+export default ListOrganizer;

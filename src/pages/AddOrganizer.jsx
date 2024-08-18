@@ -84,11 +84,11 @@ const AddOrganizer = () => {
     }
   };
   return (
-    <div className="flex justify-center items-center min-h-screen  bg-cover bg-no-repeat">
+    <div className="flex justify-center items-center min-h-screen">
       <form
         onSubmit={handleSubmit}
         autoComplete="off"
-        className="w-full max-w-3xl space-y-6 p-6 bg-white rounded shadow-md backdrop-filter backdrop-blur-lg bg-opacity-40"
+        className="w-full max-w-3xl space-y-6 p-6 bg-white rounded shadow-md "
       >
         <h2 className="text-2xl font-bold text-blue-600 mb-4">Add Organizer</h2>
         <div className="flex flex-wrap w-full">

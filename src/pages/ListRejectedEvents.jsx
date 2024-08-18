@@ -6,7 +6,7 @@ import Config from "../App/service/config";
 import ClipLoader from "react-spinners/ClipLoader";
 import Paginate from "../components/Paginate";
 
-const ListEvents = () => {
+const ListRejectedEvents = () => {
   const [data, setData] = useState([]);
   const [totalPage, setTotalPage] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -19,7 +19,7 @@ const ListEvents = () => {
     try {
       setLoading(true);
       const response = await axiosInstance.get(
-        Config.mainEventActive +
+        Config.mainEventRejected +
           `?page=${page}&search=${search}&location=${location}&limit=${limit}`
       );
       console.log(response);
@@ -89,7 +89,7 @@ const ListEvents = () => {
   }, [search, page, location]);
   return (
     <div>
-      <h1>ACTIVE EVENTS</h1>
+      <h1>REJECTED EVENTS</h1>
       <div className="flex">
         <Search
           placeholder="🔍 Search user"
@@ -139,4 +139,4 @@ const ListEvents = () => {
   );
 };
 
-export default ListEvents;
+export default ListRejectedEvents;

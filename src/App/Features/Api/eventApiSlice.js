@@ -5,19 +5,13 @@ export const EventApiSlice = createApi({
   reducerPath: "eventApi",
   baseQuery: fetchBaseQuery({ baseUrl: Config.baseUrl }),
   endpoints: (builder) => ({
-    getEvents: builder.query({
-      query: () => Config.getEvent,
-    }),
-    getEventById: builder.query({
-      query: () => Config.getEventById,
-    }),
     addEvent: builder.mutation({
       query: (newEvent) => ({
         url: Config.createEvent,
         method: "POST",
         headers: {
-          "Content-Type"  : "application/json",
-          "authorization" : `Bearer ${localStorage.getItem('token')}`,
+          "Content-Type": "application/json",
+          authorization: `Bearer ${localStorage.getItem("token")}`,
         },
         body: newEvent,
       }),
@@ -25,4 +19,5 @@ export const EventApiSlice = createApi({
   }),
 });
 
-export const { useGetEventsQuery,useGetEventByIdQuery ,useAddEventMutation } = EventApiSlice;
+export const { useGetEventsQuery, useGetEventByIdQuery, useAddEventMutation } =
+  EventApiSlice;

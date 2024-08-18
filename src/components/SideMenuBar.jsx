@@ -73,6 +73,10 @@ const SideMenuBar = ({ showMenu, setShowMenu }) => {
           value: "Add Organizer",
           link: "/add-organizer",
         },
+        {
+          value: "List Organizer",
+          link: "/organizers",
+        },
        
       ],
     },
@@ -100,11 +104,23 @@ const SideMenuBar = ({ showMenu, setShowMenu }) => {
       options: [
         {
           value: "Add Event",
-          link: "add-event",
+          link: "/add-event",
         },
         {
-          value: "List Event",
-          link: "events",
+          value: "Active Events",
+          link: "/events/active",
+        },
+        {
+          value: "Pending Events",
+          link: "/events/pending",
+        },
+        {
+          value: "Completed Events",
+          link: "/events/completed",
+        },
+        {
+          value: "Rejected Events",
+          link: "/events/rejected",
         },
 
       ],

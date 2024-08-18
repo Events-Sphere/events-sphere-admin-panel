@@ -37,3 +37,10 @@ html{
     @apply  
     text-white p-2 border-2 border-r-sky-blue hover:cursor-pointer hover:bg-dark-blue;
 }
+.event p span{
+    @apply  
+    font-bold;
+}
+.eventImage img{
+    @apply h-36 hover:scale-110 rounded;
+}

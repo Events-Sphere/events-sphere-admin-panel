@@ -1,5 +1,5 @@
 import React from "react";
-const DisplayTable = ({ title, data, page, popup, setPopup,popupEdit, setPopupEdit, setUserId,getUserDetail }) => {
+const DisplayTable = ({ title, data, page, popup, setPopup,popupEdit, setPopupEdit, setUserId,getUserDetail,editInternalTeam }) => {
   const userTitle = [...title, "DETAIL"];
   const employeeTitle = [...title, "DETAIL", "EDIT"];
 
@@ -11,9 +11,8 @@ const DisplayTable = ({ title, data, page, popup, setPopup,popupEdit, setPopupEd
   };
   const handleUserEdit = (id) => {
     console.log("emp", id);
-    setUserId(id);
-    
     setPopupEdit(!popupEdit);
+    editInternalTeam(id)
     
   };
   return (

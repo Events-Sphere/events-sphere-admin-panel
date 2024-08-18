@@ -15,6 +15,12 @@ import AddInternalTeam from "./pages/AddInternalTeam";
 import InternalTeamList from "./pages/InternalTeamList";
 import AddOrganizer from "./pages/AddOrganizer";
 import ListEvents from "./pages/ListEvents";
+import EventDetail from "./pages/EventDetail";
+import ListPendingEvents from "./pages/ListPendingEvents";
+import ListRejectedEvents from "./pages/ListRejectedEvents";
+import ListCompletedEvents from "./pages/ListCompletedEvents";
+import NotFound from "./pages/NotFound";
+import ListOrganizer from "./pages/ListOrganizers";
 const App = () => {
   const [showMenu, setShowMenu] = useState(false);
 
@@ -38,10 +44,16 @@ const App = () => {
           <Route path="/get-all-verification-requests" element={<DisplayUserVerification/>}></Route>
           <Route path='/add-event' element={<AddEvent />}></Route>
           <Route path="/login" element={<Login />}></Route>
+          <Route path="/organizers" element={<ListOrganizer />}></Route>
           <Route path='/add-internal-team' element={<AddInternalTeam/>}></Route>
           <Route path='/list-internal-team' element={<InternalTeamList/>}></Route>
           <Route path='/add-organizer' element={<AddOrganizer/>}></Route>
-          <Route path='/events' element={<ListEvents/>}></Route>
+          <Route path='/events/active' element={<ListEvents/>}></Route>
+          <Route path='/events/pending' element={<ListPendingEvents/>}></Route>
+          <Route path='/events/rejected' element={<ListRejectedEvents/>}></Route>
+          <Route path='/events/completed' element={<ListCompletedEvents/>}></Route>
+          <Route path='/eventdetail' element={<EventDetail/>}></Route>
+          <Route path="*" element={<NotFound/>}></Route>
         </Routes>
       </div>
     </div>

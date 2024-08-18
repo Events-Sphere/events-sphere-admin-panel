@@ -60,42 +60,42 @@ const AddInternalTeam = () => {
   };
 
   return (
-    <div className="flex justify-center h-[100vh] items-center  bg-[url('../../public/bg.jpg')] bg-cover bg-no-repeat">
+    <div className="flex justify-center h-[100vh] items-center ">
       <form
         onSubmit={handleSubmit}
         autoComplete="off"
-        className="w-full max-w-lg p-8 backdrop-filter backdrop-blur-lg bg-opacity-30 rounded-lg shadow-lg  border-2 border-sky-blue"
+        className="w-full max-w-lg p-8 bg-white  rounded-lg shadow-lg  shadow-md "
       >
-        <h2 className="text-3xl font-bold text-sky-blue mb-6 text-center">
+        <h2 className="text-3xl font-bold text-dark-blue mb-6 text-center">
           Add Internal Team Employee
         </h2>
         <div className="space-y-6">
           <div className="flex flex-col">
-            <label className="font-semibold text-white">Full Name:</label>
+            <label className="font-semibold text-black">Full Name:</label>
             <input
               type="text"
               name="full_name"
               value={formData.full_name}
               onChange={handleChange}
-              className="mt-2 p-3 border border-grey rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue"
+              className="mt-2 p-1 border  rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue"
               placeholder="Enter full name"
             />
-            <label className="font-semibold text-white">Email ID:</label>
+            <label className="font-semibold text-black">Email ID:</label>
             <input
               type="text"
               name="email"
               value={formData.email}
               onChange={handleChange}
-              className="mt-2 p-3 border border-grey rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue"
+              className="mt-2 p-1 border  rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue"
               placeholder="Enter email"
             />
             <div className="w-full">
-              <label className="font-semibold text-white">Mobile No:</label>
+              <label className="font-semibold text-black">Mobile No:</label>
               <div className="w-full flex">
                 <select
                   value={formData.country_code}
                   onChange={handleChange}
-                  className="mt-2  p-3 border border-grey rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue w-1/5 "
+                  className="mt-2  p-1 border  rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue w-1/5 "
                   name="country_code"
                   id=""
                 >
@@ -109,31 +109,31 @@ const AddInternalTeam = () => {
                   name="mobile"
                   value={formData.mobile}
                   onChange={handleChange}
-                  className="mt-2 ml-2 p-3 border border-grey rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue  w-4/5 "
+                  className="mt-2 ml-2 p-1 border  rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue  w-4/5 "
                   placeholder="Enter mobile No"
                 />
               </div>
             </div>
-            <label className="font-semibold text-white">Password:</label>
+            <label className="font-semibold text-black">Password:</label>
             <input
               type="text"
               name="password"
               value={formData.password}
               onChange={handleChange}
-              className="mt-2 p-3 border border-grey rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue"
+              className="mt-2 p-1 border  rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue"
               placeholder="Enter password"
             />
           </div>
           <div className="flex flex-col">
-            <label className="font-semibold text-grey">Profile Image:</label>
-            <div className="mt-2 flex items-center justify-center p-4 border-2 border-dashed border-grey rounded-lg hover:border-blue transition">
+            <label className="font-semibold ">Profile Image:</label>
+            <div className="mt-2 flex items-center justify-center p-4 border-2 border-dashed  rounded-lg hover:border-blue transition">
               <label className="flex flex-col items-center justify-center w-full h-8 cursor-pointer">
                 {profile ? (
-                  <span className="text-sm text-white">{profile.name}</span>
+                  <span className="text-sm text-black">{profile.name}</span>
                 ) : (
                   <>
                     <svg
-                      className="w-10 h-10 text-grey"
+                      className="w-10 h-10 text-black"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -146,7 +146,7 @@ const AddInternalTeam = () => {
                         d="M7 16V4m10 12V4m-6 8V4m8 4H3"
                       ></path>
                     </svg>
-                    <span className="text-sm text-grey">
+                    <span className="text-sm ">
                       Click to select a profile
                     </span>
                   </>
@@ -164,7 +164,7 @@ const AddInternalTeam = () => {
         </div>
         <button
           type="submit"
-          className="mt-6 w-full py-3 bg-white text-blue font-semibold rounded-lg shadow hover:bg-blue hover:text-white transition"
+          className="mt-6 w-full py-3 bg-red text-white font-semibold rounded-lg shadow hover:bg-blue hover:text-black transition"
         >
           Submit
         </button>
