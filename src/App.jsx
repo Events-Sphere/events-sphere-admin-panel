@@ -26,36 +26,58 @@ const App = () => {
 
   // const { isAuthenticated } = useSelector((state) => state.auth);
   const token = localStorage.getItem('token');
+ 
+  useEffect(()=>{
+    if(token){
+      const tokenPayload = JSON.parse(atob(token.split('.')[1])); 
+  console.log(JSON.stringify(tokenPayload))
+  const currentTime = Date.now() / 1000; // Current time in seconds
+
+        if (tokenPayload.exp < currentTime) {
+          // Token has expired
+          localStorage.removeItem("token");
+           // Function to remove token from storage
+          navigate("/"); // Redirect to login
+        }
+    }
+  },[token]);
+  console.log(token)
   
  
-  useEffect(()=>{},[token]);
 
   return (
     <div>
-      <NavBar showMenu={showMenu} setShowMenu={setShowMenu} />
-      <SideMenuBar showMenu={showMenu} setShowMenu={setShowMenu} />
-      <div className={token ? "pl-52" : ''}>
-        <Routes>
-          <Route path="/" element={token ? <Dashboard/> : <Login />}></Route>
-          <Route path="/dashboard" element={<Dashboard />}></Route>
-          <Route path="/add-category" element = {<AddCategory/>}></Route>
-          <Route path="/categories-list" element = {<CategoriesList/>}></Route>
-          <Route path="/get-all-user" element={<DisplayUser />}></Route>
-          <Route path="/get-all-verification-requests" element={<DisplayUserVerification/>}></Route>
-          <Route path='/add-event' element={<AddEvent />}></Route>
-          <Route path="/login" element={<Login />}></Route>
-          <Route path="/organizers" element={<ListOrganizer />}></Route>
-          <Route path='/add-internal-team' element={<AddInternalTeam/>}></Route>
-          <Route path='/list-internal-team' element={<InternalTeamList/>}></Route>
-          <Route path='/add-organizer' element={<AddOrganizer/>}></Route>
-          <Route path='/events/active' element={<ListEvents/>}></Route>
-          <Route path='/events/pending' element={<ListPendingEvents/>}></Route>
-          <Route path='/events/rejected' element={<ListRejectedEvents/>}></Route>
-          <Route path='/events/completed' element={<ListCompletedEvents/>}></Route>
-          <Route path='/eventdetail' element={<EventDetail/>}></Route>
-          <Route path="*" element={<NotFound/>}></Route>
-        </Routes>
-      </div>
+      {
+        token ? (<><NavBar showMenu={showMenu} setShowMenu={setShowMenu} />
+          <SideMenuBar showMenu={showMenu} setShowMenu={setShowMenu} />
+          <div className={token ? "pl-52" : ''}>
+            <Routes>
+              {/* <Route path="/" element={token ? <Dashboard/> : <Login />}></Route> */}
+              <Route path="/dashboard" element={<Dashboard />}></Route>
+              <Route path="/add-category" element = {<AddCategory/>}></Route>
+              <Route path="/categories-list" element = {<CategoriesList/>}></Route>
+              <Route path="/get-all-user" element={<DisplayUser />}></Route>
+              <Route path="/get-all-verification-requests" element={<DisplayUserVerification/>}></Route>
+              <Route path='/add-event' element={<AddEvent />}></Route>
+              <Route path="/login" element={<Login />}></Route>
+              <Route path="/organizers" element={<ListOrganizer />}></Route>
+              <Route path='/add-internal-team' element={<AddInternalTeam/>}></Route>
+              <Route path='/list-internal-team' element={<InternalTeamList/>}></Route>
+              <Route path='/add-organizer' element={<AddOrganizer/>}></Route>
+              <Route path='/events/active' element={<ListEvents/>}></Route>
+              <Route path='/events/pending' element={<ListPendingEvents/>}></Route>
+              <Route path='/events/rejected' element={<ListRejectedEvents/>}></Route>
+              <Route path='/events/completed' element={<ListCompletedEvents/>}></Route>
+              <Route path='/eventdetail' element={<EventDetail/>}></Route>
+              <Route path="*" element={<NotFound/>}></Route>
+            </Routes>
+          </div></>):(
+             <Routes>
+               <Route path="/" element={token ? <Dashboard/> : <Login />}></Route>
+               <Route path="*" element={<NotFound/>}></Route>
+             </Routes>
+          )
+      }
     </div>
   );
 };

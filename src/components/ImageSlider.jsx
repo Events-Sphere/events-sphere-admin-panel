@@ -20,7 +20,7 @@ const ImageSlider = () => {
   return (
     <div className='flex relative items-center justify-center'>
       <FaArrowCircleLeft
-        className='absolute left-0 text-white z-10 top-1/2 text-2xl hover:cursor-pointer'
+        className='absolute left-7 text-white z-10 top-1/2 text-2xl hover:cursor-pointer'
         onClick={prevSlide}
       />
       <div className='flex'>
@@ -31,7 +31,7 @@ const ImageSlider = () => {
         ))}
       </div>
       <FaArrowCircleRight
-        className='absolute right-0 text-white z-10 top-1/2 text-2xl hover:cursor-pointer'
+        className='absolute right-7 text-white z-10 top-1/2 text-2xl hover:cursor-pointer'
         onClick={nextSlide}
       />
 

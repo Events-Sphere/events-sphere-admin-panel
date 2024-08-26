@@ -42,5 +42,5 @@ html{
     font-bold;
 }
 .eventImage img{
-    @apply h-36 hover:scale-110 rounded;
+    @apply max-h-36 min-h-36 min-w-60 max-w-60  hover:scale-110 rounded;
 }

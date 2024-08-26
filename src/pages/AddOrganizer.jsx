@@ -19,10 +19,8 @@ const AddOrganizer = () => {
   const [idCard, setIdCard] = useState([]);
   console.log("Form Data", formData);
   const handleChange = (e) => {
-    console.log("handle");
     e.preventDefault();
     if (e.target.name == "noc") {
-      console.log("noc", e.target.files[0]);
       setNoc(e.target.files[0]);
     }
     if (e.target.name == "idCard") {
@@ -40,7 +38,7 @@ const AddOrganizer = () => {
     e.preventDefault();
     const data = new FormData();
     data.append("org-noc", noc);
-    // data.append("org-id-card", idCard);
+
     idCard.forEach((file, index) => {
       data.append("org-id-card", file);
     });

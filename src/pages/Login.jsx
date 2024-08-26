@@ -62,12 +62,12 @@ const Login = () => {
   };
 
 
-   return (<div className="min-h-screen flex items-center justify-center bg-background bg-[url('../../public/login_page_bg.jpg')] bg-no-repeat bg-cover ">
+   return (<div className="min-h-screen flex items-center justify-center    ">
     <div className="bg-white backdrop-filter backdrop-blur-sm bg-opacity-40 p-8 rounded-lg shadow-lg w-full max-w-md">
-      <h2 className="text-2xl font-bold mb-6  text-grey">Login</h2>
+      <h2 className="text-2xl font-bold mb-6  ">Login</h2>
       <form autoComplete='off' onSubmit={handleSubmit} className="space-y-6">
         <div>
-          <label htmlFor="email" className="block text-sm font-semibold text-grey">
+          <label htmlFor="email" className="block text-sm font-semibold ">
             Email:
           </label>
           <input
@@ -82,7 +82,7 @@ const Login = () => {
           {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
         </div>
         <div>
-          <label htmlFor="password" className="block text-sm font-semibold text-grey">
+          <label htmlFor="password" className="block text-sm font-semibold ">
             Password:
           </label>
           <input

@@ -3,9 +3,9 @@ import ImageSlider from "./ImageSlider";
 
 const EventDetailCard = ({ data }) => {
   return (
-    <div className=" flex flex-wrap justify-center gap-4 p-4">
+    <div className=" flex flex-wrap justify-start gap-4 p-4">
       {data.map((data, index) => (
-        <div className="bg-white py-2 px-4 rounded event">
+        <div className="bg-white py-2 px-4 rounded event max-w-80">
             <h1 className="text-center text-xl uppercase text-dark-blue font-bold  ">{data.eventName}</h1>
           <ImageSlider/>
           <p>
@@ -23,7 +23,7 @@ const EventDetailCard = ({ data }) => {
           </p>
           <p>
             <span>Video URL: </span>
-            {data.videoUrl}
+            <a className="text-blue underline" href={data.videoUrl}>Click Here</a>
           </p>
           <p>
             <span>Date: </span>
@@ -38,12 +38,12 @@ const EventDetailCard = ({ data }) => {
             {data.hostName}
           </p>
           <p>
-            <span>Host Mobile: </span>
+            <span>Host Mobile: </span>+
             {data.countryCode}-{data.hostMobile}
           </p>
           <p>
             <span>Host Email ID: </span>
-            {data.hostEmail}
+            <a href={`mailto:${data.hostEmail}`}>{data.hostEmail}</a>
           </p>
           <p>
             <span>Ticket Type: </span>
