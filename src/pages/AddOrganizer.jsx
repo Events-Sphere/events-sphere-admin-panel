@@ -17,7 +17,7 @@ const AddOrganizer = () => {
   });
   const [noc, setNoc] = useState(null);
   const [idCard, setIdCard] = useState([]);
-  console.log("Form Data", formData);
+
   const handleChange = (e) => {
     e.preventDefault();
     if (e.target.name == "noc") {

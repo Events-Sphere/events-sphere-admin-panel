@@ -45,8 +45,8 @@ const DisplayUser = ({ showMenu, setShowMenu }) => {
   };
   const getUserDetail = async (userID) => {
     try {
-      setLoadingDetail(true)
-      console.log("function called",userID)
+      setLoadingDetail(true);
+      console.log("function called", userID);
       const response = await axiosInstance.post(`/admin/users/single`, {
         user_id: userID,
       });
@@ -59,9 +59,8 @@ const DisplayUser = ({ showMenu, setShowMenu }) => {
       if (error.response.status == 500) {
         alert("Check internet connection");
       }
-    }
-    finally{
-      setLoadingDetail(false)
+    } finally {
+      setLoadingDetail(false);
     }
   };
 
@@ -101,14 +100,13 @@ const DisplayUser = ({ showMenu, setShowMenu }) => {
         </div>
       ) : data.length > 0 ? (
         <div>
-          
           <div className="border-black border-2 inline-block ml-4">
             <select value={limit} onChange={(e) => setLimit(e.target.value)}>
               <option value="" disabled>
                 select
               </option>
               <option value="10">10</option>
-              
+
               <option value="20">20</option>
               <option value="50">50</option>
               <option value="100">100</option>
@@ -133,27 +131,27 @@ const DisplayUser = ({ showMenu, setShowMenu }) => {
       ) : (
         <div className="flex justify-center text-2xl mt-40">No data found</div>
       )}
-      {
-        loadingDetail ?(
-          <div className="flex justify-center items-center -mt-72">
-            <ClipLoader
-              className=""
-              loadingDetail={loadingDetail}
-              color="#1312f2"
-              speedMultiplier={3}
-              size={50}
-              aria-label="Loading Spinner"
-              data-testid="loader"
-            />
-          </div>
-        ): popup && (
+      {loadingDetail ? (
+        <div className="flex justify-center items-center -mt-72">
+          <ClipLoader
+            className=""
+            loadingDetail={loadingDetail}
+            color="#1312f2"
+            speedMultiplier={3}
+            size={50}
+            aria-label="Loading Spinner"
+            data-testid="loader"
+          />
+        </div>
+      ) : (
+        popup && (
           <UserDetails
             popup={popup}
             setPopup={setPopup}
             userDetail={userDetail}
           />
         )
-      }
+      )}
     </div>
   );
 };

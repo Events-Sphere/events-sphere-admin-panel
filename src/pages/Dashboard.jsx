@@ -8,12 +8,12 @@ const Dashboard = () => {
   const data = [
     {
       title: "Total Users",
-      numbers: "600",
+      numbers: "20",
       icons: <FiUsers />,
     },
     {
       title: "Total Organizer",
-      numbers: "120",
+      numbers: "20",
       icons: <GoOrganization />,
     },
     {
@@ -71,7 +71,6 @@ const Dashboard = () => {
           </div>
         ))}
       </div>
-
 
       <div className="sm:grid sm:grid-cols-2 sm:gap-8 mt-6 flex flex-col gap-2 sm:px-4">
         {/* user's Demographics */}

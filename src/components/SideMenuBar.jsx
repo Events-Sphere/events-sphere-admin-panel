@@ -9,12 +9,12 @@ import { RiArrowDropDownLine } from "react-icons/ri";
 import { BiLogOut } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { logOut } from "../App/Features/Auth/authSlice";
+import { loading, logOut } from "../App/Features/Auth/authSlice";
 import { useSelector } from "react-redux";
 
 import Config from "../App/service/config";
 
-const SideMenuBar = ({ showMenu, setShowMenu }) => {
+const SideMenuBar = ({ showMenu, setShowMenu,setLoading }) => {
   const [selected, setSelected] = useState(null);
   const toggle = (i) => {
     if (selected == i) {
@@ -130,9 +130,10 @@ const SideMenuBar = ({ showMenu, setShowMenu }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const hanldleLogOut = () => {
+  const hanldleLogOut = async() => {
+    setLoading(true)
     localStorage.clear();
-    dispatch(logOut());
+    await dispatch(logOut());
     navigate('/login');
   }
 
