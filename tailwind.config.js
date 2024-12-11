@@ -8,6 +8,8 @@ export default {
     extend: {},
     colors:{
       'blue':'#0a2455',
+      'white-smoke' : '#A6AEBF',
+      'template-1':'#1A1A1D',
       'grey':'#f5f6fa',
       'white':'#ffffff',
       'dark-blue':'#081d45',
@@ -31,6 +33,11 @@ export default {
       'green-700': '#03a10b',
       'slate-500' : '#64748b',
       'slate-300' : '#cbd5e1',
+      'btn-color' : '#3B3030',
+      'txt-color' : '#173B45',
+      'bannar' : '#2F3645',
+      'tbl-odd' : '#DDDDDD',
+      'tbl-even':'#D0D4CA'
 
     }
   },

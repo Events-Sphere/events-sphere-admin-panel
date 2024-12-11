@@ -16,33 +16,33 @@ const DisplayTable = ({ title, data, page, popup, setPopup,popupEdit, setPopupEd
     
   };
   return (
-    <div className=" mx-4 mt-2 mb-2 container max-h-[30rem] overflow-y-scroll">
+    <div className=" mx-4 mt-2 mb-2 container max-h-[30rem] flex items-center justify-center overflow-hidden ">
       <table className="w-full bg-white border border-gray-200 shadow-lg rounded-lg">
         <thead className="sticky top-0">
-          <tr className="bg-dark-blue text-white">
+          <tr className="bg-bannar text-white">
             {
               data && userTitle.includes("user_id")
                 ? userTitle.map((key, index) => (
                     <th
-                      className="py-3 px-6 text-left font-semibold text-sm uppercase tracking-wider"
+                      className="p-1 md:py-3 md:px-6 text-left font-semibold text-sm uppercase tracking-wider"
                       key={index}
                     >
                       {key === "email"
-                        ? key + ""
+                        ? "Email"
                         : key === "full_name"
-                        ? key + ""
+                        ? "Fullname"
                         : key}
                     </th>
                   ))
                 : employeeTitle.map((key, index) => (
                     <th
-                      className="py-3 px-6 text-left font-semibold text-sm uppercase tracking-wider"
+                      className="p-1 md:py-3 md:px-6 text-left font-semibold text-sm uppercase tracking-wider"
                       key={index}
                     >
                       {key === "email"
-                        ? key + ""
+                        ? "email"
                         : key === "full_name"
-                        ? key + ""
+                        ? "fullname"
                         : key}
                     </th>
                   ))
@@ -59,17 +59,17 @@ const DisplayTable = ({ title, data, page, popup, setPopup,popupEdit, setPopupEd
                   }`}
                   key={index}
                 >
-                  <td className="py-4 px-6">{item.id}</td>
-                  <td className="py-4 px-6">{item.user_id}</td>
-                  <td className="py-4 px-6">{item.full_name}</td>
-                  <td className="py-4 px-6">{item.email}</td>
-                  <td className="py-4 px-6">{item.mobile}</td>
-                  <td className="py-4 px-6">{item.role}</td>
+                  <td className="p-1 md:py-4 md:px-6">{item.id}</td>
+                  <td className="p-1 md:py-4 md:px-6">{item.user_id}</td>
+                  <td className="p-1 md:py-4 md:px-6">{item.full_name}</td>
+                  <td className="p-1 md:py-4 md:px-6">{item.email}</td>
+                  <td className="p-1 md:py-4 md:px-6">{item.mobile}</td>
+                  <td className="p-1 md:py-4 md:px-6">{item.role}</td>
                   <td
                     className={
                       item.verified_status === 0
-                        ? "py-4 px-6  text-red-700 font-semibold  text-center"
-                        : "py-4 px-6  text-green-700 font-semibold rounded-lg text-center"
+                        ? "md:py-4 md:px-6  p-1 text-red-700 font-semibold  text-center"
+                        : "md:py-4 md:px-6  p-1 text-green-700 font-semibold rounded-lg text-center"
                     }
                   >
                     {item.verified_status === 0 ? "Unverified" : "Verified"}
@@ -77,7 +77,7 @@ const DisplayTable = ({ title, data, page, popup, setPopup,popupEdit, setPopupEd
                   <td className=" text-center text-1xl ">
                     {item.verified_status === 1 ? (
                       <button
-                        className="bg-blue text-white py-1 px-4 rounded"
+                        className="bg-blue text-white py-1 md:px-4 px-2 rounded"
                         onClick={() => handleUserId(item.user_id)}
                       >
                         view
@@ -85,7 +85,7 @@ const DisplayTable = ({ title, data, page, popup, setPopup,popupEdit, setPopupEd
                     ) : (
                       <button
                         onClick={() => handleUserId(item.user_id)}
-                        className="bg-red text-white py-1 px-4 rounded"
+                        className="bg-red text-white py-1 px-2 md:px-4 rounded"
                       >
                         view
                       </button>

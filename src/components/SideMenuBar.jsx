@@ -141,7 +141,7 @@ const SideMenuBar = ({ showMenu, setShowMenu,setLoading }) => {
   const token = localStorage.getItem('token');
 
   return (
-    <div className={token ? "bg-blue h-screen text-white w-52 fixed top-0" : 'hidden'}>
+    <div className={token ? "bg-template-1 h-screen text-white w-60 fixed top-0" : 'hidden'}>
       <div className="flex justify-between p-2 ">
         <h1 className="pt-1 text-xl">Event Sphere</h1>
         <IoCloseOutline
@@ -153,15 +153,15 @@ const SideMenuBar = ({ showMenu, setShowMenu,setLoading }) => {
         {general.map((data, index) => (
           <div key={index} className="py-2 px-2 flex justify-start gap-2 ">
             <span className="text-xl">{data.initialIcon}</span>
-            <div className="w-36">
-              <div className="flex justify-between">
-                <div>
+            <div className="w-44">
+              <div onClick={()=> toggle(index)}  className="flex cursor-pointer justify-between">
+                <div >
                   {data.link ? (
                     <a href={data.link}>{data.selector}</a>
                   ) : (
                     <h1
                       className="hover:cursor-pointer"
-                      onClick={() => toggle(index)}
+                      //onClick={() => toggle(index)}
                     >
                       {data.selector}
                     </h1>

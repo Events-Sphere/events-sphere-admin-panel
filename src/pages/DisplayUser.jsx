@@ -68,12 +68,11 @@ const DisplayUser = ({ showMenu, setShowMenu }) => {
     getAllUser();
   }, [page, search, roles, limit, status]);
   return (
-    <div className="h-[100vh] bg-white ">
-      <h1 className="heading ">USERS LIST</h1>
-      <div className="flex justify-around items-center ">
+    <div className="h-[100vh] bg-white pl-10 overflow-x-hidden">
+      <h1 className="heading text-txt-color">LIST OF USERS</h1>
+      <div className="flex justify-around items-center space-y-4">
         <Search
-          className="h-10 w-[100%] ml-1 border-2 border-blue  rounded-lg p-2"
-          placeholder="🔍 Search user"
+          placeholder="search user"
           type="text"
           setSearch={setSearch}
           search={search}
@@ -101,7 +100,7 @@ const DisplayUser = ({ showMenu, setShowMenu }) => {
       ) : data.length > 0 ? (
         <div>
           <div className="border-black border-2 inline-block ml-4">
-            <select value={limit} onChange={(e) => setLimit(e.target.value)}>
+            {/* <select value={limit} onChange={(e) => setLimit(e.target.value)}>
               <option value="" disabled>
                 select
               </option>
@@ -110,9 +109,9 @@ const DisplayUser = ({ showMenu, setShowMenu }) => {
               <option value="20">20</option>
               <option value="50">50</option>
               <option value="100">100</option>
-            </select>
+            </select> */}
           </div>
-          <div className="flex justify-center ">
+          <div className="flex justify-center items-center">
             <DisplayTable
               getUserDetail={getUserDetail}
               data={data}
@@ -124,7 +123,7 @@ const DisplayUser = ({ showMenu, setShowMenu }) => {
               setUserId={setUserId}
             />
           </div>
-          <div className="">
+          <div className="absolute bottom-[1rem] left-[calc(100vw-54%)]">
             <Paginate totalPage={totalPage} page={page} setPage={setPage} />
           </div>
         </div>

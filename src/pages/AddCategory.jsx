@@ -50,7 +50,7 @@ const AddCategory = () => {
   return (
     <div className="flex justify-center  h-[100vh] items-center   ">
       <form onSubmit={handleSubmit} autoComplete="off" className="w-full text-black max-w-lg p-8  rounded-lg  bg-white  shadow-md">
-        <h2 className="text-3xl font-bold text-dark-blue mb-6 text-center">Add Category</h2>
+        <h2 className="text-3xl font-bold text-txt-color mb-6 text-start">ADD MORE CATEGORY</h2>
         <div className="space-y-6">
           <div className="flex flex-col">
             <label className="font-semibold text-black">Category Name:</label>
@@ -60,7 +60,7 @@ const AddCategory = () => {
               value={formData.category_name}
               onChange={handleChange}
               className="mt-2 p-3 border  rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue"
-              placeholder="Enter category name"
+              placeholder="eg. science"
             />
           </div>
           <div className="flex flex-col">
@@ -85,7 +85,7 @@ const AddCategory = () => {
                         d="M7 16V4m10 12V4m-6 8V4m8 4H3"
                       ></path>
                     </svg>
-                    <span className="text-sm text-black">Click to select a file</span>
+                    <span className="text-sm text-black">Click here to select a image</span>
                   </>
                 )}
                 <input
@@ -101,7 +101,7 @@ const AddCategory = () => {
         </div>
         <button
           type="submit"
-          className="mt-6 w-full py-3 bg-red text-white font-semibold rounded-lg shadow hover:bg-blue hover:text-black transition"
+          className="mt-6 w-full py-3 bg-btn-color text-white font-semibold rounded-lg shadow hover:bg-black hover:text-white transition"
         >
           Add Category
         </button>

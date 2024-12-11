@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axiosInstance from "../utilities/axiosInstance";
 import Config from "../App/service/config";
+import { BiEdit } from "react-icons/bi";
 
 const CategoriesList = () => {
   const [category, setCategory] = useState([]);
@@ -67,12 +68,12 @@ const[id,setId]=useState(null)
   };
 
   return (
-    <div className=" container mx-auto p-6 h-screen bg-white ">
-      <h2 className="text-2xl font-bold mb-4 text-black ">Categories List</h2>
-      <div className="max-h-[32rem] overflow-y-scroll overflow-x-scroll flex justify-center">
-        <table className="min-w-full  bg-white rounded-lg shadow">
+    <div className=" container mx-auto pt-2 pb-5 pr-5 pl-10 h-screen bg-white self-center">
+      <h2 className="text-2xl font-bold mb-4 text-txt-color ">Categories List</h2>
+      <div className="max-h-[32rem]    flex justify-center">
+        <table className="min-w-full  bg-white  shadow">
           <thead className="sticky top-0">
-            <tr className="bg-secondary text-white ">
+            <tr className="bg-bannar text-white">
               <th className="py-3 px-4 text-left">ID</th>
               <th className="py-3 px-4 text-left">Image</th>
               <th className="py-3 px-4 text-left">Name</th>
@@ -80,24 +81,29 @@ const[id,setId]=useState(null)
             </tr>
           </thead>
           <tbody>
-            {category.map((category) => (
-              <tr key={category.id} className="border-b border-border">
+            {category.map((category , idx) => (
+              <tr key={category.id} className= {`border-b border-border ${idx % 2 != 0 ? "bg-tbl-even" : "bg-tbl-odd"}`}>
                 <td className="py-3 px-4">{category.id}</td>
                 <td className="py-3 px-4">
                   <img
-                    src={`https://event-backend-9.onrender.com/ev_category/${category.image}`}
+                    src={`https://event-backend-0000.onrender.com/ev_category/${category.image}`}
                     alt=""
                     className="w-16 h-16 object-cover rounded"
                   />
                 </td>
                 <td className="py-3 px-4">{category.name}</td>
                 <td className="py-3 px-4 text-center">
-                  <button
+                  <div 
                     onClick={() => handleEdit(category)}
-                    className="text-accent hover:underline"
+                  className="flex self-center items-center gap-2 cursor-pointer justify-center" >
+                    <BiEdit/>
+                    <span
+                    className="text-txt-color "
                   >
                     EDIT
-                  </button>
+                  </span>
+                  </div>
+                 
                 </td>
               </tr>
             ))}
@@ -108,13 +114,13 @@ const[id,setId]=useState(null)
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center  bg-black bg-opacity-75">
           <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-            <h3 className="text-xl font-bold mb-4 text-primary">
-              Edit Category
+            <h3 className="text-xl font-bold mb-4 text-txt-color">
+              MADE CHANGES ON CATEGORY
             </h3>
             <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="flex flex-col">
-                <label className="font-semibold text-gray-700">
-                  Category Name:
+              <div className="flex flex-col mb-2">
+                <label className="font-semibold text-txt-color">
+                  change category name
                 </label>
                 <input
                   type="text"
@@ -125,17 +131,26 @@ const[id,setId]=useState(null)
                   placeholder="Enter category name"
                 />
               </div>
-              <div className="flex flex-col">
-                <label className="font-semibold text-gray-700">
-                  Category Image URL:
+              <div className="">
+              <label className="font-semibold text-txt-color">
+                  Change category image
                 </label>
+                <div className="flex items-center justify-center p-4 mt-3 border-2 border-dashed border-black rounded-lg hover:border-blue transition">
+              <label className="flex flex-col items-center justify-center w-full h-8 cursor-pointer">
+                {(typeof(image) === 'object') ? (
+                  <span className="text-sm text-black">{image.name}</span>
+                ) : (
+                  <span className="text-sm text-black">{image}</span>
+                )}
                 <input
                   type="file"
-                  name="image"
+                  name="category_img"
                   onChange={handleChange}
-                  className="mt-2 p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary"
-                  placeholder="Enter image URL"
+                  className="hidden"
+                  accept="image/*"
                 />
+              </label>
+            </div>
               </div>
               <div className="flex justify-end space-x-4">
                 <button
@@ -147,7 +162,7 @@ const[id,setId]=useState(null)
                 </button>
                 <button
                   type="submit"
-                  className="py-2 px-4 bg-primary text-white font-semibold rounded-lg shadow hover:bg-primary-dark transition"
+                  className="py-2 px-4 bg-btn-color text-white font-semibold rounded-md shadow hover:bg-primary-dark transition"
                 >
                   Save Changes
                 </button>

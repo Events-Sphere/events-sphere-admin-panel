@@ -18,34 +18,35 @@ const Paginate = ({ totalPage, page, setPage }) => {
 
   return (
     <div className=" flex justify-center mb-2 ">
-      <ul className="flex justify-center items-center paginate ">
-        <li>
-          <a className="bg-blue" href="#" onClick={prevPage}>
+      <ul className="flex justify-center items-center paginate gap-1">
+        {/* <li>
+          <a className="bg-bannar" href="#" onClick={prevPage}>
             Prev
           </a>
-        </li>
-        {[...Array(totalPage)].map((_, index) => (
+        </li> */}
+        <div className="bg-bannar px-4 py-2 rounded-sm text-white "onClick={prevPage}>
+          Prev
+        </div>
+        {/* ...Array(totalPage) */}
+        {[1,2,3,4,5].map((_, index) => (
           <li key={index} >
-            <a
-              className={`bg-blue  ${page == index + 1 ? " bg-red" : ""}`}
-              href="#"
-              onClick={() => changePage(index + 1)}
-            >
-              {index + 1}
-            </a>
+            <div  onClick={() => changePage(index + 1)} className={`${ page === index + 1 ? "bg-bannar" : "bg-[#B9B4C7]"} font-semibold  px-4 py-2 rounded-sm text-white `}>
+              {index+1}
+            </div>
           </li>
         ))}
+
         <li>
           {page < totalPage ? (
-            <a className="bg-blue" href="#" onClick={nextPage}>
-              Next
-            </a>
+             <div className="bg-bannar px-4 py-2 rounded-sm text-white "onClick={nextPage}>
+             Next
+           </div>
           )
           :
           (
-            <a className="bg-blue opacity-50 cursor-not-allowed" href="#" >
+            <div className="bg-bannar px-4 py-2 rounded-sm text-white  opacity-50 cursor-not-allowed" href="#" >
               Next
-            </a>
+            </div>
           )
         }
         </li>
