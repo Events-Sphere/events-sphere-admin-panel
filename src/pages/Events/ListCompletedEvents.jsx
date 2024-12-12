@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
-import EventCard from "../components/EventCard";
-import Search from "../components/Search";
-import axiosInstance from "../utilities/axiosInstance";
-import Config from "../App/service/config";
+import EventCard from "../../components/EventCard";
+import Search from "../../components/Search";
+import axiosInstance from "../../utilities/axiosInstance";
+import Config from "../../App/service/config";
 import ClipLoader from "react-spinners/ClipLoader";
-import Paginate from "../components/Paginate";
+import Paginate from "../../components/Paginate";
+import { MdArrowDownward } from "react-icons/md";
+import NotFound from "../NotFound";
 
-const ListRejectedEvents = () => {
+const ListCompletedEvents = () => {
   const [data, setData] = useState([]);
   const [totalPage, setTotalPage] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -19,7 +21,7 @@ const ListRejectedEvents = () => {
     try {
       setLoading(true);
       const response = await axiosInstance.get(
-        Config.mainEventRejected +
+        Config.mainEventCompleted +
           `?page=${page}&search=${search}&location=${location}&limit=${limit}`
       );
       console.log(response);
@@ -88,27 +90,31 @@ const ListRejectedEvents = () => {
     getMainEvent();
   }, [search, page, location]);
   return (
-    <div>
-      <h1>REJECTED EVENTS</h1>
-      <div className="flex">
+    <div className="ml-8 h-screen overflow-hidden">
+      <div className="flex mt-10 justify-between px-3">
+      <h1 className="font-semibold text-txt-color text-xl ">COMPLETED EVENTS</h1>
         <Search
-          placeholder="🔍 Search user"
+          placeholder="Search completed events"
           type="text"
           setSearch={setSearch}
           search={search}
         />
-        <div className="relative group w-12">
-          <div className="bg-white  w-12">select</div>
+         <div className="relative group w-32 ml-2">
+          <div className="bg-white outlined border-[1px] px-4 py-1 rounded-md flex items-center justify-between cursor-pointer">
+             <span className="text-txt-color">options</span>
+             <MdArrowDownward/>
+          </div>
           <div className="absolute hidden group-hover:block bg-white w-80 max-h-80 overflow-scroll">
-            <ul className="grid grid-template-columns:1fr 1fr">
+            <ul className="grid gap-2 grid-template-columns:1fr 1fr">
               {district.map((data, index) => (
-                <li key={index} className="px-1">
+                <li key={index} className="px-2">
                   <input
                     type="checkbox"
+                    className="cursor-pointer"
                     value={data}
                     onChange={handleLocation}
                   />
-                  {data}
+                  <span className="pl-2">{data}</span>
                 </li>
               ))}
             </ul>
@@ -133,10 +139,10 @@ const ListRejectedEvents = () => {
           <Paginate totalPage={totalPage} page={page} setPage={setPage} />
         </div>
       ) : (
-        <div className="flex justify-center text-2xl mt-40">No data found</div>
+       <NotFound/>
       )}
     </div>
   );
 };
 
-export default ListRejectedEvents;
+export default ListCompletedEvents;

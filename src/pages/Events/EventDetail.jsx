@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
-import Config from "../App/service/config";
-import axiosInstance from "../utilities/axiosInstance";
-import EventDetailCard from "../components/EventDetailCard";
+import Config from "../../App/service/config";
+import axiosInstance from "../../utilities/axiosInstance";
+import EventDetailCard from "../../components/EventDetailCard";
 import { ClipLoader } from "react-spinners";
+import NotFound from "../NotFound";
 const EventDetail = () => {
   const location = useLocation();
   const id = location.state.id;
@@ -44,7 +45,7 @@ const[data,setData]=useState([])
       <div>
         <EventDetailCard data={data}/>
       </div> :
-      <div>NO DATA</div>
+      <NotFound/>
 
       }
     </div>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axiosInstance from "../utilities/axiosInstance";
+import axiosInstance from "../../utilities/axiosInstance";
 
 const AddOrganizer = () => {
   const [formData, setFormData] = useState({
@@ -253,7 +253,7 @@ const AddOrganizer = () => {
 
         <button
           type="submit"
-          className="mt-6 w-full px-4 py-2 bg-red text-white font-semibold rounded shadow"
+          className="mt-6 w-full px-4 py-2 bg-bannar text-white font-semibold rounded shadow"
         >
           Submit
         </button>

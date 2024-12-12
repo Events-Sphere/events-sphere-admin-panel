@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
-import EventCard from "../components/EventCard";
-import Search from "../components/Search";
-import axiosInstance from "../utilities/axiosInstance";
-import Config from "../App/service/config";
+import EventCard from "../../components/EventCard";
+import Search from "../../components/Search";
+import axiosInstance from "../../utilities/axiosInstance";
+import Config from "../../App/service/config";
 import ClipLoader from "react-spinners/ClipLoader";
-import Paginate from "../components/Paginate";
+import Paginate from "../../components/Paginate";
 import { MdArrowDownward } from "react-icons/md";
+import NotFound from "../NotFound";
 
-const ListEvents = () => {
+const ListRejectedEvents = () => {
   const [data, setData] = useState([]);
   const [totalPage, setTotalPage] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -20,7 +21,7 @@ const ListEvents = () => {
     try {
       setLoading(true);
       const response = await axiosInstance.get(
-        Config.mainEventActive +
+        Config.mainEventRejected +
           `?page=${page}&search=${search}&location=${location}&limit=${limit}`
       );
       console.log(response);
@@ -90,17 +91,17 @@ const ListEvents = () => {
   }, [search, page, location]);
   return (
     <div className="ml-10 h-screen overflow-hidden">
-      <div className="flex justify-between mx-5 mt-8">
-        <h1 className="text-2xl pt-2 pb-2 font-semibold text-txt-color ">ACTIVE EVENTS</h1>
+      <div className="flex px-3 mt-10 justify-between">
+      <h1 className="font-semibold text-txt-color text-xl ">REJECTED EVENTS</h1>
         <Search
-          placeholder="Search user"
+          placeholder="Search rejected events"
           type="text"
           setSearch={setSearch}
           search={search}
         />
-        <div className="relative group w-32 ">
+         <div className="relative group w-32 ml-2">
           <div className="bg-white outlined border-[1px] px-4 py-1 rounded-md flex items-center justify-between cursor-pointer">
-             <span className="text-txt-color">options</span>
+             <span className="text-txt-color ">options</span>
              <MdArrowDownward/>
           </div>
           <div className="absolute hidden group-hover:block bg-white w-80 max-h-80 overflow-scroll">
@@ -133,38 +134,15 @@ const ListEvents = () => {
           />
         </div>
       ) : data.length > 0 ? (
-        
-        <div className="flex flex-col gap-2">
-           <div className="h-[80vh]">
-             <EventCard data={data} />
-           </div>
-           <div className="fixed bottom-2 left-[calc(100vw-44%)]">
-             <Paginate totalPage={totalPage} page={page} setPage={setPage} />
-           </div>
+        <div>
+          <EventCard data={data} />
+          <Paginate totalPage={totalPage} page={page} setPage={setPage} />
         </div>
-        
       ) : (
-       
-        <div className="h-screen w-full flex flex-col justify-center items-center">
-        <div className="text-center">
-          <img
-            src="no_data.jpg"
-            alt="No data found"
-            className="h-[200px] w-[200px] mb-5 rounded-full"
-          />
-          <div className="text-3xl text-template-1 mb-8">Data not found</div>
-          <button
-            className="h-8 w-20 rounded-md border text-blue hover:bg-blue-100 self-center"
-            onClick={() =>{}}
-          >
-            Retry
-          </button>
-        </div>
-      </div>
-       
-       )}
+        <NotFound/>
+        )}
     </div>
   );
 };
 
-export default ListEvents;
+export default ListRejectedEvents;

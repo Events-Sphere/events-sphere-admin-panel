@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import DisplayTable from "../components/DisplayTable";
-import Paginate from "../components/Paginate";
-import Filter from "../components/Filter";
-import Search from "../components/Search";
-import axiosInstance from "../utilities/axiosInstance";
+import DisplayTable from "../../components/DisplayTable";
+import Paginate from "../../components/Paginate";
+import Filter from "../../components/Filter";
+import Search from "../../components/Search";
+import axiosInstance from "../../utilities/axiosInstance";
 import ClipLoader from "react-spinners/ClipLoader";
-import UserDetails from "../components/UserDetails";
+import UserDetails from "../../components/UserDetails";
 const ListOrganizer = ({ showMenu, setShowMenu }) => {
   const [page, setPage] = useState(1);
   const [data, setData] = useState([]);

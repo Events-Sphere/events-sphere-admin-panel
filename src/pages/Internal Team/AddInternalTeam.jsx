@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axiosInstance from "../utilities/axiosInstance";
+import axiosInstance from "../../utilities/axiosInstance";
 
 const AddInternalTeam = () => {
   const [formData, setFormData] = useState({
@@ -164,7 +164,7 @@ const AddInternalTeam = () => {
         </div>
         <button
           type="submit"
-          className="mt-6 w-full py-3 bg-red text-white font-semibold rounded-lg shadow hover:bg-blue hover:text-black transition"
+          className="mt-6 w-full py-3 bg-bannar text-white font-semibold rounded-lg shadow hover:bg-blue hover:text-black transition"
         >
           Submit
         </button>

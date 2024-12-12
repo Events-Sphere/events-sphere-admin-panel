@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { IoCloseOutline } from "react-icons/io5";
-import { MdOutlineHome } from "react-icons/md";
-import { RiMenuFold4Line } from "react-icons/ri";
+import { MdEvent, MdOutlineHome } from "react-icons/md";
+import { RiMenuFold4Line, RiTeamLine } from "react-icons/ri";
 import { FiUsers } from "react-icons/fi";
 import { VscDebugBreakpointLog } from "react-icons/vsc";
 import { GoOrganization } from "react-icons/go";
@@ -11,16 +11,14 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { loading, logOut } from "../App/Features/Auth/authSlice";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom"; // Import Link from react-router-dom
 
-import Config from "../App/service/config";
-
-const SideMenuBar = ({ showMenu, setShowMenu,setLoading }) => {
+const SideMenuBar = ({ showMenu, setShowMenu, setLoading }) => {
   const [selected, setSelected] = useState(null);
+  const [  selectedLinkOption , setSelectedLinkOption] = useState(null);
+
   const toggle = (i) => {
-    if (selected == i) {
-      return setSelected(null);
-    }
-    setSelected(i);
+    setSelected(selected === i ? null : i);
   };
 
   const general = [
@@ -29,182 +27,114 @@ const SideMenuBar = ({ showMenu, setShowMenu,setLoading }) => {
       initialIcon: <MdOutlineHome />,
       endIcon: <RiArrowDropDownLine />,
       link: "/dashboard",
-      options: [
-        {
-          value: "",
-          link: "",
-        },
-      ],
+      options: [],
     },
     {
       selector: "Category",
       initialIcon: <RiMenuFold4Line />,
       endIcon: <RiArrowDropDownLine />,
       options: [
-        {
-          value: "Add Category",
-          link: "/add-category",
-        },
-        {
-          value: "List Category",
-          link: "/categories-list",
-        },
+        { value: "Add Category", link: "/add-category" },
+        { value: "List Category", link: "/categories-list" },
       ],
     },
     {
       selector: "Users",
       initialIcon: <FiUsers />,
       endIcon: <RiArrowDropDownLine />,
-      options: [
-        {
-          value: "List Users",
-          link: "/get-all-user",
-        },
-        
-      ],
+      options: [{ value: "List Users", link: "/get-all-user" }],
     },
     {
       selector: "Organizer",
       initialIcon: <GoOrganization />,
       endIcon: <RiArrowDropDownLine />,
-
       options: [
-        {
-          value: "Add Organizer",
-          link: "/add-organizer",
-        },
-        {
-          value: "List Organizer",
-          link: "/organizers",
-        },
-       
+        { value: "Add Organizer", link: "/add-organizer" },
+        { value: "List Organizer", link: "/organizers" },
       ],
     },
     {
       selector: "Internal Team",
-      initialIcon: <GoOrganization />,
+      initialIcon: <RiTeamLine />,
       endIcon: <RiArrowDropDownLine />,
-
       options: [
-        {
-          value: "Add Employee",
-          link: "/add-internal-team",
-        },
-        {
-          value: "List Employee",
-          link: "/list-internal-team",
-        },
+        { value: "Add Employee", link: "/add-internal-team" },
+        { value: "List Employee", link: "/list-internal-team" },
       ],
     },
     {
       selector: "Events",
-      initialIcon: <GoOrganization />,
+      initialIcon: <MdEvent />,
       endIcon: <RiArrowDropDownLine />,
-
       options: [
-        {
-          value: "Add Event",
-          link: "/add-event",
-        },
-        {
-          value: "Active Events",
-          link: "/events/active",
-        },
-        {
-          value: "Pending Events",
-          link: "/events/pending",
-        },
-        {
-          value: "Completed Events",
-          link: "/events/completed",
-        },
-        {
-          value: "Rejected Events",
-          link: "/events/rejected",
-        },
-
+        { value: "Add Event", link: "/add-event" },
+        { value: "Active Events", link: "/events/active" },
+        { value: "Pending Events", link: "/events/pending" },
+        { value: "Completed Events", link: "/events/completed" },
+        { value: "Rejected Events", link: "/events/rejected" },
       ],
-    }
+    },
   ];
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const hanldleLogOut = async() => {
-    setLoading(true)
+  const handleLogOut = async () => {
+    setLoading(true);
     localStorage.clear();
     await dispatch(logOut());
     navigate('/login');
-  }
+  };
 
-  // const { token } = useSelector((state) => state.auth);
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
 
   return (
-    <div className={token ? "bg-template-1 h-screen text-white w-60 fixed top-0" : 'hidden'}>
-      <div className="flex justify-between p-2 ">
+    <div className={token ? "bg-template-1 h-screen text-white w-60 fixed top-0" : "hidden"}>
+      <div className="flex justify-between p-2">
         <h1 className="pt-1 text-xl">Event Sphere</h1>
-        <IoCloseOutline
-          className="menu  "
-          onClick={() => setShowMenu(!showMenu)}
-        />
+        <IoCloseOutline className="menu" onClick={() => setShowMenu(!showMenu)} />
       </div>
-      <div className="px-2 pt-4">
+      <div className="px-2 py-4 select-none">
         {general.map((data, index) => (
-          <div key={index} className="py-2 px-2 flex justify-start gap-2 ">
+          <div key={index} className="py-2 px-2 flex justify-start gap-2">
             <span className="text-xl">{data.initialIcon}</span>
             <div className="w-44">
-              <div onClick={()=> toggle(index)}  className="flex cursor-pointer justify-between">
-                <div >
+              <div onClick={() => toggle(index)} className="flex cursor-pointer justify-between">
+                <div>
                   {data.link ? (
-                    <a href={data.link}>{data.selector}</a>
+                    <Link to={data.link}>{data.selector}</Link>
                   ) : (
-                    <h1
-                      className="hover:cursor-pointer"
-                      //onClick={() => toggle(index)}
-                    >
-                      {data.selector}
-                    </h1>
+                    <h1>{data.selector}</h1>
                   )}
                 </div>
-                {data.link ? (
-                  ""
-                ) : (
-                  <span
-                    onClick={() => toggle(index)}
-                    className="text-2xl hover:cursor-pointer"
-                  >
+                {!data.link && (
+                  <span onClick={() => toggle(index)} className="text-2xl hover:cursor-pointer">
                     {data.endIcon}
                   </span>
                 )}
               </div>
 
-              <div className="flex flex-col">
-                {data.options.map((data, i) =>
-                  selected == index ? (
-                    <span key={i} className="flex gap-1">
-                      <a className="pt-3" href="">
-                        <VscDebugBreakpointLog />
-                      </a>
-                      <a className="pt-2" href={data.link}>
-                        {data.value}
-                      </a>
+              {selected === index && (
+                <div className="flex flex-col self-center">
+                  {data.options.map((option, i) => (
+                    <span key={i} className="flex items-center gap-1 pt-2">
+                         <VscDebugBreakpointLog color={`${option.value === selectedLinkOption ? 'blue': 'white'}`}/> 
+                      <Link className={`${option.value === selectedLinkOption ? 'text-light-blue': 'text-white'} pt-1 select-none self-center`}  to={option.link} onClick={()=>setSelectedLinkOption(option.value)}>
+                        {option.value}
+                      </Link>
                     </span>
-                  ) : (
-                    ""
-                  )
-                )}
-              </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         ))}
-        <div className="fixed bottom-6 flex align-middle px-2 py-4 cursor-pointer " onClick={hanldleLogOut}>
-          <span className="pr-2  pt-1 "> <BiLogOut /></span>
+        <div className="fixed bottom-6 flex align-middle px-2 py-4 cursor-pointer" onClick={handleLogOut}>
+          <span className="pr-2 pt-1"><BiLogOut /></span>
           <span className="pb-1">Log out</span>
         </div>
       </div>
     </div>
-
   );
 };
 

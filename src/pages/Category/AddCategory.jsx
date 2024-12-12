@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useAddCategoryMutation } from '../App/Features/Api/categoryApiSlice';
+import { useAddCategoryMutation } from '../../App/Features/Api/categoryApiSlice';
 
 const AddCategory = () => {
   const [formData, setFormData] = useState({

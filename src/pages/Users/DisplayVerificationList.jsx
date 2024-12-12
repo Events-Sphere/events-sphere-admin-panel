@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axiosInstance from "../utilities/axiosInstance";
+import axiosInstance from "../../utilities/axiosInstance";
 
 
 const DisplayUserVerification = () => {

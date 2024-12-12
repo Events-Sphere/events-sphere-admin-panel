@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useLoginMutation } from "../App/Features/Api/authApiSlice";
+import { useLoginMutation } from "../../App/Features/Api/authApiSlice";
 import { useDispatch } from "react-redux";
-import { setCredentials } from "../App/Features/Auth/authSlice";
+import { setCredentials } from "../../App/Features/Auth/authSlice";
 import ClipLoader from "react-spinners/ClipLoader";
 import { useSelector } from "react-redux";
 const Login = () => {

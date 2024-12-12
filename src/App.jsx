@@ -1,64 +1,40 @@
 import React, { useEffect, useReducer, useState } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import DisplayUser from "./pages/DisplayUser";
-import Dashboard from "./pages/Dashboard";
+import DisplayUser from "./pages/Users/DisplayUser";
+import Dashboard from "./pages/Dashboard/Dashboard";
 import './App.css';
-import DisplayUserVerification from "./pages/DisplayVerificationList";
-import Login from "./pages/Login";
-import AddEvent from "./pages/AddEvent";
+import DisplayUserVerification from "./pages/Users/DisplayVerificationList";
+import Login from "./pages/Login/Login";
+import AddEvent from "./pages/Events/AddEvent";
 import { useSelector } from "react-redux";
 import NavBar from "./components/NavBar";
 import SideMenuBar from "./components/SideMenuBar";
-import  AddCategory  from "./pages/AddCategory";
-import CategoriesList from "./pages/CategoriesList";
-import AddInternalTeam from "./pages/AddInternalTeam";
-import InternalTeamList from "./pages/InternalTeamList";
-import AddOrganizer from "./pages/AddOrganizer";
-import ListEvents from "./pages/ListEvents";
-import EventDetail from "./pages/EventDetail";
-import ListPendingEvents from "./pages/ListPendingEvents";
-import ListRejectedEvents from "./pages/ListRejectedEvents";
-import ListCompletedEvents from "./pages/ListCompletedEvents";
+import  AddCategory  from "./pages/Category/AddCategory";
+import CategoriesList from "./pages/Category/CategoriesList";
+import AddInternalTeam from "./pages/Internal Team/AddInternalTeam";
+import InternalTeamList from "./pages/Internal Team/InternalTeamList";
+import AddOrganizer from "./pages/Organizer/AddOrganizer";
+import ListEvents from "./pages/Events/ListEvents";
+import EventDetail from "./pages/Events/EventDetail";
+import ListPendingEvents from "./pages/Events/ListPendingEvents";
+import ListRejectedEvents from "./pages/Events/ListRejectedEvents";
+import ListCompletedEvents from "./pages/Events/ListCompletedEvents";
 import NotFound from "./pages/NotFound";
-import ListOrganizer from "./pages/ListOrganizers";
+import ListOrganizer from "./pages/Organizer/ListOrganizers";
 import ProtectedRoute from "./components/ProtectedRoute";
-// import { useSelector } from "react-redux";
-import { GiToken } from "react-icons/gi";
 const App = () => {
   const [showMenu, setShowMenu] = useState(false);
- const[loading,setLoading]=useState(false);
-  // const { token } = useSelector((state) => state.auth.token);
-
-  
-  // console.log("app token",token)
-  // useEffect(()=>{
-  //   if(token){
-  //     const tokenPayload = JSON.parse(atob(token.split('.')[1])); 
-  // console.log(JSON.stringify(tokenPayload))
-  // const currentTime = Date.now() / 1000; // Current time in seconds
-
-  //       if (tokenPayload.exp < currentTime) {
-  //         // Token has expired
-  //         localStorage.removeItem("token");
-  //          // Function to remove token from storage
-  //         navigate("/"); // Redirect to login
-  //       }
-  //   }
-  // },[token]);
-  // console.log(token)
+  const[loading,setLoading]=useState(false);
   
   if(loading){
     return <div>...loding</div>
   }
-  
- 
-
+  useEffect(()=>{
+  },[])
   return (
     <div>
       {
-        // localStorage.getItem('token') 
         useSelector((state)=>state.auth.token) ?
-        
         (<><NavBar showMenu={showMenu} setShowMenu={setShowMenu} />
           <SideMenuBar setLoading={setLoading} showMenu={showMenu} setShowMenu={setShowMenu} />
           <div className={localStorage.getItem('token') ? "pl-52" : ''}>
@@ -82,6 +58,7 @@ const App = () => {
               <Route path='/events/rejected' element={<ListRejectedEvents/>}></Route>
               <Route path='/events/completed' element={<ListCompletedEvents/>}></Route>
               <Route path='/eventdetail' element={<EventDetail/>}></Route>
+              
               <Route path="*" element={<NotFound/>}></Route>
               </Route>
             </Routes>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import axiosInstance from "../utilities/axiosInstance";
-import Config from "../App/service/config";
+import axiosInstance from "../../utilities/axiosInstance";
+import Config from "../../App/service/config";
 import { BiEdit } from "react-icons/bi";
 
 const CategoriesList = () => {

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import DisplayTable from "../components/DisplayTable";
-import Paginate from "../components/Paginate";
-import Filter from "../components/Filter";
-import Search from "../components/Search";
+import DisplayTable from "../../components/DisplayTable";
+import Paginate from "../../components/Paginate";
+import Filter from "../../components/Filter";
+import Search from "../../components/Search";
 import ClipLoader from "react-spinners/ClipLoader";
-import axiosInstance from "../utilities/axiosInstance";
-import UserDetails from "../components/UserDetails";
-import EditCard from "../components/EditCard";
+import axiosInstance from "../../utilities/axiosInstance";
+import UserDetails from "../../components/UserDetails";
+import EditCard from "../../components/EditCard";
 const InternalTeamList = ({ showMenu, setShowMenu }) => {
   const [page, setPage] = useState(1);
   const [data, setData] = useState([]);

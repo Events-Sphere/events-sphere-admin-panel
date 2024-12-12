@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useAddEventMutation } from '../App/Features/Api/eventApiSlice';
+import { useAddEventMutation } from '../../App/Features/Api/eventApiSlice';
 
 const AddEvent = () => {
   const [formData, setFormData] = useState({
