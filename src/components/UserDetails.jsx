@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IoClose } from "react-icons/io5";
 import axiosInstance from "../utilities/axiosInstance";
 import Config from "../App/service/config";
@@ -32,6 +32,7 @@ const UserDetails = ({ popup, setPopup, userDetail }) => {
       console.log(error);
     }
   };
+
   const handleReject = async (role, id) => {
     try {
       console.log(role, id);
@@ -58,23 +59,103 @@ const UserDetails = ({ popup, setPopup, userDetail }) => {
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center w-full z-40  bg-black bg-opacity-75 pt-8 pb-8">
-      <div className="bg-white px-8 pb-3  rounded-lg shadow-lg  w-full h-full max-w-md overflow-scroll relative ">
+    <div className="fixed inset-0 flex items-center justify-center w-full z-40  bg-black bg-opacity-75  pt-4 pb-2">
+      <div className="bg-white  px-8 pb-2  rounded-lg shadow-lg  w-full h-full max-w-4xl  relative  ">
         {userDetail.length > 0 ? (
           <div>
             <div className="flex justify-between items-center sticky top-0 bg-white z-20">
-              <h1 className="text-xl font-bold mb-2 text-primary pt-2 ">
+              <h1 className="text-xl font-bold mb-1 text-primary pt-2 ">
                 USER DETAIL
               </h1>
               <span
                 onClick={() => setPopup(!popup)}
-                className=" bg-grey text-red rounded hover:cursor-pointer hover: text-2xl"
+                className=" bg-grey text-red rounded hover:cursor-pointer hover: text-2xl outline m-3 p-2"
               >
                 <IoClose />
               </span>
             </div>
+
             {userDetail.map((data, index) => (
               <div key={index}>
+              <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <div className="bg-white rounded-lg shadow-lg p-3 max-w-3xl w-full">
+
+        <div className="flex items-center gap-3 mb-3">
+          <img
+           src={data.id_card}
+            alt="Profile"
+            className="w-20 h-20 rounded-full border border-gray-300"
+          />
+          <div>
+            <h2 className="text-xl font-semibold text-gray-800">{data.full_name}</h2>
+            <p className="text-sm text-gray-600">{data.user_role}</p>
+          </div>
+        </div>
+
+        <div className="space-y-2">
+          <div className="flex justify-between items-center text-gray-700">
+            <span className="font-medium">ID:</span>
+            <span>{data.user_id}</span>
+          </div>
+          <div className="flex justify-between items-center text-gray-700">
+            <span className="font-medium">Email:</span>
+            <span>{data.full_name}</span>
+          </div>
+          <div className="flex justify-between items-center text-gray-700">
+            <span className="font-medium">Mobile:</span>
+            <span>{data.mobile}</span>
+          </div>
+          <div className="flex justify-between items-center text-gray-700">
+            <span className="font-medium">Status:</span>
+            <span
+              className={`px-2 py-1 rounded text-sm ${
+                data.verified_status.toLowerCase() === "active"
+                  ? "bg-green-100 text-green-700"
+                  : "bg-red-100 text-red-700"
+              }`}
+            >
+              {data.verified_status}
+            </span>
+          </div>
+          <div className="flex justify-between items-center text-gray-700">
+            <span className="font-medium">User ID:</span>
+            <span>{data.user_id}</span>
+          </div>
+        </div>
+        <div className="mt-6">
+          <h3 className="text-lg font-medium text-gray-800 mb-2">ID Proofs</h3>
+          <div className="flex gap-4">
+            <img
+              src={`https://event-backend-0000.onrender.com/ev_category/${data.id_card[0]}`}
+
+              alt="ID Proof 1"
+              className="w-20 h-20 rounded-lg border border-gray-300"
+            />
+            <img
+              src={`${Config.OnlineUrl}${data.id_card[1]}`}
+              alt="ID Proof 2"
+              className="w-20 h-20 rounded-lg border border-gray-300"
+            />
+          </div>
+        </div>
+
+        <div className="mt-6 space-y-2 text-gray-600 text-sm">
+          <div className="flex justify-between">
+            <span>Created At:</span>
+            <span>{new Date(data.createdAt).toLocaleString()}</span>
+          </div>
+          <div className="flex justify-between">
+            <span>Updated At:</span>
+            <span>{new Date(data.approved_at).toLocaleString()}</span>
+          </div>
+          <div className="flex justify-between">
+            <span>Uproved By:</span>
+            <span>{new Date(data.approved_by).toLocaleString()}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
                 {data.user_role === "organizer" && (
                   <div>
                     <p>

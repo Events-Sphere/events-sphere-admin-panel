@@ -111,7 +111,7 @@ const AddEvent = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen">
+    <div className="flex justify-center items-center min-h-screen ml-10">
       <form onSubmit={handleSubmit} autoComplete='off' className="w-full max-w-3xl space-y-6 p-6 bg-white rounded shadow-md backdrop-filter backdrop-blur-lg bg-opacity-40 m-2">
         <h2 className="text-2xl font-bold text-blue-600 mb-4">Add Event</h2>
         <div className="space-y-4">

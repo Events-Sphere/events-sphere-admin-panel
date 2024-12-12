@@ -1,58 +1,91 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
+import React from "react";
 
-const Paginate = ({ totalPage, page, setPage }) => {
-  const prevPage = () => {
-    if (page !== 1) {
-      setPage(page - 1);
-    }
-  };
-  const changePage = (index) => {
-    setPage(index);
-  };
-  const nextPage = () => {
-    if (page != totalPage) {
-      setPage(page + 1);
-    }
-  };
-  //
+const Paginate = ({ totalPage , page , setPage }) => {
 
+  const { pages,prevPage, nextPage, changePage } = usePagination({totalPage , setPage});
+ 
   return (
-    <div className=" flex justify-center mb-2 ">
+    <div className="flex justify-center mb-2 select-none transition ease-in">
       <ul className="flex justify-center items-center paginate gap-1">
-        {/* <li>
-          <a className="bg-bannar" href="#" onClick={prevPage}>
-            Prev
-          </a>
-        </li> */}
-        <div className="bg-bannar px-4 py-2 rounded-sm text-white "onClick={prevPage}>
+        <div
+          className={`bg-bannar px-4 py-2 rounded-sm text-white cursor-pointer ${
+            page === 1 ? "opacity-50 cursor-not-allowed" : ""
+          }`}
+          onClick={()=>{
+            page > 1 ? changePage(page-1) : ()=>{}
+          }}
+        >
           Prev
         </div>
-        {/* ...Array(totalPage) */}
-        {[1,2,3,4,5].map((_, index) => (
-          <li key={index} >
-            <div  onClick={() => changePage(index + 1)} className={`${ page === index + 1 ? "bg-bannar" : "bg-[#B9B4C7]"} font-semibold  px-4 py-2 rounded-sm text-white `}>
-              {index+1}
+        { totalPage < 5 ? Array.from({length:totalPage}).map((_,p) => (
+          <li key={p+1}>
+            <div
+              onClick={() => changePage(p+1)}
+              className={`${
+                page === (p+1) ? "bg-bannar" : "bg-[#B9B4C7]"
+              } font-semibold px-4 py-2 rounded-sm text-white cursor-pointer`}
+            >
+              {p+1}
             </div>
           </li>
-        ))}
-
-        <li>
-          {page < totalPage ? (
-             <div className="bg-bannar px-4 py-2 rounded-sm text-white "onClick={nextPage}>
-             Next
-           </div>
-          )
-          :
-          (
-            <div className="bg-bannar px-4 py-2 rounded-sm text-white  opacity-50 cursor-not-allowed" href="#" >
-              Next
-            </div>
-          )
-        }
-        </li>
+        )) 
+        :
+        (
+          pages.map((p) => (
+            <li key={p+1}>
+              <div
+                onClick={() => changePage(p+1)}
+                className={`${
+                  page === (p+1) ? "bg-bannar" : "bg-[#B9B4C7]"
+                } font-semibold px-4 py-2 rounded-sm text-white cursor-pointer`}
+              >
+                {p+1}
+              </div>
+            </li>
+          )) 
+        )
+      }
+        
+        <div
+          className={`bg-bannar px-4 py-2 rounded-sm text-white cursor-pointer ${
+            page === totalPage ? "opacity-50 cursor-not-allowed" : ""
+          }`}
+          onClick={()=>{
+            page < totalPage ? changePage(page + 1) : (totalPage > 5) ? nextPage :  ()=>{}
+          }}
+        >
+          Next
+        </div>
       </ul>
     </div>
   );
 };
 
 export default Paginate;
+
+
+
+export const usePagination = ({totalPage , setPage}) => {
+  //const [page, setPage] = useState(1);
+  const [pages, setPages] = useState([1, 2, 3, 4, 5]);
+
+  const prevPage = () => {
+    if (pages[0] > 1) {
+      const newPages = pages.map((p) => p - 1);
+      setPages(newPages);
+    }
+  };
+  const nextPage = () => {
+    if (pages[pages.length - 1] < totalPage) {
+      const newPages = pages.map((p) => p + 1);
+      setPages(newPages);
+    }
+  };
+
+  const changePage = (pageIndex) => {
+    setPage(pageIndex);
+  };
+
+  return {  pages, prevPage, nextPage, changePage, setPage };
+};

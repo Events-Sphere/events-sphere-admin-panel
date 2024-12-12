@@ -88,11 +88,11 @@ const ListPendingEvents = () => {
     getMainEvent();
   }, [search, page, location]);
   return (
-    <div>
+    <div className="ml-8">
       <h1>PENDING EVENTS</h1>
-      <div className="flex">
+      <div className="flex pl-5">
         <Search
-          placeholder="🔍 Search user"
+          placeholder="Search user"
           type="text"
           setSearch={setSearch}
           search={search}

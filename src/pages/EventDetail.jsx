@@ -28,10 +28,10 @@ const[data,setData]=useState([])
   },[]);
 
   return (
-    <div>
+    <div className="">
       {
         loading ?  <ClipLoader
-        className=""
+        className="flex items-center self-center justify-center mt-[45vh] ml-[40vw]"
         loading={loading}
         color="#1312f2"
         speedMultiplier={3}
@@ -42,7 +42,6 @@ const[data,setData]=useState([])
       
       data.length > 0 ? 
       <div>
-        <h1>SUB EVENTS</h1>
         <EventDetailCard data={data}/>
       </div> :
       <div>NO DATA</div>
