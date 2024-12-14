@@ -1,13 +1,8 @@
 export default class Config {
-  // static baseUrl = "https://event-backend-11.onrender.com/api/v1";
-  // static localHostUrl = "http://localhost:3000/api/v1";
-  
-  static baseUrl = "https://event-super-admin-panel.vercel.app/api/v1";
+  static baseUrl = "https://event-backend-11.onrender.com/api/v1";
   static localHostUrl = "http://localhost:3000/api/v1";
   
-  //static imageBaseUrl = "https://event-backend-11.onrender.com";
-  
-  static imageBaseUrl = "https://event-super-admin-panel.vercel.app";
+  static imageBaseUrl = "https://event-backend-11.onrender.com";
 
   static OnlineUrl = "https://event-backend-0000.onrender.com/api/v1";
   static categoryImgBaseUrl = `${this.imageBaseUrl}/ev_category/`;

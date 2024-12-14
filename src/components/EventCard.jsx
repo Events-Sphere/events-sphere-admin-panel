@@ -28,7 +28,7 @@ const EventCard = ({ data }) => {
             <div className="relative">
               <img
                 className="w-full h-[8rem] object-cover rounded-t-lg"
-                src={Config.eventMainImage + data.image}
+                src={Config.eventMainImgBaseUrl + data.image}
                 alt={data.name}
               />
             </div>

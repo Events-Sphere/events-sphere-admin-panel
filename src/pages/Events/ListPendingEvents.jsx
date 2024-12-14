@@ -103,7 +103,7 @@ const ListPendingEvents = () => {
             <span className="text-txt-color">options</span>
             <MdArrowDownward />
           </div>
-          <div className="absolute hidden group-hover:block bg-white w-80 max-h-80 overflow-scroll">
+          <div className="absolute hidden group-hover:block bg-white w-80 max-h-80 overflow-scroll z-50">
             <ul className="grid gap-2 grid-template-columns:1fr 1fr">
               {district.map((data, index) => (
                 <li key={index} className="px-2">
