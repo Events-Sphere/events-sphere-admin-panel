@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { IoCallOutline, IoClose } from "react-icons/io5";
-import axiosInstance from "../utilities/axiosInstance";
-import Config from "../App/service/config";
+import axiosInstance from "../../utilities/axiosInstance";
+import Config from "../../App/service/config";
 import { toast, Bounce } from "react-toastify";
 
-const UserDetails = ({ popup, setPopup, userDetail }) => {
+const OrganizerDetailCard = ({ popup, setPopup, userDetail }) => {
   const [reason, setReason] = useState("");
   const [showReasonInput, setShowReasonInput] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
@@ -276,4 +276,4 @@ const UserDetails = ({ popup, setPopup, userDetail }) => {
   );
 };
 
-export default UserDetails;
+export default OrganizerDetailCard;

@@ -31,9 +31,6 @@ const EventCard = ({ data }) => {
                 src={Config.eventMainImage + data.image}
                 alt={data.name}
               />
-              {/* <span className="absolute top-1 right-1 bg-green-600 text-xs px-2 py-1 rounded-md border-[1px] border-[#FFFF00] bg-[#FFFF00] text-black ">
-                Pending
-              </span> */}
             </div>
 
             <div className="p-2">

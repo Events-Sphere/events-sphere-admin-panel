@@ -13,7 +13,6 @@ const DisplayTable = ({
 }) => {
   const userTitle = [...title, "DETAILS"];
   const employeeTitle = [...title, "DETAILS", "EDIT"];
-
   const handleUserId = (id) => {
     console.log("idddd", id);
     setPopup(!popup);
@@ -86,14 +85,14 @@ const DisplayTable = ({
                   className={`py-1 px-3 rounded text-white ${
                     item.verified_status === 1 ? "bg-blue" : "bg-dark-gray"
                   }`}
-                  onClick={() => handleUserId(item.user_id)}
-                >
+                  onClick={() => handleUserId(item.user_id ? item.user_id : item.emp_id)}
+                  >
                   View
                 </button>
                 <button
                   className="bg-blue text-white py-1 px-3 rounded"
-                  onClick={() => handleUserEdit(item.emp_id)}
-                >
+                  onClick={() => handleUserEdit(item.user_id ?? item.emp_id)}
+                  >
                   Edit
                 </button>
               </div>

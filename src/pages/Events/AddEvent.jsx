@@ -106,14 +106,40 @@ const AddEvent = () => {
     if (mainImage) {
       formData.append("main-img", mainImage);
     } else {
-      console.error("Main image is not provided.");
+      toast.warning(
+"Main image is not provided.",
+{
+  position: "top-right",
+  autoClose: 1500,
+  hideProgressBar: false,
+  closeOnClick: true,
+  pauseOnHover: true,
+  draggable: true,
+  progress: undefined,
+  theme: "colored",
+  transition: Bounce,
+}
+      )
     }
 
     coverImages?.forEach((image, index) => {
       if (image) {
         formData.append("cover-img", image);
       } else {
-        console.error(`Cover image at index ${index} is not provided.`);
+        toast.warning(
+          `Cover image at index ${index} is not provided.`,
+          {
+            position: "top-right",
+            autoClose: 1500,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+            transition: Bounce,
+          }
+                )
       }
     });
 
@@ -231,11 +257,37 @@ const AddEvent = () => {
           setUserLocation({ latitude, longitude });
         },
         (error) => {
-          console.error("Error getting user location:", error);
+          toast.warning(
+            "Error while getting location",
+            {
+              position: "top-right",
+              autoClose: 1500,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "colored",
+              transition: Bounce,
+            }
+                  )
         },
       );
     } else {
-      console.error("Geolocation is not supported by this browser.");
+      toast.warning(
+        "Geolocation is not supported by this browser.",
+        {
+          position: "top-right",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          transition: Bounce,
+        }
+              )
     }
   };
   const handleMainImageChange = (e) => {
@@ -250,7 +302,6 @@ const AddEvent = () => {
       ...prevState,
       sub_event_img: [...prevState.sub_event_img, e.target.files[0]],
     }));
-    console.log(currentSubEvent.sub_event_img);
   };
 
   const handleChange = (e) => {

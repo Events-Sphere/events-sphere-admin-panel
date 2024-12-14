@@ -148,7 +148,7 @@ const AddCategory = () => {
             type="submit"
             disabled={loading}
             className={`w-full py-3 flex align-middle justify-center gap-2 ${
-              loading ? "bg-btn-color opacity-35" : "bg-btn-color"
+              loading ? "bg-btn-color opacity-35 " : "bg-btn-color"
             }  text-white font-semibold rounded-lg shadow hover:bg-primary-dark transition`}
           >
             {loading && (

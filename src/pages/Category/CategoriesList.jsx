@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axiosInstance from "../../utilities/axiosInstance";
 import Config from "../../App/service/config";
-import { BiEdit } from "react-icons/bi";
+import { BiEdit, BiEditAlt } from "react-icons/bi";
 import { toast, Bounce } from "react-toastify";
 
 const CategoriesList = () => {
@@ -9,6 +9,7 @@ const CategoriesList = () => {
   const [name, setName] = useState("");
   const [id, setId] = useState(null);
   const [image, setImage] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const getCategory = async () => {
     try {
@@ -28,7 +29,7 @@ const CategoriesList = () => {
         theme: "colored",
         transition: Bounce,
       });
-    }
+    } 
   };
 
   useEffect(() => {
@@ -59,6 +60,7 @@ const CategoriesList = () => {
     data.append("id", id);
 
     try {
+      setLoading(true);
       const response = await axiosInstance.put(`admin/category`, data, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -81,6 +83,7 @@ const CategoriesList = () => {
           },
         );
       }
+      setLoading(false);
     } catch (error) {
       toast.error(error.message ?? "Something went wrong. try again!", {
         position: "top-right",
@@ -93,19 +96,21 @@ const CategoriesList = () => {
         theme: "colored",
         transition: Bounce,
       });
+      setLoading(false);
+    }finally{
+      setLoading(false);
+      setIsModalOpen(false);
     }
-
-    setIsModalOpen(false);
   };
 
   return (
-    <div className=" container mx-auto pt-2 pb-5 pr-5 pl-10 h-screen bg-white self-center">
+    <div className="  container mx-auto pt-2 pb-5 pr-5 pl-10 h-screen bg-white self-center ">
       <h2 className="text-2xl font-bold mb-4 text-txt-color ">
         Categories List
       </h2>
-      <div className="max-h-[32rem]    flex justify-center">
+      <div className="max-h-[32rem] flex justify-center ">
         <table className="min-w-full  bg-white  shadow">
-          <thead className="sticky top-0">
+          <thead className="sticky top-0 ">
             <tr className="bg-bannar text-white">
               <th className="py-3 px-4 text-left">ID</th>
               <th className="py-3 px-4 text-left">Image</th>
@@ -123,9 +128,10 @@ const CategoriesList = () => {
                 <td className="py-3 px-4">
                   <img
                     src={`${Config.categoryImgBaseUrl}${category.image}`}
-                    alt=""
+                    alt="category-img"
                     className="w-16 h-16 object-cover rounded"
                   />
+
                 </td>
                 <td className="py-3 px-4">{category.name}</td>
                 <td className="py-3 px-4 text-center">
@@ -133,8 +139,8 @@ const CategoriesList = () => {
                     onClick={() => handleEdit(category)}
                     className="flex self-center items-center gap-2 cursor-pointer justify-center"
                   >
-                    <BiEdit />
-                    <span className="text-txt-color ">EDIT</span>
+                    <BiEditAlt color="grey"/>
+                    <span className="text-txt-color font-semibold  ">EDIT</span>
                   </div>
                 </td>
               </tr>
@@ -192,12 +198,22 @@ const CategoriesList = () => {
                 >
                   Cancel
                 </button>
+
                 <button
                   type="submit"
-                  className="py-2 px-4 bg-btn-color text-white font-semibold rounded-md shadow hover:bg-primary-dark transition"
+                  disabled={loading}
+                  className={`w-full py-3 flex align-middle justify-center gap-2 ${loading ? "bg-btn-color opacity-35 " : "bg-btn-color"
+                    }  text-white font-semibold rounded-lg shadow hover:bg-primary-dark transition`}
                 >
-                  Save Changes
+                  {loading && (
+                    <div className="flex items-center justify-center">
+                      <div className="h-6 w-6 border-4 border-t-[#640D5F] border-[#A888B5] rounded-full animate-spin"></div>
+                    </div>
+                  )}
+                  <span>Save Changes</span>
                 </button>
+
+
               </div>
             </form>
           </div>

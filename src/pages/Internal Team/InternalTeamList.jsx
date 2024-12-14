@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import DisplayTable from "../../components/DisplayTable";
 import Paginate from "../../components/Paginate";
-import Filter from "../../components/Filter";
 import Search from "../../components/Search";
 import ClipLoader from "react-spinners/ClipLoader";
 import axiosInstance from "../../utilities/axiosInstance";
 import UserDetails from "../../components/UserDetails";
 import EditCard from "../../components/EditCard";
 import NotFound from "../../pages/NotFound";
+import InternalTeamDetailCard from "./Components/InternalTeamDetailCard";
 
 const InternalTeamList = ({ showMenu, setShowMenu }) => {
   const [page, setPage] = useState(1);
@@ -158,11 +158,7 @@ const InternalTeamList = ({ showMenu, setShowMenu }) => {
         </div>
       ) : (
         popup && (
-          <UserDetails
-            popup={popup}
-            setPopup={setPopup}
-            userDetail={userDetail}
-          />
+          <InternalTeamDetailCard userDetail={userDetail} setPopup = {setPopup} popup = {popup}/>
         )
       )}
 
@@ -193,69 +189,6 @@ const InternalTeamList = ({ showMenu, setShowMenu }) => {
         </div>
       )}
     </div>
-    // <div className="h-[100vh]  bg-white">
-    //   <h1 className="heading text-black ">USERS LIST</h1>
-    //   {popup ? (
-    //     circles ? (
-    //       <UserDetails
-    //         popup={popup}
-    //         setPopup={setPopup}
-    //         userDetail={userDetail}
-    //       />
-    //     ) : (
-    //       <p>..LOADING</p>
-    //     )
-    //   ) : (
-    //     ""
-    //   )}
-    //   {popupEdit && circle && (
-    //     <EditCard
-    //       popupEdit={popupEdit}
-    //       setPopupEdit={setPopupEdit}
-    //       userDetailEdit={userDetailEdit}
-    //     />
-    //   )}
-
-    //   <div className="flex justify-around items-center ">
-    //     <Search
-    //       className="h-10 w-[120%] ml-1 border-2 border-blue  rounded-lg p-2"
-    //       placeholder="🔍 Search user"
-    //       type="text"
-    //       setSearch={setSearch}
-    //       search={search}
-    //     />
-    //   </div>
-
-    //   <div className="border w-full mt-2 border-white "></div>
-    //   <div className="">
-    //     <select value={limit} onChange={(e) => setLimit(e.target.value)}>
-    //       <option value="" disabled>
-    //         select
-    //       </option>
-    //       <option value="10">10</option>
-    //       <option value="20">20</option>
-    //       <option value="50">50</option>
-    //       <option value="100">100</option>
-    //     </select>
-    //   </div>
-
-    //   <div className="flex justify-center ">
-    //     <DisplayTable
-    //       data={data}
-    //       page={page}
-    //       setPage={setPage}
-    //       title={title}
-    //       popup={popup}
-    //       setPopup={setPopup}
-    //       popupEdit={popupEdit}
-    //       setPopupEdit={setPopupEdit}
-    //       setUserId={setUserId}
-    //     />
-    //   </div>
-    //   <div className="mt-4 absolute bottom-[10%] left-[56%]">
-    //     <Paginate totalPage={totalPage} page={page} setPage={setPage} />
-    //   </div>
-    // </div>
   );
 };
 

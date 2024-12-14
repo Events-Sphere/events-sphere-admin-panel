@@ -7,6 +7,7 @@ import Search from "../../components/Search";
 import axiosInstance from "../../utilities/axiosInstance";
 import ClipLoader from "react-spinners/ClipLoader";
 import UserDetails from "../../components/UserDetails";
+import OrganizerDetailCard from "./OrganizerDetailCard";
 const ListOrganizer = ({ showMenu, setShowMenu }) => {
   const [page, setPage] = useState(1);
   const [data, setData] = useState([]);
@@ -153,7 +154,7 @@ const ListOrganizer = ({ showMenu, setShowMenu }) => {
         </div>
       ) : (
         popup && (
-          <UserDetails
+          <OrganizerDetailCard
             popup={popup}
             setPopup={setPopup}
             userDetail={userDetail}
