@@ -16,7 +16,7 @@ export const CategoryApiSlice = createApi({
         url: Config.createEventCategory,
         method: "POST",
         headers: {
-          "authorization" : `Bearer ${localStorage.getItem('token')}`,
+          authorization: `Bearer ${localStorage.getItem("token")}`,
         },
         body: newCategory,
       }),
@@ -24,4 +24,8 @@ export const CategoryApiSlice = createApi({
   }),
 });
 
-export const { useGetCategoriesQuery, useGetCategoryByIdQuery , useAddCategoryMutation } = CategoryApiSlice;
+export const {
+  useGetCategoriesQuery,
+  useGetCategoryByIdQuery,
+  useAddCategoryMutation,
+} = CategoryApiSlice;

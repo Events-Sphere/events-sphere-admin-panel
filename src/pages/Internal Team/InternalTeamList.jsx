@@ -7,6 +7,8 @@ import ClipLoader from "react-spinners/ClipLoader";
 import axiosInstance from "../../utilities/axiosInstance";
 import UserDetails from "../../components/UserDetails";
 import EditCard from "../../components/EditCard";
+import NotFound from "../../pages/NotFound";
+
 const InternalTeamList = ({ showMenu, setShowMenu }) => {
   const [page, setPage] = useState(1);
   const [data, setData] = useState([]);
@@ -26,12 +28,13 @@ const InternalTeamList = ({ showMenu, setShowMenu }) => {
   const [loading, setLoading] = useState(false);
   const [loadingDetail, setLoadingDetail] = useState(false);
   const [circles, setCircles] = useState(false);
-const[loadingEdit,setLoadingEdit]=useState(false)
- 
+  const [loadingEdit, setLoadingEdit] = useState(false);
+
   const getAllEmployee = async () => {
     try {
+      setLoading(true);
       const response = await axiosInstance.get(
-        `admin/internal-teams?page=${page}&search=${search}&limit=${limit}`
+        `admin/internal-teams?page=${page}&search=${search}&limit=${limit}`,
       );
       if (response.data.status == true && response.data.data) {
         setData(response.data.data);
@@ -41,45 +44,39 @@ const[loadingEdit,setLoadingEdit]=useState(false)
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
   const getUserDetail = async (userID) => {
     try {
-      setLoadingDetail(true)
+      setLoadingDetail(true);
       const response = await axiosInstance.post(`admin/internal-teams/single`, {
         emp_id: userID,
       });
       if (response.data.status == true && response.data.data) {
         setUserDetail(response.data.data);
-       
       }
     } catch (error) {
       console.log(error);
-    }
-    finally{
-      setLoadingDetail(false)
+    } finally {
+      setLoadingDetail(false);
     }
   };
-  const viewInternalTeam = async () => {
-    
-  };
+  const viewInternalTeam = async () => {};
   const editInternalTeam = async (userId) => {
     try {
-      console.log("------")
-      setLoadingEdit(true)
+      setLoadingEdit(true);
       const response = await axiosInstance.post(`admin/internal-teams/single`, {
         emp_id: userId,
       });
       if (response.data.status == true && response.data.data) {
         setUserDetailEdit(response.data.data);
-       
       }
     } catch (error) {
       console.log(error);
-    }
-    finally{
-      setLoadingEdit(false)
-
+    } finally {
+      setLoadingEdit(false);
     }
   };
 
@@ -94,64 +91,58 @@ const[loadingEdit,setLoadingEdit]=useState(false)
   // }, [popupEdit]);
 
   return (
-    <div className="h-[100vh] bg-white ">
-      <h1 className="heading ">INTERNAL TEAM LIST</h1>
-      <div className="flex justify-around items-center ">
+    <div className="h-screen  bg-white ">
+      <div className="h-[15vh] shadow-md z-50 w-full flex justify-around items-center space-y-2 pl-10 pr-10">
+        <h1 className="heading ">INTERNAL TEAM LIST</h1>
         <Search
-          className="h-10 w-[100%] ml-1 border-2 border-blue  rounded-lg p-2"
-          placeholder="🔍 Search user"
+          //className="h-10 w-[100%] ml-1 border-2 border-blue  rounded-lg p-2"
+          placeholder="Search internal team user"
           type="text"
           setSearch={setSearch}
           search={search}
         />
       </div>
       {loading ? (
-        <div className="flex justify-center items-center mt-56">
-          <ClipLoader
-            className=""
-            loading={loading}
-            color="#1312f2"
-            speedMultiplier={3}
-            size={50}
-            aria-label="Loading Spinner"
-            data-testid="loader"
-          />
+        <div>
+          <div
+            className="grid ml-10 gap-x-1 border-b py-2 bg-bannar"
+            style={{
+              gridTemplateColumns: "1fr 1.5fr 2fr 3fr 2fr 2fr 1.5fr 2fr",
+            }}
+          >
+            <div>ID</div>
+            <div>USER ID</div>
+            <div>EMAIL</div>
+            <div>FULL NAME</div>
+            <div>MOBILE</div>
+            <div>ROLE</div>
+            <div>VERIFIED STATUS</div>
+            <div>DETAILS</div>
+          </div>
+          <div>
+            {Array.from({ length: 10 }).map((_, index) => (
+              <React.Fragment key={index}>{shimmerRow}</React.Fragment>
+            ))}
+          </div>
         </div>
       ) : data.length > 0 ? (
         <div>
-          <div className="border-black border-2 inline-block ml-4">
-            <select value={limit} onChange={(e) => setLimit(e.target.value)}>
-              <option value="" disabled>
-                select
-              </option>
-              <option value="10">10</option>
-
-              <option value="20">20</option>
-              <option value="50">50</option>
-              <option value="100">100</option>
-            </select>
-          </div>
-          <div className="flex justify-center ">
-            <DisplayTable
-              data={data}
-              page={page}
-              setPage={setPage}
-              title={title}
-              popup={popup}
-              getUserDetail={getUserDetail}
-              setPopup={setPopup}
-              setUserId={setUserId}
-              popupEdit={popupEdit}
-              setPopupEdit={setPopupEdit}
-              editInternalTeam={editInternalTeam}
-            />
-          </div>
-          <div className="">
-            <Paginate totalPage={totalPage} page={page} setPage={setPage} />
-          </div>
+          <DisplayTable
+            data={data}
+            page={page}
+            setPage={setPage}
+            title={title}
+            popup={popup}
+            getUserDetail={getUserDetail}
+            setPopup={setPopup}
+            setUserId={setUserId}
+            popupEdit={popupEdit}
+            setPopupEdit={setPopupEdit}
+            editInternalTeam={editInternalTeam}
+          />
         </div>
       ) : (
-        <div className="flex justify-center text-2xl mt-40">No data found</div>
+        <NotFound />
       )}
       {loadingDetail ? (
         <div className="flex justify-center items-center -mt-72">
@@ -175,7 +166,7 @@ const[loadingEdit,setLoadingEdit]=useState(false)
         )
       )}
 
-{loadingEdit ? (
+      {loadingEdit ? (
         <div className="flex justify-center items-center -mt-72">
           <ClipLoader
             className=""
@@ -190,11 +181,16 @@ const[loadingEdit,setLoadingEdit]=useState(false)
       ) : (
         popupEdit && (
           <EditCard
-                 popupEdit={popupEdit}
-                 setPopupEdit={setPopupEdit}
-                 userDetailEdit={userDetailEdit}
-               />
+            popupEdit={popupEdit}
+            setPopupEdit={setPopupEdit}
+            userDetailEdit={userDetailEdit}
+          />
         )
+      )}
+      {data.length > 0 && !loading && (
+        <div className="absolute bottom-0 left-[calc(100vw-45%)]">
+          <Paginate totalPage={totalPage} page={page} setPage={setPage} />
+        </div>
       )}
     </div>
     // <div className="h-[100vh]  bg-white">
@@ -262,5 +258,22 @@ const[loadingEdit,setLoadingEdit]=useState(false)
     // </div>
   );
 };
+
+const shimmerRow = (
+  <div
+    className="grid ml-10  gap-x-1 border-b py-2 bg-white animate-pulse"
+    style={{
+      gridTemplateColumns: "1fr 1.5fr 2fr 3fr 2fr 2fr 1.5fr 2fr",
+    }}
+  >
+    {Array.from({ length: 8 }).map((_, index) => (
+      <div
+        key={index}
+        className="h-10 bg-gray-300 rounded-md bg-light-gray"
+        style={{ width: index === 3 ? "80%" : "60%" }}
+      />
+    ))}
+  </div>
+);
 
 export default InternalTeamList;

@@ -13,7 +13,7 @@ const ListPendingEvents = () => {
   const [totalPage, setTotalPage] = useState(null);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(3);
+  const [limit, setLimit] = useState(10);
   const [search, setSearch] = useState("");
   const [location, setLocation] = useState([]);
 
@@ -22,7 +22,7 @@ const ListPendingEvents = () => {
       setLoading(true);
       const response = await axiosInstance.get(
         Config.mainEventPending +
-        `?page=${page}&search=${search}&location=${location}&limit=${limit}`
+          `?page=${page}&search=${search}&location=${location}&limit=${limit}`,
       );
       console.log(response);
       setData(response.data.data.eventData);
@@ -73,10 +73,7 @@ const ListPendingEvents = () => {
     "Viluppuram",
     "Virudhunagar",
   ];
-  console.log(location);
   const handleLocation = (e) => {
-    console.log("start");
-
     const value = e.target.value;
     if (location.includes(value)) {
       const newLocation = location.filter((data) => data != value);
@@ -92,7 +89,9 @@ const ListPendingEvents = () => {
   return (
     <div className="ml-10  h-screen overflow-hidden">
       <div className="flex mx-5 mt-8 justify-around ">
-        <h1 className="font-semibold text-txt-color text-2xl pt-2 pb-2 ">PENDING EVENTS</h1>
+        <h1 className="font-semibold text-txt-color text-2xl pt-2 pb-2 ">
+          PENDING EVENTS
+        </h1>
         <Search
           placeholder="Search pending events"
           type="text"
@@ -140,9 +139,10 @@ const ListPendingEvents = () => {
           </div>
           <div className="fixed bottom-2 left-[calc(100vw-44%)]">
             <Paginate totalPage={totalPage} page={page} setPage={setPage} />
-          </div></div>
+          </div>
+        </div>
       ) : (
-       <NotFound/>
+        <NotFound />
       )}
     </div>
   );

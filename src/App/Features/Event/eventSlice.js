@@ -1,13 +1,13 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   events: [],
-  status: 'idle',
+  status: "idle",
   error: null,
 };
 
 const eventSlice = createSlice({
-  name: 'eventSlice',
+  name: "eventSlice",
   initialState,
   reducers: {
     setEvent: (state, action) => {

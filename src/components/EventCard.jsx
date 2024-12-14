@@ -2,17 +2,17 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { format } from "date-fns";
 import { BiLocationPlus } from "react-icons/bi";
-
+import Config from "../App/service/config";
 
 const EventCard = ({ data }) => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const handleEvent = async (id) => {
-    navigate('/eventdetail', {
+    navigate("/eventdetail", {
       state: {
-        id: id
-      }
-    })
-  }
+        id: id,
+      },
+    });
+  };
   const formatDate = (dateString) => {
     return format(new Date(dateString), "dd MMMM yyyy");
   };
@@ -28,23 +28,25 @@ const EventCard = ({ data }) => {
             <div className="relative">
               <img
                 className="w-full h-[8rem] object-cover rounded-t-lg"
-                src="https://tse2.mm.bing.net/th?id=OIP.e0pd7B720gL9gQjRE3XF_gHaD5&pid=Api&P=0&h=180"
-                // {Config.eventMainImage + data.image}
+                src={Config.eventMainImage + data.image}
                 alt={data.name}
               />
-              <span className="absolute top-1 right-1 bg-green-600 text-xs px-2 py-1 rounded-md border-[1px] border-green-700 bg-green text-txt-color ">
-                Active
-              </span>
+              {/* <span className="absolute top-1 right-1 bg-green-600 text-xs px-2 py-1 rounded-md border-[1px] border-[#FFFF00] bg-[#FFFF00] text-black ">
+                Pending
+              </span> */}
             </div>
 
             <div className="p-2">
-              <h1 className="text-lg text-txt-color font-bold truncate">{data.name}</h1>
+              <h1 className="text-lg text-txt-color font-bold truncate">
+                {data.name}
+              </h1>
 
               <div className=" text-xs text-gray-500">
-
                 <div className="mt-1 flex flex-col items-start text-sm text-gray-600 space-y-1">
                   <div className="flex items-center space-x-2">
-                    <span className="font-semibold text-gray-800">📅 Start:</span>
+                    <span className="font-semibold text-gray-800">
+                      📅 Start:
+                    </span>
                     <span>{formatDate(data.startDate)}</span>
                   </div>
                   <div className="flex items-center space-x-2">
@@ -64,14 +66,12 @@ const EventCard = ({ data }) => {
                     View
                   </button>
                 </div>
-
               </div>
             </div>
           </div>
         ))}
       </div>
     </div>
-
   );
 };
 

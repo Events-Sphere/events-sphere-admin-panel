@@ -9,6 +9,7 @@ export const EventApiSlice = createApi({
       query: (newEvent) => ({
         url: Config.createEvent,
         method: "POST",
+        mode: "no-cors",
         headers: {
           "Content-Type": "application/json",
           authorization: `Bearer ${localStorage.getItem("token")}`,

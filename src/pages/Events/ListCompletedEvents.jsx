@@ -22,7 +22,7 @@ const ListCompletedEvents = () => {
       setLoading(true);
       const response = await axiosInstance.get(
         Config.mainEventCompleted +
-          `?page=${page}&search=${search}&location=${location}&limit=${limit}`
+          `?page=${page}&search=${search}&location=${location}&limit=${limit}`,
       );
       console.log(response);
       setData(response.data.data.eventData);
@@ -92,17 +92,19 @@ const ListCompletedEvents = () => {
   return (
     <div className="ml-8 h-screen overflow-hidden">
       <div className="flex mt-10 justify-between px-3">
-      <h1 className="font-semibold text-txt-color text-xl ">COMPLETED EVENTS</h1>
+        <h1 className="font-semibold text-txt-color text-xl ">
+          COMPLETED EVENTS
+        </h1>
         <Search
           placeholder="Search completed events"
           type="text"
           setSearch={setSearch}
           search={search}
         />
-         <div className="relative group w-32 ml-2">
+        <div className="relative group w-32 ml-2">
           <div className="bg-white outlined border-[1px] px-4 py-1 rounded-md flex items-center justify-between cursor-pointer">
-             <span className="text-txt-color">options</span>
-             <MdArrowDownward/>
+            <span className="text-txt-color">options</span>
+            <MdArrowDownward />
           </div>
           <div className="absolute hidden group-hover:block bg-white w-80 max-h-80 overflow-scroll">
             <ul className="grid gap-2 grid-template-columns:1fr 1fr">
@@ -139,7 +141,7 @@ const ListCompletedEvents = () => {
           <Paginate totalPage={totalPage} page={page} setPage={setPage} />
         </div>
       ) : (
-       <NotFound/>
+        <NotFound />
       )}
     </div>
   );

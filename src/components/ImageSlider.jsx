@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { FaArrowCircleRight, FaArrowCircleLeft } from "react-icons/fa";
 
-const ImageSlider = () => {
+const ImageSlider = ({ event }) => {
   const [cur, setCur] = useState(0);
-  const data = ["/bg.jpg", "/bg1.jpg", "/dash_bg.jpg"]; // Reference images directly.
-  const length = data.length;
+  const length = event.images.length;
 
   const nextSlide = () => {
     setCur(cur === length - 1 ? 0 : cur + 1);
@@ -15,9 +14,9 @@ const ImageSlider = () => {
   };
 
   return (
-    <div className="relative flex items-center justify-center w-full h-[300px] bg-gray-800 rounded-tl-md rounded-tr-md overflow-hidden shadow-lg ">
+    <div className="relative flex items-center justify-center w-full bg-gray-800 rounded-tl-md rounded-tr-md overflow-hidden shadow-lg">
       <FaArrowCircleLeft
-        className="absolute left-4 text-white-smoke z-20 top-1/2 transform -translate-y-1/2 text-4xl hover:cursor-pointer hover:text-white transition-colors duration-200"
+        className="absolute left-4 h-6 w-6 text-white-smoke z-20 top-1/2 transform -translate-y-1/2 text-4xl hover:cursor-pointer hover:text-[#FFF8E8] transition-colors duration-200"
         onClick={prevSlide}
       />
 
@@ -25,41 +24,103 @@ const ImageSlider = () => {
         <div
           className="flex transition-transform duration-700 ease-in-out"
           style={{
-            transform: `translateX(-${cur * 100}%)`, 
+            transform: `translateX(-${cur * 100}%)`,
           }}
         >
-          {data.map((imageSrc, index) => (
+          {event.images.length > 0 ? (
+            event.images.map((imageSrc, index) => (
+              <img
+                key={index}
+                src={
+                  imageSrc && imageSrc !== ""
+                    ? `http://localhost:3000/ev_sub_img/${imageSrc}`
+                    : "https://cdn.pixabay.com/photo/2016/11/23/15/48/audience-1853662_960_720.jpg"
+                }
+                alt={`Slide ${index + 1}`}
+                className="w-full h-full object-cover flex-shrink-0"
+              />
+            ))
+          ) : (
             <img
-              key={index}
-              src=
-"https://cdn.pixabay.com/photo/2016/11/23/15/48/audience-1853662_960_720.jpg"
-              //{imageSrc}
-              alt={`Slide ${index + 1}`}
-              className="w-full h-full object-cover flex-shrink-0" // Ensure each slide takes full width
+              src={
+                "https://cdn.pixabay.com/photo/2016/11/23/15/48/audience-1853662_960_720.jpg"
+              }
+              alt={`Slide  1`}
+              className="w-full h-full object-cover flex-shrink-0"
             />
-          ))}
+          )}
         </div>
       </div>
 
       <FaArrowCircleRight
-        className="absolute right-4 text-white-smoke z-20 top-1/2 transform -translate-y-1/2 text-4xl hover:cursor-pointer hover:text-white transition-colors duration-200"
+        className="absolute right-4 h-6 w-6 text-white-smoke z-20 top-1/2 transform -translate-y-1/2 text-4xl hover:cursor-pointer hover:text-[#FFF8E8] transition-colors duration-200"
         onClick={nextSlide}
       />
 
       <div className="absolute bottom-4 z-20 flex space-x-2">
-        {data.map((_, index) => (
-          <div
-            key={index}
-            className={`h-3 w-3 rounded-full border-2 ${
-              index === cur
-                ? "bg-white border-white"
-                : "bg-gray-400 border-gray-500"
-            } transition-colors duration-200`}
-            onClick={() => setCur(index)} 
+        {event.images.length > 0 ? (
+          event.images.map((_, index) => (
+            <div
+              key={index}
+              className={`h-3 w-3 cursor-pointer rounded-full border-2 ${
+                index === cur
+                  ? "bg-white border-white"
+                  : "bg-[#A6AEBF] border-[#C5D3E8]"
+              } transition-colors duration-200`}
+              onClick={() => setCur(index)}
             />
-        ))}
+          ))
+        ) : (
+          <></>
+        )}
       </div>
     </div>
+
+    //     <div className="relative flex items-center justify-center w-full bg-gray-800 rounded-tl-md rounded-tr-md overflow-hidden shadow-lg ">
+    //       <FaArrowCircleLeft
+    //         className="absolute left-4 text-white-smoke z-20 top-1/2 transform -translate-y-1/2 text-4xl hover:cursor-pointer hover:text-white transition-colors duration-200"
+    //         onClick={prevSlide}
+    //       />
+
+    //       <div className="w-full h-full overflow-hidden">
+    //         <div
+    //           className="flex transition-transform duration-700 ease-in-out"
+    //           style={{
+    //             transform: `translateX(-${cur * 100}%)`,
+    //           }}
+    //         >
+    //           {data.map((imageSrc, index) => (
+    //             <img
+    //               key={index}
+    //               src=
+    // "https://cdn.pixabay.com/photo/2016/11/23/15/48/audience-1853662_960_720.jpg"
+    //               //{imageSrc}
+    //               alt={`Slide ${index + 1}`}
+    //               className="w-full h-full object-cover flex-shrink-0" // Ensure each slide takes full width
+    //             />
+    //           ))}
+    //         </div>
+    //       </div>
+
+    //       <FaArrowCircleRight
+    //         className="absolute right-4 text-white-smoke z-20 top-1/2 transform -translate-y-1/2 text-4xl hover:cursor-pointer hover:text-white transition-colors duration-200"
+    //         onClick={nextSlide}
+    //       />
+
+    //       <div className="absolute bottom-4 z-20 flex space-x-2">
+    //         {data.map((_, index) => (
+    //           <div
+    //             key={index}
+    //             className={`h-3 w-3 rounded-full border-2 ${
+    //               index === cur
+    //                 ? "bg-white border-white"
+    //                 : "bg-gray-400 border-gray-500"
+    //             } transition-colors duration-200`}
+    //             onClick={() => setCur(index)}
+    //             />
+    //         ))}
+    //       </div>
+    //     </div>
   );
 };
 

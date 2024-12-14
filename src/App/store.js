@@ -10,20 +10,20 @@ import categorySlice from "./Features/Category/categorySlice";
 
 export const store = configureStore({
   reducer: {
-   [authApiSlice.reducerPath] : authApiSlice.reducer,
-   [userApiSlice.reducerPath] : userApiSlice.reducer,
-   [EventApiSlice.reducerPath] : EventApiSlice.reducer,
-   [CategoryApiSlice.reducerPath] : CategoryApiSlice.reducer,
-   auth : authSlice,
-   user : userSlice,
-   event : eventSlice,
-   category : categorySlice
+    [authApiSlice.reducerPath]: authApiSlice.reducer,
+    [userApiSlice.reducerPath]: userApiSlice.reducer,
+    [EventApiSlice.reducerPath]: EventApiSlice.reducer,
+    [CategoryApiSlice.reducerPath]: CategoryApiSlice.reducer,
+    auth: authSlice,
+    user: userSlice,
+    event: eventSlice,
+    category: categorySlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
       authApiSlice.middleware,
       userApiSlice.middleware,
       EventApiSlice.middleware,
-      CategoryApiSlice.middleware
+      CategoryApiSlice.middleware,
     ),
 });

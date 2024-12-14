@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import DisplayTable from "../../components/DisplayTable";
 import Paginate from "../../components/Paginate";
 import Filter from "../../components/Filter";
+import NotFound from "../../pages/NotFound";
 import Search from "../../components/Search";
 import axiosInstance from "../../utilities/axiosInstance";
 import ClipLoader from "react-spinners/ClipLoader";
@@ -23,21 +24,19 @@ const ListOrganizer = ({ showMenu, setShowMenu }) => {
   const [userDetail, setUserDetail] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loadingDetail, setLoadingDetail] = useState(false);
-  const handleStatus=(e)=>{
-    if(status.includes(e.target.value)){
-      const role=status.filter((data)=>data != e.target.value);
+  const handleStatus = (e) => {
+    if (status.includes(e.target.value)) {
+      const role = status.filter((data) => data != e.target.value);
       setStatus(role);
+    } else {
+      setStatus([...status, e.target.value]);
     }
-    else{
-      setStatus([...status,e.target.value])
-    }
-
-  }
+  };
   const getAllUser = async () => {
     try {
       setLoading(true);
       const response = await axiosInstance.get(
-        `admin/users?page=${page}&search=${search}&roles=${roles}&limit=${limit}&v_status=${status}`
+        `admin/users?page=${page}&search=${search}&roles=${roles}&limit=${limit}&v_status=${status}`,
       );
 
       if (response.data.success == true && response.data.data) {
@@ -55,8 +54,8 @@ const ListOrganizer = ({ showMenu, setShowMenu }) => {
   };
   const getUserDetail = async (userID) => {
     try {
-      setLoadingDetail(true)
-      console.log("function called",userID)
+      setLoadingDetail(true);
+      console.log("function called", userID);
       const response = await axiosInstance.post(`/admin/users/single`, {
         user_id: userID,
       });
@@ -69,9 +68,8 @@ const ListOrganizer = ({ showMenu, setShowMenu }) => {
       if (error.response.status == 500) {
         alert("Check internet connection");
       }
-    }
-    finally{
-      setLoadingDetail(false)
+    } finally {
+      setLoadingDetail(false);
     }
   };
 
@@ -79,30 +77,36 @@ const ListOrganizer = ({ showMenu, setShowMenu }) => {
     getAllUser();
   }, [page, search, roles, limit, status]);
   return (
-    <div className="h-[100vh] bg-white ">
-      <h1 className="heading ">USERS LIST</h1>
-      <div className="flex justify-around items-center ">
+    <div className="h-screen ml-8 bg-white ">
+      <div className="flex justify-between mt-10 mx-3 items-center ">
+        <h1 className="heading text-txt-color">USERS LIST</h1>
         <Search
           className="h-10 w-[100%] ml-1 border-2 border-blue  rounded-lg p-2"
-          placeholder="🔍 Search user"
+          placeholder="Search user"
           type="text"
           setSearch={setSearch}
           search={search}
         />
         <div>
-        {user.length > 0 && (
-        <div className="flex">
-          <h1 className="font-bold text-black">STATUS:</h1>
-          {user.map((user, index) => (
-            <div className="px-2 flex align-middle " key={index}>
-              <input className="" type="checkbox" id={user} value={user} onChange={handleStatus} />
-              <label className="pl-1 text-black" htmlFor={user}>
-                {user === 'true'?'Verified':'Unverified'}
-              </label>
+          {user.length > 0 && (
+            <div className="flex">
+              <h1 className="font-bold text-black">STATUS</h1>
+              {user.map((user, index) => (
+                <div className="px-2 flex align-middle " key={index}>
+                  <input
+                    className=""
+                    type="checkbox"
+                    id={user}
+                    value={user}
+                    onChange={handleStatus}
+                  />
+                  <label className="pl-1 text-black" htmlFor={user}>
+                    {user === "true" ? "Verified" : "Unverified"}
+                  </label>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-      )}
+          )}
         </div>
       </div>
       {loading ? (
@@ -119,20 +123,7 @@ const ListOrganizer = ({ showMenu, setShowMenu }) => {
         </div>
       ) : data.length > 0 ? (
         <div>
-          
-          <div className="border-black border-2 inline-block ml-4">
-            <select value={limit} onChange={(e) => setLimit(e.target.value)}>
-              <option value="" disabled>
-                select
-              </option>
-              <option value="10">10</option>
-              
-              <option value="20">20</option>
-              <option value="50">50</option>
-              <option value="100">100</option>
-            </select>
-          </div>
-          <div className="flex justify-center ">
+          <div className="flex justify-center mt-4 ">
             <DisplayTable
               getUserDetail={getUserDetail}
               data={data}
@@ -144,34 +135,37 @@ const ListOrganizer = ({ showMenu, setShowMenu }) => {
               setUserId={setUserId}
             />
           </div>
-          <div className="">
-            <Paginate totalPage={totalPage} page={page} setPage={setPage} />
-          </div>
         </div>
       ) : (
-        <div className="flex justify-center text-2xl mt-40">No data found</div>
+        <NotFound />
       )}
-      {
-        loadingDetail ?(
-          <div className="flex justify-center items-center -mt-72">
-            <ClipLoader
-              className=""
-              loadingDetail={loadingDetail}
-              color="#1312f2"
-              speedMultiplier={3}
-              size={50}
-              aria-label="Loading Spinner"
-              data-testid="loader"
-            />
-          </div>
-        ): popup && (
+      {loadingDetail ? (
+        <div className="flex justify-center items-center -mt-72">
+          <ClipLoader
+            className=""
+            loadingDetail={loadingDetail}
+            color="#1312f2"
+            speedMultiplier={3}
+            size={50}
+            aria-label="Loading Spinner"
+            data-testid="loader"
+          />
+        </div>
+      ) : (
+        popup && (
           <UserDetails
             popup={popup}
             setPopup={setPopup}
             userDetail={userDetail}
           />
         )
-      }
+      )}
+
+      {data.length > 0 && !loading && (
+        <div className="absolute bottom-0 left-[calc(100vw-55%)]">
+          <Paginate totalPage={totalPage} page={page} setPage={setPage} />
+        </div>
+      )}
     </div>
   );
 };

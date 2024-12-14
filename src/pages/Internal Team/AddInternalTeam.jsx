@@ -37,7 +37,7 @@ const AddInternalTeam = () => {
           headers: {
             "Content-Type": "multipart/form-data",
           },
-        }
+        },
       );
       console.log(response);
 
@@ -146,9 +146,7 @@ const AddInternalTeam = () => {
                         d="M7 16V4m10 12V4m-6 8V4m8 4H3"
                       ></path>
                     </svg>
-                    <span className="text-sm ">
-                      Click to select a profile
-                    </span>
+                    <span className="text-sm ">Click to select a profile</span>
                   </>
                 )}
                 <input

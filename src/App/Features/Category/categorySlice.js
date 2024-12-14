@@ -1,13 +1,13 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   categories: [],
-  status: 'idle',
+  status: "idle",
   error: null,
 };
 
 const categorySlice = createSlice({
-  name: 'eventSlice',
+  name: "eventSlice",
   initialState,
   reducers: {
     setCategory: (state, action) => {

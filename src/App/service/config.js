@@ -1,7 +1,11 @@
 export default class Config {
-  static baseUrl = "https://event-backend-0000.onrender.com/api/v1";
+  //static baseUrl = "https://event-backend-6.onrender.com/api/v1";
+  static baseUrl = "http://localhost:3000/api/v1";
+
   static OnlineUrl = "https://event-backend-0000.onrender.com/api/v1";
   static login = "/admin/login";
+  static categoryImgBaseUrl =
+    "https://event-backend-6.onrender.com/ev_category/";
 
   static createInternalTeam = "/admin/internal-teams/create";
   static deleteInternalTeam = "/admin/internal-teams/delete";
@@ -9,7 +13,7 @@ export default class Config {
   static singleInternalTeam = "/admin/internal-teams/single";
   static getAllInternalTeam = "/admin/internal-teams";
 
-  static createEvent = "/event/events/create";
+  static createEvent = "/event/create";
   static mainEventActive = "/admin/events/active";
   static mainEventPending = "/admin/events/pending";
   static mainEventCompleted = "/admin/events/completed";

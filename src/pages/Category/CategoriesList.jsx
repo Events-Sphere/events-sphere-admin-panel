@@ -2,66 +2,97 @@ import React, { useState, useEffect } from "react";
 import axiosInstance from "../../utilities/axiosInstance";
 import Config from "../../App/service/config";
 import { BiEdit } from "react-icons/bi";
+import { toast, Bounce } from "react-toastify";
 
 const CategoriesList = () => {
   const [category, setCategory] = useState([]);
   const [name, setName] = useState("");
-const[id,setId]=useState(null)
+  const [id, setId] = useState(null);
   const [image, setImage] = useState(null);
+
   const getCategory = async () => {
     try {
       const response = await axiosInstance.get(Config.getAllEventCategory);
-      console.log("response", response.data);
       if (response.data.status == true && response.data.data) {
-        console.log(response.data.data);
         setCategory(response.data.data);
       }
     } catch (error) {
-      console.log(error);
+      toast.error(error.message ?? "Something went wrong. try again!", {
+        position: "top-right",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        transition: Bounce,
+      });
     }
   };
 
   useEffect(() => {
     getCategory();
-  }, []);
+  }, [category]);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleEdit = (category) => {
     setName(category.name);
     setImage(category.image);
-    setId(category.id)
+    setId(category.id);
     setIsModalOpen(true);
   };
 
   const handleChange = (e) => {
     const { files } = e.target;
-    console.log(files[0]);
     setImage(files[0]);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(name,image,id)
+
     const data = new FormData();
-    data.append("name",name);
+
+    data.append("name", name);
     data.append("category", image);
     data.append("id", id);
-    
-    try {
-      const response = await axiosInstance.put(`admin/category`, data,{
-        headers:{
-          "Content-Type":"multipart/form-data"
-        }
-      } );
-      console.log("response", response.data);
-      if (response.data.status == true) {
 
-        alert(response.data.message)
-       
+    try {
+      const response = await axiosInstance.put(`admin/category`, data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      if (response.data.status == true) {
+        toast.success(
+          response.data.message ?? "category updated successfully",
+          {
+            position: "top-right",
+            autoClose: 1500,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+            transition: Bounce,
+          },
+        );
       }
     } catch (error) {
-      console.log(error);
+      toast.error(error.message ?? "Something went wrong. try again!", {
+        position: "top-right",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        transition: Bounce,
+      });
     }
 
     setIsModalOpen(false);
@@ -69,7 +100,9 @@ const[id,setId]=useState(null)
 
   return (
     <div className=" container mx-auto pt-2 pb-5 pr-5 pl-10 h-screen bg-white self-center">
-      <h2 className="text-2xl font-bold mb-4 text-txt-color ">Categories List</h2>
+      <h2 className="text-2xl font-bold mb-4 text-txt-color ">
+        Categories List
+      </h2>
       <div className="max-h-[32rem]    flex justify-center">
         <table className="min-w-full  bg-white  shadow">
           <thead className="sticky top-0">
@@ -81,29 +114,28 @@ const[id,setId]=useState(null)
             </tr>
           </thead>
           <tbody>
-            {category.map((category , idx) => (
-              <tr key={category.id} className= {`border-b border-border ${idx % 2 != 0 ? "bg-tbl-even" : "bg-tbl-odd"}`}>
+            {category.map((category, idx) => (
+              <tr
+                key={category.id}
+                className={`border-b border-border ${idx % 2 != 0 ? "bg-tbl-even" : "bg-tbl-odd"}`}
+              >
                 <td className="py-3 px-4">{category.id}</td>
                 <td className="py-3 px-4">
                   <img
-                    src={`https://event-backend-0000.onrender.com/ev_category/${category.image}`}
+                    src={`${Config.categoryImgBaseUrl}${category.image}`}
                     alt=""
                     className="w-16 h-16 object-cover rounded"
                   />
                 </td>
                 <td className="py-3 px-4">{category.name}</td>
                 <td className="py-3 px-4 text-center">
-                  <div 
+                  <div
                     onClick={() => handleEdit(category)}
-                  className="flex self-center items-center gap-2 cursor-pointer justify-center" >
-                    <BiEdit/>
-                    <span
-                    className="text-txt-color "
+                    className="flex self-center items-center gap-2 cursor-pointer justify-center"
                   >
-                    EDIT
-                  </span>
+                    <BiEdit />
+                    <span className="text-txt-color ">EDIT</span>
                   </div>
-                 
                 </td>
               </tr>
             ))}
@@ -132,25 +164,25 @@ const[id,setId]=useState(null)
                 />
               </div>
               <div className="">
-              <label className="font-semibold text-txt-color">
+                <label className="font-semibold text-txt-color">
                   Change category image
                 </label>
                 <div className="flex items-center justify-center p-4 mt-3 border-2 border-dashed border-black rounded-lg hover:border-blue transition">
-              <label className="flex flex-col items-center justify-center w-full h-8 cursor-pointer">
-                {(typeof(image) === 'object') ? (
-                  <span className="text-sm text-black">{image.name}</span>
-                ) : (
-                  <span className="text-sm text-black">{image}</span>
-                )}
-                <input
-                  type="file"
-                  name="category_img"
-                  onChange={handleChange}
-                  className="hidden"
-                  accept="image/*"
-                />
-              </label>
-            </div>
+                  <label className="flex flex-col items-center justify-center w-full h-8 cursor-pointer">
+                    {typeof image === "object" ? (
+                      <span className="text-sm text-black">{image.name}</span>
+                    ) : (
+                      <span className="text-sm text-black">{image}</span>
+                    )}
+                    <input
+                      type="file"
+                      name="category_img"
+                      onChange={handleChange}
+                      className="hidden"
+                      accept="image/*"
+                    />
+                  </label>
+                </div>
               </div>
               <div className="flex justify-end space-x-4">
                 <button

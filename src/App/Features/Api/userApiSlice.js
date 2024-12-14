@@ -1,8 +1,8 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import Config from '../../service/config';
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import Config from "../../service/config";
 
 export const userApiSlice = createApi({
-  reducerPath: 'userApi',
+  reducerPath: "userApi",
   baseQuery: fetchBaseQuery({ baseUrl: Config.baseUrl }),
   endpoints: (builder) => ({
     fetchUsers: builder.query({
@@ -14,4 +14,4 @@ export const userApiSlice = createApi({
   }),
 });
 
-export const { useFetchUsersQuery, useFetchUserByIdQuery} = userApiSlice;
+export const { useFetchUsersQuery, useFetchUserByIdQuery } = userApiSlice;

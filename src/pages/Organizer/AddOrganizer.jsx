@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import axiosInstance from "../../utilities/axiosInstance";
+import { toast, Bounce } from "react-toastify";
+import axios from "axios";
+import Config from "../../App/service/config";
 
 const AddOrganizer = () => {
   const [formData, setFormData] = useState({
@@ -15,18 +18,29 @@ const AddOrganizer = () => {
     longitude: "",
     latitude: "",
   });
+
   const [noc, setNoc] = useState(null);
   const [idCard, setIdCard] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
-    e.preventDefault();
     if (e.target.name == "noc") {
       setNoc(e.target.files[0]);
     }
     if (e.target.name == "idCard") {
       const files = Array.from(e.target.files);
       if (files.length > 2) {
-        alert("max 2 image");
+        toast.warning("please select max 2 images", {
+          position: "top-right",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          transition: Bounce,
+        });
       } else {
         setIdCard(files);
       }
@@ -36,26 +50,43 @@ const AddOrganizer = () => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const data = new FormData();
-    data.append("org-noc", noc);
+    setLoading(true);
 
+    const data = new FormData();
+
+    data.append("org-noc", noc);
     idCard.forEach((file, index) => {
       data.append("org-id-card", file);
     });
     data.append("data", JSON.stringify(formData));
+
     try {
-      const response = await axiosInstance.post(
-        "/admin/organizer/create",
+      const response = await axios.post(
+        `${Config.baseUrl}/admin/organizer/create`,
         data,
         {
           headers: {
             "Content-type": "multipart/form-data",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-        }
+        },
       );
-      console.log(response);
+      console.log(`${Config.baseUrl}/admin/organizer/create`);
       if (response.data.status == true) {
-        alert("Org added successfully");
+        toast.success(
+          response.data.message ?? "Organizer created successfully.",
+          {
+            position: "top-right",
+            autoClose: 1500,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+            transition: Bounce,
+          },
+        );
         setFormData({
           full_name: "",
           email: "",
@@ -72,13 +103,51 @@ const AddOrganizer = () => {
         setIdCard([]);
         setNoc(null);
       } else {
-        alert(response.data.message);
+        toast.warning(
+          response.data.message ?? "Something went wrong. try again!",
+          {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+            transition: Bounce,
+          },
+        );
       }
+      setLoading(false);
     } catch (error) {
-      if (error.response.data) {
-        alert(error.response.data.message);
+      setLoading(false);
+      if (error.response.data.message) {
+        toast.error(error.response.data.message, {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          transition: Bounce,
+        });
+      } else {
+        toast.error("Something went wrong. try again!", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          transition: Bounce,
+        });
       }
-      console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
   return (
@@ -88,7 +157,9 @@ const AddOrganizer = () => {
         autoComplete="off"
         className="w-full max-w-3xl space-y-6 p-6 bg-white rounded shadow-md "
       >
-        <h2 className="text-2xl font-bold text-blue-600 mb-4">Add Organizer</h2>
+        <h2 className="text-2xl font-bold text-blue-600 mb-4">
+          CREATE NEW ORGANIZER
+        </h2>
         <div className="flex flex-wrap w-full">
           <div className="w-1/2 px-2">
             <label className="block font-semibold">
@@ -234,8 +305,8 @@ const AddOrganizer = () => {
             <label className="block font-semibold">
               ID Card:
               {idCard.length > 0 &&
-                idCard.map((data) => (
-                  <div className="flex">
+                idCard.map((data, idx) => (
+                  <div key={idx} className="flex">
                     <p>{data.name}</p>
                   </div>
                 ))}
@@ -251,12 +322,22 @@ const AddOrganizer = () => {
           </div>
         </div>
 
-        <button
-          type="submit"
-          className="mt-6 w-full px-4 py-2 bg-bannar text-white font-semibold rounded shadow"
-        >
-          Submit
-        </button>
+        <div className="flex justify-end mt-5">
+          <button
+            type="submit"
+            disabled={loading}
+            className={`w-full py-3 flex align-middle justify-center gap-2 ${
+              loading ? "bg-btn-color opacity-35" : "bg-btn-color"
+            }  text-white font-semibold rounded-lg shadow hover:bg-primary-dark transition`}
+          >
+            {loading && (
+              <div className="flex items-center justify-center">
+                <div className="h-6 w-6 border-4 border-t-[#640D5F] border-[#A888B5] rounded-full animate-spin"></div>
+              </div>
+            )}
+            <span>Login</span>
+          </button>
+        </div>
       </form>
     </div>
   );

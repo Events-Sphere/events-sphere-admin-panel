@@ -22,7 +22,7 @@ const ListEvents = () => {
       setLoading(true);
       const response = await axiosInstance.get(
         Config.mainEventActive +
-          `?page=${page}&search=${search}&location=${location}&limit=${limit}`
+          `?page=${page}&search=${search}&location=${location}&limit=${limit}`,
       );
       console.log(response);
       setData(response.data.data.eventData);
@@ -92,7 +92,9 @@ const ListEvents = () => {
   return (
     <div className="ml-10 h-screen overflow-hidden">
       <div className="flex justify-between mx-5 mt-8">
-        <h1 className="text-2xl pt-2 pb-2 font-semibold text-txt-color ">ACTIVE EVENTS</h1>
+        <h1 className="text-2xl pt-2 pb-2 font-semibold text-txt-color ">
+          ACTIVE EVENTS
+        </h1>
         <Search
           placeholder="Search user"
           type="text"
@@ -101,8 +103,8 @@ const ListEvents = () => {
         />
         <div className="relative group w-32 ">
           <div className="bg-white outlined border-[1px] px-4 py-1 rounded-md flex items-center justify-between cursor-pointer">
-             <span className="text-txt-color">options</span>
-             <MdArrowDownward/>
+            <span className="text-txt-color">options</span>
+            <MdArrowDownward />
           </div>
           <div className="absolute hidden group-hover:block bg-white w-80 max-h-80 overflow-scroll">
             <ul className="grid gap-2 grid-template-columns:1fr 1fr">
@@ -134,21 +136,17 @@ const ListEvents = () => {
           />
         </div>
       ) : data.length > 0 ? (
-        
         <div className="flex flex-col gap-2">
-           <div className="h-[80vh]">
-             <EventCard data={data} />
-           </div>
-           <div className="fixed bottom-2 left-[calc(100vw-44%)]">
-             <Paginate totalPage={totalPage} page={page} setPage={setPage} />
-           </div>
+          <div className="h-[80vh]">
+            <EventCard data={data} />
+          </div>
+          <div className="fixed bottom-2 left-[calc(100vw-44%)]">
+            <Paginate totalPage={totalPage} page={page} setPage={setPage} />
+          </div>
         </div>
-        
       ) : (
-       
-        <NotFound/>
-       
-       )}
+        <NotFound />
+      )}
     </div>
   );
 };

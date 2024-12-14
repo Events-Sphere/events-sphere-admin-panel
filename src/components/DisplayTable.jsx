@@ -1,100 +1,108 @@
 import React from "react";
-const DisplayTable = ({ title, data, page, popup, setPopup,popupEdit, setPopupEdit, setUserId,getUserDetail,editInternalTeam }) => {
+const DisplayTable = ({
+  title,
+  data,
+  page,
+  popup,
+  setPopup,
+  popupEdit,
+  setPopupEdit,
+  setUserId,
+  getUserDetail,
+  editInternalTeam,
+}) => {
   const userTitle = [...title, "DETAILS"];
-  const employeeTitle = [...title, "DETAIL", "EDIT"];
+  const employeeTitle = [...title, "DETAILS", "EDIT"];
 
   const handleUserId = (id) => {
     console.log("idddd", id);
     setPopup(!popup);
-    
+
     getUserDetail(id);
   };
   const handleUserEdit = (id) => {
     console.log("emp", id);
     setPopupEdit(!popupEdit);
-    editInternalTeam(id)
-    
+    editInternalTeam(id);
   };
   return (
-
     <>
-<div className="relative ml-10 mr-2 max-w-full mx-auto overflow-hidden">
-  {/* Header */}
-  <div
-    className="sticky top-0 z-10 grid bg-bannar text-white font-semibold text-sm uppercase tracking-wide p-2"
-    style={{
-      gridTemplateColumns: "1fr 1.5fr 2fr 3fr 2fr 2fr 1.5fr 2fr", // Adjust column widths
-    }}
-  >
-    {data && userTitle.includes("user_id")
-      ? userTitle.map((key, index) => (
-          <div key={index} className="py-1 text-left">
-            {key === "email" ? "Email" : key === "full_name" ? "Fullname" : key}
-          </div>
-        ))
-      : employeeTitle.map((key, index) => (
-          <div key={index} className="py-1 text-left">
-            {key === "email" ? "Email" : key === "full_name" ? "Fullname" : key}
-          </div>
-        ))}
-  </div>
-
-  {/* Scrollable Data */}
-  <div className="max-h-[50rem] overflow-y-auto">
-    {data.map((item, index) => (
-      <div
-        key={index}
-        className={`grid self-center align-middle justify-center gap-x-1 border-b py-2 ${
-          index % 2 === 0 ? "bg-[#748695]" : "bg-[#bed1df]"
-        }`}
-        style={{
-          gridTemplateColumns: "1fr 1.5fr 2fr 3fr 2fr 2fr 1.5fr 2fr", // Match header layout
-        }}
-      >
-        <div className="truncate">{item.id}</div>
-        <div className="truncate">{item.user_id}</div>
-        <div className="truncate">{item.full_name}</div>
-        <div className="truncate">
-          <span title={item.email}>{item.email}</span> {/* Tooltip for email */}
-        </div>
-        <div className="truncate">{item.mobile}</div>
-        <div className="truncate">{item.role}</div>
+      <div className="relative ml-10 mr-2 max-w-full mx-auto overflow-hidden">
         <div
-          className={`text-center font-semibold rounded-lg ${
-            item.verified_status === 0 ? "text-red-700" : "text-green-700"
-          }`}
+          className="sticky top-0 z-10 grid bg-bannar text-white font-semibold text-sm uppercase tracking-wide p-2 rounded-tr-md rounded-tl-md"
+          style={{
+            gridTemplateColumns: "1fr 1.5fr 2fr 3fr 2fr 2fr 1.5fr 2fr", // Adjust column widths
+          }}
         >
-          {item.verified_status === 0 ? "Unverified" : "Verified"}
+          {data && userTitle.includes("user_id")
+            ? userTitle.map((key, index) => (
+                <div key={index} className="py-1 text-left">
+                  {key === "email"
+                    ? "Email"
+                    : key === "full_name"
+                      ? "Fullname"
+                      : key}
+                </div>
+              ))
+            : employeeTitle.map((key, index) => (
+                <div key={index} className="py-1 text-left">
+                  {key === "email"
+                    ? "Email"
+                    : key === "full_name"
+                      ? "Fullname"
+                      : key}
+                </div>
+              ))}
         </div>
-        <div className="flex gap-2 justify-center">
-          <button
-            className={`py-1 px-3 rounded text-white ${
-              item.verified_status === 1 ? "bg-blue" : "bg-dark-gray"
-            }`}
-            onClick={() => handleUserId(item.user_id)}
-          >
-            View
-          </button>
-          <button
-            className="bg-blue text-white py-1 px-3 rounded"
-            onClick={() => handleUserEdit(item.emp_id)}
-          >
-            Edit
-          </button>
+
+        <div className="max-h-[50rem] overflow-y-auto  ">
+          {data.map((item, index) => (
+            <div
+              key={index}
+              className={`grid self-center align-middle justify-center gap-x-1 border-b py-2 ${
+                index % 2 === 0 ? "bg-[#cacccd]" : "bg-[#edf3f7]"
+              }`}
+              style={{
+                gridTemplateColumns: "1fr 1.5fr 2fr 3fr 2fr 2fr 1.5fr 2fr",
+              }}
+            >
+              <div className="truncate">{item.id}</div>
+              <div className="truncate">{item.user_id || item.emp_id}</div>
+              <div className="truncate">{item.full_name}</div>
+              <div className="truncate">
+                <span title={item.email}>{item.email}</span>
+              </div>
+              <div className="truncate">{item.mobile}</div>
+              <div className="truncate">{item.role}</div>
+              <div
+                className={`text-center  font-semibold rounded-lg ${
+                  item.verified_status === 0 ? "text-red-700" : "text-green-700"
+                }`}
+              >
+                {item.verified_status === 0 ? "Unverified" : "Verified"}
+              </div>
+              <div className="flex gap-2 justify-center">
+                <button
+                  className={`py-1 px-3 rounded text-white ${
+                    item.verified_status === 1 ? "bg-blue" : "bg-dark-gray"
+                  }`}
+                  onClick={() => handleUserId(item.user_id)}
+                >
+                  View
+                </button>
+                <button
+                  className="bg-blue text-white py-1 px-3 rounded"
+                  onClick={() => handleUserEdit(item.emp_id)}
+                >
+                  Edit
+                </button>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
-    ))}
-  </div>
-</div>
 
-
-
-
-
-    
-    
-
-    {/* <div className=" mx-4 mt-2 mb-2 container max-h-[30rem] flex items-center justify-center overflow-hidden ">
+      {/* <div className=" mx-4 mt-2 mb-2 container max-h-[30rem] flex items-center justify-center overflow-hidden ">
       <table className="w-full bg-white border border-gray-200 shadow-lg rounded-lg">
         <thead className="sticky top-0">
           <tr className="bg-bannar text-white">

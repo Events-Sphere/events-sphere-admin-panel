@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axiosInstance from '../utilities/axiosInstance'
+import axiosInstance from "../utilities/axiosInstance";
 import Config from "../App/service/config";
 const EditCard = ({ userDetailEdit, popupEdit, setPopupEdit, circle }) => {
   const [value, setValue] = useState({
@@ -8,8 +8,8 @@ const EditCard = ({ userDetailEdit, popupEdit, setPopupEdit, circle }) => {
     email: userDetailEdit[0].email,
     password: "",
   });
-  const id=userDetailEdit[0].emp_id;
-  console.log(id)
+  const id = userDetailEdit[0].emp_id;
+  console.log(id);
   const [image, setImage] = useState(null);
   console.log("value", value);
   const handleChange = (e) => {
@@ -27,40 +27,40 @@ const EditCard = ({ userDetailEdit, popupEdit, setPopupEdit, circle }) => {
     data.append("id", id);
     data.append("name", value.full_name);
     data.append("email", value.email);
-    if(value.password && value.password.trim() !== ""){
+    if (value.password && value.password.trim() !== "") {
       data.append("password", value.password);
     }
     data.append("mobile", value.mobile);
-   if(image != null){
-    data.append("internal-profile", image);
-   }
+    if (image != null) {
+      data.append("internal-profile", image);
+    }
 
     try {
-      const response = await axiosInstance.put(Config.updateInternalTeam,data);
-      alert(response.data.message)
-      console.log(response)
-      setPopupEdit(!setPopupEdit)
+      const response = await axiosInstance.put(Config.updateInternalTeam, data);
+      alert(response.data.message);
+      console.log(response);
+      setPopupEdit(!setPopupEdit);
     } catch (err) {
       console.log(err);
-      alert(err.response.data.message)
+      alert(err.response.data.message);
     }
   };
   return (
-    <div className="fixed inset-0 flex items-center justify-center  bg-black bg-opacity-75">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+    <div className="absolute z-50 left-0 inset-0 flex items-center justify-center  bg-black bg-opacity-75">
+      <div className="bg-white p-8 relative rounded-lg shadow-lg w-full max-w-md">
         <>
-          <div className="flex justify-between">
+          <div className="flex  justify-between ">
             <h3 className="text-xl font-bold mb-4 text-primary">
               Edit Internal Team
             </h3>
             <button
               onClick={() => setPopupEdit(!popupEdit)}
-              className="bg-red px-2"
+              className="bg-red px-4 py-2 rounded-md  text-white absolute right-1 top-1"
             >
               X
             </button>
           </div>
-          <form onSubmit={handleSubmit} className="space-y-2">
+          <form onSubmit={handleSubmit} className="space-y-4">
             <div className="flex flex-col">
               <label className="font-semibold text-gray-700">Full Name:</label>
               <input
@@ -68,7 +68,7 @@ const EditCard = ({ userDetailEdit, popupEdit, setPopupEdit, circle }) => {
                 name="full_name"
                 value={value.full_name}
                 onChange={handleChange}
-                className="mt-1 p-1 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                className="mt-1 p-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary"
                 placeholder="Enter category name"
               />
             </div>
@@ -79,7 +79,7 @@ const EditCard = ({ userDetailEdit, popupEdit, setPopupEdit, circle }) => {
                 name="mobile"
                 value={value.mobile}
                 onChange={handleChange}
-                className="mt-1 p-1 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                className="mt-1 p-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary"
                 placeholder="Enter image URL"
               />
             </div>
@@ -90,7 +90,7 @@ const EditCard = ({ userDetailEdit, popupEdit, setPopupEdit, circle }) => {
                 name="email"
                 value={value.email}
                 onChange={handleChange}
-                className="mt-1 p-1 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                className="mt-1 p-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary"
                 placeholder="Enter image URL"
               />
             </div>
@@ -101,7 +101,7 @@ const EditCard = ({ userDetailEdit, popupEdit, setPopupEdit, circle }) => {
                 name="password"
                 value={value.password}
                 onChange={handleChange}
-                className="mt-1 p-1 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                className="mt-1 p-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary"
                 placeholder="Enter image URL"
               />
             </div>
@@ -112,7 +112,7 @@ const EditCard = ({ userDetailEdit, popupEdit, setPopupEdit, circle }) => {
                 name="image"
                 onChange={handleChange}
                 accept="image/*"
-                className="mt-1 p-1 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                className="mt-1 p-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary"
                 placeholder="Enter image URL"
               />
             </div>

@@ -1,469 +1,275 @@
-import React, { useEffect, useState } from "react";
-import { IoClose } from "react-icons/io5";
+import React, { useState } from "react";
+import { IoCallOutline, IoClose } from "react-icons/io5";
 import axiosInstance from "../utilities/axiosInstance";
 import Config from "../App/service/config";
-import { useNavigate } from "react-router-dom";
+import { toast, Bounce } from "react-toastify";
+
 const UserDetails = ({ popup, setPopup, userDetail }) => {
-  const navigate = useNavigate();
-  const[reason,setReason]=useState(false);
-  const[orgreason,setOrgReason]=useState(false);
-  console.log(userDetail)
-  const[value,setValue]=useState("");
-  console.log(reason)
-  const handleApprove = async (role, id) => {
+  const [reason, setReason] = useState("");
+  const [showReasonInput, setShowReasonInput] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
+
+  const handleAction = async (action, role, id) => {
     try {
-      console.log(role, id);
-      let response;
-      if (role == "organizer") {
-        response = await axiosInstance.put(Config.approveOrganizer, {
-          org_id: id,
+      const endpoint =
+        role === "organizer"
+          ? action === "approve"
+            ? Config.approveOrganizer
+            : Config.rejectOrganizer
+          : action === "approve"
+            ? Config.approveUser
+            : Config.rejectUser;
+
+      const payload = role === "organizer" ? { org_id: id } : { user_id: id };
+      if (action === "reject") payload.reason = reason;
+
+      const response = await axiosInstance.put(endpoint, payload);
+      if (action === "approve") {
+        toast.success("Organizer approved", {
+          position: "top-right",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          transition: Bounce,
         });
       } else {
-        response = await axiosInstance.put(Config.approveUser, {
-          user_id: id,
+        toast.warning("Organizer Rejected.", {
+          position: "top-right",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          transition: Bounce,
         });
       }
 
-      // navigate('/get-all-user')
       setPopup(!popup);
-
-      console.log(response);
     } catch (error) {
-      console.log(error);
+      toast.error("Something went wrong. Try again!", {
+        position: "top-right",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        transition: Bounce,
+      });
+    } finally {
+      setPopup(false);
     }
   };
 
-  const handleReject = async (role, id) => {
-    try {
-      console.log(role, id);
-      let response;
-      if (role == "organizer") {
-        response = await axiosInstance.put(Config.rejectOrganizer, {
-          org_id: id,
-          reason:value
-        });
-      } else {
-        response = await axiosInstance.put(Config.rejectUser, {
-          user_id: id,
-          reason:value
-        });
-      }
-
-      // navigate('/get-all-user')
-      setPopup(!popup);
-
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  return (
-    <div className="fixed inset-0 flex items-center justify-center w-full z-40  bg-black bg-opacity-75  pt-4 pb-2">
-      <div className="bg-white  px-8 pb-2  rounded-lg shadow-lg  w-full h-full max-w-4xl  relative  ">
-        {userDetail.length > 0 ? (
-          <div>
-            <div className="flex justify-between items-center sticky top-0 bg-white z-20">
-              <h1 className="text-xl font-bold mb-1 text-primary pt-2 ">
-                USER DETAIL
-              </h1>
-              <span
-                onClick={() => setPopup(!popup)}
-                className=" bg-grey text-red rounded hover:cursor-pointer hover: text-2xl outline m-3 p-2"
-              >
-                <IoClose />
-              </span>
+  const renderUserInfo = (data) => (
+    <div className="mb-4 select-none">
+      <div className="flex items-center gap-4 ">
+        <p className="text-md text-txt-color font-semibold text-xl absolute top-12 right-12">
+          {" "}
+          {data.user_role}
+        </p>
+        <img
+          src={`http://localhost:3000/org_id_card/${data.id_card[0]}`}
+          alt="Profile"
+          className="w-20 h-20 rounded-md border-[1px] border-white-smoke"
+        />
+        <div>
+          <div className="flex gap-4 items-center">
+            <div>
+              <h2 className="text-2xl text-txt-color font-semibold">
+                {data.full_name}
+              </h2>
+              <p className="text-sm text-txt-color">{data.email}</p>
             </div>
-
-            {userDetail.map((data, index) => (
-              <div key={index}>
-              <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="bg-white rounded-lg shadow-lg p-3 max-w-3xl w-full">
-
-        <div className="flex items-center gap-3 mb-3">
-          <img
-           src={data.id_card}
-            alt="Profile"
-            className="w-20 h-20 rounded-full border border-gray-300"
-          />
-          <div>
-            <h2 className="text-xl font-semibold text-gray-800">{data.full_name}</h2>
-            <p className="text-sm text-gray-600">{data.user_role}</p>
-          </div>
-        </div>
-
-        <div className="space-y-2">
-          <div className="flex justify-between items-center text-gray-700">
-            <span className="font-medium">ID:</span>
-            <span>{data.user_id}</span>
-          </div>
-          <div className="flex justify-between items-center text-gray-700">
-            <span className="font-medium">Email:</span>
-            <span>{data.full_name}</span>
-          </div>
-          <div className="flex justify-between items-center text-gray-700">
-            <span className="font-medium">Mobile:</span>
-            <span>{data.mobile}</span>
-          </div>
-          <div className="flex justify-between items-center text-gray-700">
-            <span className="font-medium">Status:</span>
-            <span
-              className={`px-2 py-1 rounded text-sm ${
-                data.verified_status.toLowerCase() === "active"
-                  ? "bg-green-100 text-green-700"
-                  : "bg-red-100 text-red-700"
-              }`}
+            <p
+              className={`text-sm ${data.verified_status === "active" ? "bg-green-700" : "bg-red"} text-white rounded-md flex items-center justify-center py-1 px-2`}
             >
               {data.verified_status}
-            </span>
-          </div>
-          <div className="flex justify-between items-center text-gray-700">
-            <span className="font-medium">User ID:</span>
-            <span>{data.user_id}</span>
-          </div>
-        </div>
-        <div className="mt-6">
-          <h3 className="text-lg font-medium text-gray-800 mb-2">ID Proofs</h3>
-          <div className="flex gap-4">
-            <img
-              src={`https://event-backend-0000.onrender.com/ev_category/${data.id_card[0]}`}
-
-              alt="ID Proof 1"
-              className="w-20 h-20 rounded-lg border border-gray-300"
-            />
-            <img
-              src={`${Config.OnlineUrl}${data.id_card[1]}`}
-              alt="ID Proof 2"
-              className="w-20 h-20 rounded-lg border border-gray-300"
-            />
-          </div>
-        </div>
-
-        <div className="mt-6 space-y-2 text-gray-600 text-sm">
-          <div className="flex justify-between">
-            <span>Created At:</span>
-            <span>{new Date(data.createdAt).toLocaleString()}</span>
-          </div>
-          <div className="flex justify-between">
-            <span>Updated At:</span>
-            <span>{new Date(data.approved_at).toLocaleString()}</span>
-          </div>
-          <div className="flex justify-between">
-            <span>Uproved By:</span>
-            <span>{new Date(data.approved_by).toLocaleString()}</span>
+            </p>
           </div>
         </div>
       </div>
-    </div>
-
-                {data.user_role === "organizer" && (
-                  <div>
-                    <p>
-                      <span className="font-bold">Org ID:</span> {data.org_id}
-                    </p>
-                    <p>
-                      <span className="font-bold">Full Name:</span>{" "}
-                      {data.full_name}
-                    </p>
-                    <p>
-                      <span className="font-bold">Email ID:</span> {data.email}
-                    </p>
-                    <div className="flex justify-between">
-                      <p>
-                        <span className="font-bold">Country Code:</span>{" "}
-                        {data.country_code}
-                      </p>
-                      <p>
-                        <span className="font-bold">Mobile No:</span>{" "}
-                        {data.mobile}
-                      </p>
-                    </div>
-                    <p>
-                      <span className="font-bold">College Name: </span>
-                      {data.college_name}
-                    </p>
-                    <p>
-                      <span className="font-bold">College Code:</span>{" "}
-                      {data.college_code}
-                    </p>
-                    <p>
-                      <span className="font-bold">Location: </span>
-                      {data.location}
-                    </p>
-                    <div className="flex ">
-                      <p>
-                        <span className="font-bold">Longitude:</span>{" "}
-                        {data.longitude}
-                      </p>
-                      <p>
-                        <span className="font-bold pl-5">Latitude: </span>
-                        {data.latitude}
-                      </p>
-                    </div>
-                    <p>
-                      <span className="font-bold">Created At:</span>{" "}
-                      {data.created_at}
-                    </p>
-                    {data.verified_status !== "pending" && (
-                      <>
-                        <p>
-                          <span className="font-bold">Approved At:</span>
-                          {data.approved_at}
-                        </p>
-                        <p>
-                          <span className="font-bold">Approved By:</span>
-                          {data.approved_by}
-                        </p>
-                      </>
-                    )}
-                    <div className="flex justify-start">
-                      <p>
-                        <span className="font-bold">Role:</span>{" "}
-                        {data.user_role}
-                      </p>
-                      <p className="">
-                        <span className="font-bold pl-6 bg-white">
-                          Status:{" "}
-                        </span>
-                        {data.verified_status}
-                      </p>
-                    </div>
-                    {data.reason !== "no reason" && (
-                      <p>
-                        <span className="font-bold">Reason:</span> {data.reason}
-                      </p>
-                    )}
-                    <p>
-                      <span className="font-bold">ID Card:</span>
-                    </p>
-                    <a
-                      href={`http://localhost:3000/org_noc/${data.noc}`}
-                      download
-                      className="text-blue-500 underline"
-                    >
-                      Download NOC
-                    </a>
-
-                    <div className="flex img">
-                      <img
-                        src={`http://localhost:3000/verified_user/${data.id_card[0]}`}
-                        alt=""
-                      />
-                      <img
-                        src={`http://localhost:3000/verified_user/${data.id_card[1]}`}
-                        alt=""
-                      />
-                    </div>
-                    <div className="mt-4 flex justify-center">
-                      {data.verified_status === "pending" && (
-                        <>
-                          <button
-                            onClick={() =>
-                              handleApprove(data.user_role, data.org_id)
-                            }
-                            className="bg-primary text-white px-4 py-2 rounded mr-2"
-                          >
-                            Approve
-                          </button>
-                          <button 
-                          onClick={() =>
-                            setOrgReason(!orgreason)
-                          }
-                          className="bg-red text-white px-4 py-2 rounded">
-                            Reject
-                          </button>
-                        </>
-                      )}
-                      {data.verified_status === "active" && (
-                        <button onClick={() =>
-                          setOrgReason(!orgreason)
-                        } className="bg-red text-white px-4 py-2 rounded">
-                          Reject
-                        </button>
-                      )}
-                      {data.verified_status === "rejected" && (
-                        <button
-                          onClick={() =>
-                            handleApprove(data.user_role, data.org_id)
-                          }
-                          className="bg-primary text-white px-4 py-2 rounded"
-                        >
-                          Approve
-                        </button>
-                      )}
-                      {
-                  orgreason && <div className="bg-blue bottom-52 py-7 px-2 text-white absolute">
-                    <label htmlFor="">Reason</label>
-                    <input type="text" onChange={(e)=>setValue(e.target.value)} className="text-black" />
-                    <div className="mt-2 flex justify-around">
-                      <button className="bg-red text-white px-4 py-2 rounded" onClick={()=>setOrgReason(!orgreason)}>cancel</button>
-                      <button className="bg-primary text-white px-4 py-2 rounded" onClick={() =>
-                            handleReject(data.user_role, data.org_id)
-                          }>confirm</button>
-                    </div>
-                    </div>
-                }
-                    </div>
-                  </div>
-                )}
-               
-
-                
-                
-                {data.role == "it_team" && (
-                  <div>
-                    <p>
-                      <span className="font-bold">User ID:</span> {data.emp_id}
-                    </p>
-                    
-                    <p>
-                      <span className="font-bold">Email ID:</span> {data.email}
-                    </p>
-                    <p>
-                      <span className="font-bold">Full Name:</span> {data.full_name}
-                    </p>
-                  
-                    
-                    <p>
-                      <span className="font-bold">Mobile No:</span> {data.mobile}
-
-                    </p>
-                    {/* <img src={} alt="" /> */}
-
-                    
-                    <div className="mt-4 flex justify-center">
-                     
-                      
-                      
-                    </div>
-                  </div>
-                )}
-
-{data.user_role == "student" && (
-                  <div>
-                    <p>
-                      <span className="font-bold">User ID:</span> {data.user_id}
-                    </p>
-                    <p>
-                      <span className="font-bold">Full Name:</span>{" "}
-                      {data.full_name}
-                    </p>
-                    <p>
-                      <span className="font-bold">Email ID:</span> {data.email}
-                    </p>
-                    <div className="flex justify-between">
-                      <p>
-                        <span className="font-bold">Country Code:</span>{" "}
-                        {data.country_code}
-                      </p>
-                      <p>
-                        <span className="font-bold">Mobile No:</span>{" "}
-                        {data.mobile}
-                      </p>
-                    </div>
-
-                    <p>
-                      <span className="font-bold">Created At:</span>{" "}
-                      {data.created_at}
-                    </p>
-                    {data.verified_status !== "pending" && (
-                      <>
-                        <p>
-                          <span className="font-bold">Approved At:</span>
-                          {data.approved_at}
-                        </p>
-                        <p>
-                          <span className="font-bold">Approved By:</span>
-                          {data.approved_by}
-                        </p>
-                      </>
-                    )}
-                    <div className="flex justify-start">
-                      <p>
-                        <span className="font-bold">Role:</span>{" "}
-                        {data.user_role}
-                      </p>
-                      <p className="">
-                        <span className="font-bold pl-6 bg-white">Status:</span>
-                        {data.verified_status}
-                      </p>
-                    </div>
-                    {data.reason !== "no reason" && (
-                      <p>
-                        <span className="font-bold">Reason:</span> {data.reason}
-                      </p>
-                    )}
-                    <p>
-                      <span className="font-bold">ID Card:</span>
-                    </p>
-
-                    <div className="flex img">
-                      <img
-                        src={`http://localhost:3000/verified_user/${data.id_card[0]}`}
-                        alt=""
-                      />
-                      <img
-                        src={`http://localhost:3000/verified_user/${data.id_card[1]}`}
-                        alt=""
-                      />
-                    </div>
-                    <div className="mt-4 flex justify-center">
-                      {data.verified_status === "pending" && (
-                        <>
-                          <button
-                            onClick={() =>
-                              handleApprove(data.user_role, data.user_id)
-                            }
-                            className="bg-primary text-white px-4 py-2 rounded mr-2"
-                          >
-                            Approve
-                          </button>
-                          <button onClick={() =>
-                            setReason(!reason)
-                          } className="bg-red text-white px-4 py-2 rounded">
-                            Reject
-                          </button>
-                        </>
-                      )}
-                      {data.verified_status === "active" && (
-                        <button onClick={() =>
-                          setReason(!reason)
-                        } className="bg-red text-white px-4 py-2 rounded">
-                          Reject
-                        </button>
-                      )}
-                      {data.verified_status === "rejected" && (
-                        <button
-                          onClick={() =>
-                            handleApprove(data.user_role, data.user_id)
-                          }
-                          className="bg-primary text-white px-4 py-2 rounded"
-                        >
-                          Approve
-                        </button>
-                      )}
-                       {
-                  reason && <div className="bg-blue bottom-52 py-7 px-2 text-white absolute">
-                    <label htmlFor="">Reason</label>
-                    <input type="text" onChange={(e)=>setValue(e.target.value)} className="text-black" />
-                    <div className="mt-2 flex justify-around">
-                      <button className="bg-red text-white px-4 py-2 rounded" onClick={()=>setReason(!reason)}>cancel</button>
-                      <button className="bg-primary text-white px-4 py-2 rounded" onClick={() =>
-                            handleReject(data.user_role, data.user_id)
-                          }>confirm</button>
-                    </div>
-                    </div>
-                }
-                    </div>
-                  </div>
-                )}
-                
-               
-              </div>
-            ))}
+      <div className="mt-2">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-1">
+            <IoCallOutline color="green" />
+            <span className="text-txt-color text-md font-semibold">
+              {data.country_code}-
+            </span>
+            <p className="text-txt-color text-md font-semibold">
+              {data.mobile}
+            </p>
           </div>
+
+          <p className="flex items-center gap-2">
+            <a
+              className="px-4 py-2 border border-blue-500 text-blue rounded hover:bg-blue-500 hover:border-red hover:text-red transition"
+              href={`http://localhost:3000/org_noc/${data.noc}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Open PDF
+            </a>
+          </p>
+        </div>
+        {data.user_role === "organizer" && (
+          <div>
+            <div className="flex gap-4  items-center">
+              <p> ID:{data.org_id}</p>
+              <p>Code:{data.college_code}</p>
+              <p>Organization name : {data.college_name}</p>
+            </div>
+            <div className="mt-1">
+              {["Rejected", "rejected"].includes(data.verified_status) ? (
+                <>
+                  <p className="flex gap-1 ">
+                    <span>Reason for rejection :</span>
+                    {data.reason}
+                  </p>
+                </>
+              ) : (
+                <></>
+              )}
+
+              <h3 className="text-lg text-txt-color mb-2">Location</h3>
+              <iframe
+                src={`https://www.google.com/maps?q=${data.latitude},${data.longitude}&z=15&output=embed`}
+                width="100%"
+                height="150"
+                style={{ border: "0" }}
+                allowFullScreen=""
+                loading="lazy"
+              ></iframe>
+            </div>
+          </div>
+        )}
+        {data.user_role === "student" && (
+          <>
+            <p>Student ID: {data.student_id}</p>
+            <p>Department: {data.department}</p>
+          </>
+        )}
+        {data.user_role === "internal_team" && (
+          <>
+            <p>Team ID: {data.team_id}</p>
+            <p>Position: {data.position}</p>
+          </>
+        )}
+      </div>
+    </div>
+  );
+
+  const renderActionButtons = (data) => (
+    <div className="flex gap-4 mt-4">
+      {data.verified_status === "pending" && (
+        <>
+          <button
+            onClick={() =>
+              handleAction(
+                "approve",
+                data.user_role,
+                data.user_id || data.org_id,
+              )
+            }
+            className="bg-green-700 text-white px-4 py-2 rounded "
+          >
+            Approve
+          </button>
+          <button
+            onClick={() => {
+              setSelectedUser(data);
+              setShowReasonInput(true);
+            }}
+            className="bg-red text-white px-4 py-2 rounded"
+          >
+            Reject
+          </button>
+        </>
+      )}
+      {data.verified_status === "active" && (
+        <button
+          onClick={() => {
+            setSelectedUser(data);
+            setShowReasonInput(true);
+          }}
+          className="bg-red text-white px-4 py-2 rounded"
+        >
+          Reject
+        </button>
+      )}
+      {data.verified_status === "rejected" && (
+        <button
+          onClick={() =>
+            handleAction("approve", data.user_role, data.user_id || data.org_id)
+          }
+          className="bg-green-700 text-white px-4 py-2 rounded"
+        >
+          Approve
+        </button>
+      )}
+    </div>
+  );
+
+  return (
+    <div className="fixed select-none inset-0 flex items-center justify-center bg-black bg-opacity-75 z-40">
+      <div className="bg-white w-full max-w-3xl p-6 rounded shadow-lg relative ">
+        <button
+          onClick={() => setPopup(!popup)}
+          className="absolute top-4 right-4 text-2xl"
+        >
+          <IoClose />
+        </button>
+        <h1 className="text-xl font-bold mb-6">User Details</h1>
+        {userDetail.length > 0 ? (
+          userDetail.map((data, index) => (
+            <div key={index}>
+              {renderUserInfo(data)}
+              {renderActionButtons(data)}
+            </div>
+          ))
         ) : (
-          <div>No data found</div>
+          <p>No user details available.</p>
+        )}
+
+        {showReasonInput && (
+          <div className="mt-6">
+            <label className="block mb-2">Reason for Rejection:</label>
+            <input
+              type="text"
+              value={reason}
+              onChange={(e) => setReason(e.target.value)}
+              className="w-full p-2 border rounded"
+            />
+            <div className="flex gap-4 mt-4">
+              <button
+                onClick={() => {
+                  handleAction(
+                    "reject",
+                    selectedUser.user_role,
+                    selectedUser.user_id || selectedUser.org_id,
+                  );
+                  setShowReasonInput(false);
+                  setReason("");
+                }}
+                className="bg-red text-white px-4 py-2 rounded"
+              >
+                Submit
+              </button>
+              <button
+                onClick={() => setShowReasonInput(false)}
+                className="bg-white-smoke px-4 py-2 rounded"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
         )}
       </div>
     </div>

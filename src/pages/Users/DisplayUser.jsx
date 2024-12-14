@@ -8,7 +8,7 @@ import ClipLoader from "react-spinners/ClipLoader";
 import UserDetails from "../../components/UserDetails";
 
 const DisplayUser = ({ showMenu, setShowMenu }) => {
-  const [pageCount , setPageCount] = useState(1);
+  const [pageCount, setPageCount] = useState(1);
   const [page, setPage] = useState(1);
   const [data, setData] = useState([]);
   const [title, setTitle] = useState([]);
@@ -25,16 +25,13 @@ const DisplayUser = ({ showMenu, setShowMenu }) => {
   const [loading, setLoading] = useState(false);
   const [loadingDetail, setLoadingDetail] = useState(false);
 
-
   const { data: allUsers, error } = useFetch(
     () =>
       axiosInstance.get(
-        `admin/users?page=${page}&search=${search}&roles=${roles}&limit=${ limit}&v_status=${status}`
+        `admin/users?page=${page}&search=${search}&roles=${roles}&limit=${limit}&v_status=${status}`,
       ),
-    [page, search, roles, limit, status]
+    [page, search, roles, limit, status],
   );
-
-
 
   useErrorHandling(error);
 
@@ -57,7 +54,7 @@ const DisplayUser = ({ showMenu, setShowMenu }) => {
     if (allUsers?.data?.length) {
       setData(allUsers.data);
       setTitle(Object.keys(allUsers.data[0] || {}));
-      setTotalPage( allUsers.totalPage || 1);
+      setTotalPage(allUsers.totalPage || 1);
       setUserCategory(allUsers.category || []);
     }
   }, [allUsers]);
@@ -83,7 +80,9 @@ const DisplayUser = ({ showMenu, setShowMenu }) => {
         <div>
           <div
             className="grid ml-10 gap-x-1 border-b py-2 bg-bannar"
-            style={{ gridTemplateColumns: "1fr 1.5fr 2fr 3fr 2fr 2fr 1.5fr 2fr" }}
+            style={{
+              gridTemplateColumns: "1fr 1.5fr 2fr 3fr 2fr 2fr 1.5fr 2fr",
+            }}
           >
             <div>ID</div>
             <div>USER ID</div>

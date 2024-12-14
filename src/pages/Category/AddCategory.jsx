@@ -1,47 +1,78 @@
-import React, { useState } from 'react';
-import { useAddCategoryMutation } from '../../App/Features/Api/categoryApiSlice';
+import React, { useState } from "react";
+import { useAddCategoryMutation } from "../../App/Features/Api/categoryApiSlice";
+import { toast, Bounce } from "react-toastify";
 
 const AddCategory = () => {
   const [formData, setFormData] = useState({
-    category_name: '',
+    category_name: "",
     category_img: null,
   });
 
+  const [addCategory] = useAddCategoryMutation();
+  const [loading, setLoading] = useState(false);
+
   const handleChange = (e) => {
     const { name, value, files } = e.target;
-    if (name === 'category_img') {
+    if (name === "category_img") {
       setFormData({ ...formData, [name]: files[0] });
     } else {
       setFormData({ ...formData, [name]: value });
     }
   };
 
-  const [addCategory ]  = useAddCategoryMutation();
-
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setLoading(true);
     const data = new FormData();
-    data.append('title', formData.category_name);
+    data.append("title", formData.category_name);
     if (formData.category_img) {
-      data.append('category', formData.category_img);
+      data.append("category", formData.category_img);
     }
-
     try {
       const response = await addCategory(data).unwrap();
-      console.log(response);
-
       if (response.status === true) {
-        alert(response.message);
+        toast.success(response.message ?? "category added successfully", {
+          position: "top-right",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          transition: Bounce,
+        });
       } else {
-        alert(response.message);
+        toast.warning(response.message, {
+          position: "top-right",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          transition: Bounce,
+        });
       }
+      setLoading(false);
     } catch (error) {
-      alert(error.data?.message || 'An error occurred');
+      setLoading(false);
+      toast.error(error.data?.message || "Something went wrong. try again!", {
+        position: "top-right",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        transition: Bounce,
+      });
     } finally {
+      setLoading(false);
       setFormData({
-        category_name: '',
+        category_name: "",
         category_img: null,
       });
     }
@@ -49,8 +80,14 @@ const AddCategory = () => {
 
   return (
     <div className="flex justify-center  h-[100vh] items-center   ">
-      <form onSubmit={handleSubmit} autoComplete="off" className="w-full text-black max-w-lg p-8  rounded-lg  bg-white  shadow-md">
-        <h2 className="text-3xl font-bold text-txt-color mb-6 text-start">ADD MORE CATEGORY</h2>
+      <form
+        onSubmit={handleSubmit}
+        autoComplete="off"
+        className="w-full text-black max-w-lg p-8  rounded-lg  bg-white  shadow-md"
+      >
+        <h2 className="text-3xl font-bold text-txt-color mb-6 text-start">
+          ADD MORE CATEGORY
+        </h2>
         <div className="space-y-6">
           <div className="flex flex-col">
             <label className="font-semibold text-black">Category Name:</label>
@@ -65,10 +102,14 @@ const AddCategory = () => {
           </div>
           <div className="flex flex-col">
             <label className="font-semibold text-black">Category Image:</label>
-            <div className="mt-2 flex items-center justify-center p-4 border-2 border-dashed border-black rounded-lg hover:border-blue transition">
-              <label className="flex flex-col items-center justify-center w-full h-8 cursor-pointer">
+            <div className=" mt-2 flex items-center justify-center p-2 border-2 border-dashed border-black rounded-lg hover:border-blue transition">
+              <label className="flex h-[25vh] w-full flex-col items-center justify-center  cursor-pointer">
                 {formData.category_img ? (
-                  <span className="text-sm text-black">{formData.category_img.name}</span>
+                  <img
+                    src={URL.createObjectURL(formData.category_img)}
+                    alt="category-img"
+                    className="w-full h-full object-cover rounded-lg overflow-hidden"
+                  />
                 ) : (
                   <>
                     <svg
@@ -85,7 +126,9 @@ const AddCategory = () => {
                         d="M7 16V4m10 12V4m-6 8V4m8 4H3"
                       ></path>
                     </svg>
-                    <span className="text-sm text-black">Click here to select a image</span>
+                    <span className="text-sm text-black">
+                      Click here to select a image
+                    </span>
                   </>
                 )}
                 <input
@@ -99,12 +142,23 @@ const AddCategory = () => {
             </div>
           </div>
         </div>
-        <button
-          type="submit"
-          className="mt-6 w-full py-3 bg-btn-color text-white font-semibold rounded-lg shadow hover:bg-black hover:text-white transition"
-        >
-          Add Category
-        </button>
+
+        <div className="flex justify-end mt-6">
+          <button
+            type="submit"
+            disabled={loading}
+            className={`w-full py-3 flex align-middle justify-center gap-2 ${
+              loading ? "bg-btn-color opacity-35" : "bg-btn-color"
+            }  text-white font-semibold rounded-lg shadow hover:bg-primary-dark transition`}
+          >
+            {loading && (
+              <div className="flex items-center justify-center">
+                <div className="h-6 w-6 border-4 border-t-[#640D5F] border-[#A888B5] rounded-full animate-spin"></div>
+              </div>
+            )}
+            <span>Add Category</span>
+          </button>
+        </div>
       </form>
     </div>
   );

@@ -2,7 +2,17 @@ import React from "react";
 import { MdEvent } from "react-icons/md";
 import { FiUsers } from "react-icons/fi";
 import { GoOrganization } from "react-icons/go";
-import {LineChart,Line, XAxis, YAxis,CartesianGrid,Tooltip,Legend,BarChart,Bar} from "recharts";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  BarChart,
+  Bar,
+} from "recharts";
 
 const Dashboard = () => {
   const data = [
@@ -33,15 +43,15 @@ const Dashboard = () => {
     },
   ];
 
-   const userDemographicsData = [
+  const userDemographicsData = [
     { year: "2019", count: 100 },
     { year: "2020", count: 200 },
     { year: "2021", count: 300 },
     { year: "2022", count: 250 },
     { year: "2023", count: 150 },
   ];
-  
-   const eventsBookedData = [
+
+  const eventsBookedData = [
     { year: "2019", count: 100 },
     { year: "2020", count: 200 },
     { year: "2021", count: 150 },
@@ -49,16 +59,17 @@ const Dashboard = () => {
     { year: "2023", count: 300 },
   ];
 
-  
-
   return (
     <div className="pt-1 px-4 w-full  bg-no-repeat bg-cover h-[100vh]">
       <div>
         <h1 className="heading text-white">DASHBOARD</h1>
       </div>
       <div className="flex flex-wrap justify-center gap-3 pt-4">
-        {data.map((data , index) => (
-          <div key={index} className="flex justify-between items-center  bg-white p-2 px-4 rounded shadow-lg hover:scale-105 w-56">
+        {data.map((data, index) => (
+          <div
+            key={index}
+            className="flex justify-between items-center  bg-white p-2 px-4 rounded shadow-lg hover:scale-105 w-56"
+          >
             <div className="flex flex-col  text-center gap-2">
               <span className="flex flex-wrap">{data.title}</span>
               <span span className="text-xl font-bold">
@@ -85,12 +96,11 @@ const Dashboard = () => {
             <Line type="monotone" dataKey="count" stroke="#8884d8" />
           </LineChart>
         </div>
- 
 
         {/* Events bookings */}
         <div className=" bg-white p-4 rounded-lg shadow-md overflow-hidden">
           <h3 className="text-lg font-semibold mb-4">Events bookings</h3>
-          <BarChart  width={450} height={300}  data={eventsBookedData}>
+          <BarChart width={450} height={300} data={eventsBookedData}>
             <XAxis dataKey="year" />
             <YAxis />
             <CartesianGrid strokeDasharray="3 3" />
@@ -100,8 +110,7 @@ const Dashboard = () => {
           </BarChart>
         </div>
       </div>
-        </div>
-  
+    </div>
   );
 };
 

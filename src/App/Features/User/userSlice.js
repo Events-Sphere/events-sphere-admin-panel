@@ -1,13 +1,13 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   users: [],
-  status: 'idle',
+  status: "idle",
   error: null,
 };
 
 const userSlice = createSlice({
-  name: 'userSlicer',
+  name: "userSlicer",
   initialState,
   reducers: {
     setUsers: (state, action) => {
