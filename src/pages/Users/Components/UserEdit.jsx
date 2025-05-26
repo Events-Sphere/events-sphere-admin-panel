@@ -134,7 +134,7 @@ const UserEdit = ({ data, setModelType, setRefresh }) => {
                         </div>
                     )}
 
-                    {(data[0].status === "active" || data[0].status === "pending") && (
+                    {(data[0].status === "active" || data[0].status === "pending" && showRejectReason) && (
                         <div className="space-y-3">
                             <textarea
                                 rows={3}

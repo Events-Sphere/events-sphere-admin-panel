@@ -9,6 +9,9 @@ import axiosInstance from "../../utilities/axiosInstance";
 import UserDetails from "./Components/UserDetails";
 import UserEdit from "./Components/UserEdit";
 import NotFound from "../NotFound";
+import { Bounce, toast } from "react-toastify";
+import DebugLogger from "../../utilities/DebugLogger";
+
 
 const UserManagementPage = () => {
   const [pageCount, setPageCount] = useState(1);
@@ -31,6 +34,7 @@ const UserManagementPage = () => {
   const [refresh, setRefresh] = useState(false);
 
 
+
   const { data: allUsers, error } = useFetch(
     () =>
       axiosInstance.post(
@@ -46,7 +50,7 @@ const UserManagementPage = () => {
     [page, search, roles, limit, status, refresh],
   );
 
-  useErrorHandling(error);
+  useErrorHandling(error, setRefresh);
 
   const fetchUserDetail = async (userID) => {
     try {
@@ -86,6 +90,7 @@ const UserManagementPage = () => {
 
   return (
     <div className="h-[100vh] overflow-x-hidden overflow-y-hidden">
+      {/* <DebugLogger data={data} label="User Log"/> */}
       {
         modelType === "view" && (<UserDetails setModelType={setModelType} singleUserData={userDetail} />)
       }
@@ -150,14 +155,37 @@ export const useFetch = (apiCall, dependencies = []) => {
   return { loading, data, error };
 };
 
-export const useErrorHandling = (error) => {
+export const useErrorHandling = (error, setRefresh) => {
   useEffect(() => {
     if (error) {
       if (error.response?.status === 500) {
-        alert("Check your internet connection.");
+            toast.warning("Check your internet connection.", {
+                    position: "top-right",
+                    autoClose: 1000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+                    transition: Bounce,
+                });
       } else {
-        alert(`Error: ${error.message}`);
+          toast.error(error.message || "Something went wrong. Try again..", {
+                    position: "top-right",
+                    autoClose: 1500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+                    transition: Bounce,
+                });
       }
+        setTimeout(()=>{
+          setRefresh(prev => !prev);
+        }, 5000);
     }
   }, [error]);
 };
