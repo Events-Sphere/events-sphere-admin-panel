@@ -1,9 +1,7 @@
 import React, { useEffect, useReducer, useState } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import DisplayUser from "./pages/Users/DisplayUser";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import "./App.css";
-import DisplayUserVerification from "./pages/Users/DisplayVerificationList";
 import Login from "./pages/Login/Login";
 import AddEvent from "./pages/Events/AddEvent";
 import { useSelector } from "react-redux";
@@ -28,6 +26,7 @@ import Config from "./App/service/config";
 import { ToastContainer, toast, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { setCredentials } from "./App/Features/Auth/authSlice";
+import UserManagementPage from "./pages/Users/UserManagementPage";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -37,7 +36,7 @@ const App = () => {
 
   const validateToken = async (token) => {
     try {
-      const response = await fetch(`${Config.baseUrl}/auth/validate-session`, {
+      const response = await fetch(`${Config.authBaseUrl}auth/validate-session`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -45,7 +44,7 @@ const App = () => {
       });
       if (response.ok) {
         const data = await response.json();
-        return data.status;
+        return data.success;
       }
       return false;
     } catch (error) {
@@ -58,6 +57,7 @@ const App = () => {
     const checkAuth = async () => {
       const localToken = localStorage.getItem("token");
       if (localToken) {
+        console.log(localToken)
         const isValid = await validateToken(localToken);
         if (isValid) {
           dispatch(setCredentials({ token: localToken }));
@@ -87,18 +87,14 @@ const App = () => {
         <>
           <NavBar />
           <SideMenuBar />
-          <div className="pl-52">
+          <div className="pl-52 select-none">
             <Routes>
               <Route element={<ProtectedRoute />}>
                 <Route path="/" element={<Navigate to="/dashboard" />} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/add-category" element={<AddCategory />} />
                 <Route path="/categories-list" element={<CategoriesList />} />
-                <Route path="/get-all-user" element={<DisplayUser />} />
-                <Route
-                  path="/get-all-verification-requests"
-                  element={<DisplayUserVerification />}
-                />
+                <Route path="/get-all-user" element={<UserManagementPage />} />
                 <Route path="/add-event" element={<AddEvent />} />
                 <Route path="/organizers" element={<ListOrganizer />} />
                 <Route

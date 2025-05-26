@@ -11,11 +11,13 @@ const CategoriesList = () => {
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const getCategory = async () => {
+  useEffect(() => {
+      const getCategory = async () => {
     try {
       const response = await axiosInstance.get(Config.getAllEventCategory);
-      if (response.data.status == true && response.data.data) {
-        setCategory(response.data.data);
+      console.log(response.data.data.categories);
+      if (response.data.success == true && response.data.data.categories) {
+        setCategory(response.data.data.categories);
       }
     } catch (error) {
       toast.error(error.message ?? "Something went wrong. try again!", {
@@ -31,10 +33,8 @@ const CategoriesList = () => {
       });
     } 
   };
-
-  useEffect(() => {
     getCategory();
-  }, [category]);
+  }, []);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -124,15 +124,14 @@ const CategoriesList = () => {
                 key={category.id}
                 className={`border-b border-border ${idx % 2 != 0 ? "bg-tbl-even" : "bg-tbl-odd"}`}
               >
-                <td className="py-3 px-4">{category.id}</td>
+                <td className="py-3 px-4">{category._id}</td>
                 <td className="py-3 px-4">
                   <img
                     src={`${Config.categoryImgBaseUrl}${category.image}`}
-                    alt="category-img"
-                    className="w-16 h-16 object-cover rounded"
+                    alt={`${category.name}`}
+                    className="w-16 h-16 object-cover rounded item-center"
                   />
-
-                </td>
+                </td>   
                 <td className="py-3 px-4">{category.name}</td>
                 <td className="py-3 px-4 text-center">
                   <div

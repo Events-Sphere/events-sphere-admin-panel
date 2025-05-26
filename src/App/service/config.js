@@ -1,11 +1,15 @@
-export default class Config {
-  static baseUrl = "https://event-backend-11.onrender.com/api/v1";
-  static localHostUrl = "http://localhost:3000/api/v1";
-  
-  static imageBaseUrl = "https://event-backend-11.onrender.com";
 
+const  isLocalServer = true;
+
+export default class Config {
+  static localHostUrl = "http://localhost:3000/api/v1";
+  static authBaseUrl =  "http://localhost:3000/";
   static OnlineUrl = "https://event-backend-0000.onrender.com/api/v1";
-  static categoryImgBaseUrl = `${this.imageBaseUrl}/ev_category/`;
+  static baseUrl =  isLocalServer ? this.localHostUrl : this.OnlineUrl;
+  static imageBaseUrl = "https://firebasestorage.googleapis.com/v0/b/stuhub-36067.firebasestorage.app/o";
+  
+
+  static categoryImgBaseUrl = `${this.imageBaseUrl}/`;
   static eventCoverImgBaseUrl = `${this.imageBaseUrl}/ev_cover_img/`;
   static eventMainImgBaseUrl = `${this.imageBaseUrl}/ev_main_img/`;
   static eventSubImgBaseUrl = `${this.imageBaseUrl}/ev_sub_img/`;
@@ -31,8 +35,8 @@ export default class Config {
   static mainEventRejected = "/admin/events/rejected";
   static subEvents = "/admin/subevents/";
 
-  static approveUser = "/admin/users/approve";
-  static rejectUser = "/admin/users/reject";
+  static approveUser = "/admin/user/approve";
+  static rejectUser = "/admin/user/reject";
   static getAllUsers = "/admin/users";
   static getSingleUser = "/admin/users/single";
 
@@ -40,7 +44,7 @@ export default class Config {
   static rejectOrganizer = "/admin/organizers/reject";
   static createOrganizer = "/admin/organizers/create";
 
-  static getAllEventCategory = "/admin/category";
+  static getAllEventCategory = "/admin/categories";
   static createEventCategory = "/admin/category/create";
   static updateEventCategory = "/admin/category";
 

@@ -33,11 +33,12 @@ const InternalTeamList = ({ showMenu, setShowMenu }) => {
   const getAllEmployee = async () => {
     try {
       setLoading(true);
-      const response = await axiosInstance.get(
-        `admin/internal-teams?page=${page}&search=${search}&limit=${limit}`,
+      const response = await axiosInstance.post(
+        `admin/squads`,
+            {page:page,search:search,limit:limit},
       );
       if (response.data.status == true && response.data.data) {
-        setData(response.data.data);
+        setData(response.data.data.squads);
         setTitle(Object.keys(response.data.data[0]));
         setTotalPage(response.data.totalPage);
         setUserCategory(response.data.category);

@@ -67,9 +67,9 @@ const Login = () => {
         setLoading(true);
 
         const response = await submitLogin({ email, password }).unwrap();
-        if (response.status === true) {
-          localStorage.setItem("token", response.accessToken);
-          dispatch(setCredentials({ token: response.accessToken }));
+        if (response["success"]) {
+          localStorage.setItem("token", response["data"].accessToken);
+          dispatch(setCredentials({ token: response["data"].accessToken }));
           toast.success("Login success", {
             position: "top-right",
             autoClose: 1500,
@@ -144,9 +144,8 @@ const Login = () => {
               id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className={`mt-2 w-full p-3 border ${
-                errors.email ? "border-red" : "border-txt-color"
-              } rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary`}
+              className={`mt-2 w-full p-3 border ${errors.email ? "border-red" : "border-txt-color"
+                } rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary`}
               placeholder="Enter your email"
             />
             {errors.email && (
@@ -162,9 +161,8 @@ const Login = () => {
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className={`mt-2 w-full p-3 border ${
-                errors.password ? "border-red" : "border-txt-color"
-              } rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary`}
+              className={`mt-2 w-full p-3 border ${errors.password ? "border-red" : "border-txt-color"
+                } rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary`}
               placeholder="Enter your password"
             />
             {errors.password && (
@@ -175,9 +173,8 @@ const Login = () => {
             <button
               type="submit"
               disabled={loading}
-              className={`w-full py-3 flex align-middle justify-center gap-2 ${
-                loading ? "bg-primary opacity-35" : "bg-primary"
-              }  text-white font-semibold rounded-lg shadow hover:bg-primary-dark transition`}
+              className={`w-full py-3 flex align-middle justify-center gap-2 ${loading ? "bg-primary opacity-35" : "bg-primary"
+                }  text-white font-semibold rounded-lg shadow hover:bg-primary-dark transition`}
             >
               {loading && (
                 <div className="flex items-center justify-center">

@@ -30,28 +30,16 @@ const DisplayTable = ({
         <div
           className="sticky top-0 z-10 grid bg-bannar text-white font-semibold text-sm uppercase tracking-wide p-2 rounded-tr-md rounded-tl-md"
           style={{
-            gridTemplateColumns: "1fr 1.5fr 2fr 3fr 2fr 2fr 1.5fr 2fr", // Adjust column widths
+            gridTemplateColumns: "1fr 1.5fr 2fr 3fr 2fr 2fr 1.5fr 2fr", 
           }}
         >
-          {data && userTitle.includes("user_id")
-            ? userTitle.map((key, index) => (
+          {
+           userTitle.map((key, index) => (
                 <div key={index} className="py-1 text-left">
-                  {key === "email"
-                    ? "Email"
-                    : key === "full_name"
-                      ? "Fullname"
-                      : key}
+                  {key}
                 </div>
               ))
-            : employeeTitle.map((key, index) => (
-                <div key={index} className="py-1 text-left">
-                  {key === "email"
-                    ? "Email"
-                    : key === "full_name"
-                      ? "Fullname"
-                      : key}
-                </div>
-              ))}
+              }
         </div>
 
         <div className="max-h-[50rem] overflow-y-auto  ">
@@ -65,9 +53,9 @@ const DisplayTable = ({
                 gridTemplateColumns: "1fr 1.5fr 2fr 3fr 2fr 2fr 1.5fr 2fr",
               }}
             >
-              <div className="truncate">{item.id}</div>
-              <div className="truncate">{item.user_id || item.emp_id}</div>
-              <div className="truncate">{item.full_name}</div>
+              <div className="truncate">{item._id}</div>
+              <div className="truncate">{item._id || item._id}</div>
+              <div className="truncate">{item.name}</div>
               <div className="truncate">
                 <span title={item.email}>{item.email}</span>
               </div>
@@ -75,23 +63,23 @@ const DisplayTable = ({
               <div className="truncate">{item.role}</div>
               <div
                 className={`text-center  font-semibold rounded-lg ${
-                  item.verified_status === 0 ? "text-red-700" : "text-green-700"
+                  item.status === "pending" ? "text-red-700" : "text-green-700"
                 }`}
               >
-                {item.verified_status === 0 ? "Unverified" : "Verified"}
+                {item.status === "pending" ? "Unverified" : "Verified"}
               </div>
               <div className="flex gap-2 justify-center">
                 <button
                   className={`py-1 px-3 rounded text-white ${
-                    item.verified_status === 1 ? "bg-blue" : "bg-dark-gray"
+                    item.status === 1 ? "bg-blue" : "bg-dark-gray"
                   }`}
-                  onClick={() => handleUserId(item.user_id ? item.user_id : item.emp_id)}
+                  onClick={() => handleUserId(item._id ? item._id : item._id)}
                   >
                   View
                 </button>
                 <button
                   className="bg-blue text-white py-1 px-3 rounded"
-                  onClick={() => handleUserEdit(item.user_id ?? item.emp_id)}
+                  onClick={() => handleUserEdit(item._id ?? item._id)}
                   >
                   Edit
                 </button>

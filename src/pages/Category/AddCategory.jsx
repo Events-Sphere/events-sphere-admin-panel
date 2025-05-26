@@ -24,14 +24,14 @@ const AddCategory = () => {
     e.preventDefault();
     setLoading(true);
     const data = new FormData();
-    data.append("title", formData.category_name);
+    data.append("categoryName", formData.category_name);
     if (formData.category_img) {
-      data.append("category", formData.category_img);
+      data.append("file", formData.category_img);
     }
     try {
       const response = await addCategory(data).unwrap();
       if (response.status === true) {
-        toast.success(response.message ?? "category added successfully", {
+        toast.success(response.message ?? "category created successfully", {
           position: "top-right",
           autoClose: 1500,
           hideProgressBar: false,

@@ -21,59 +21,60 @@ const SideMenuBar = ({ showMenu, setShowMenu, setLoading }) => {
   };
 
   const general = [
-    {
-      selector: "Dashboard",
-      initialIcon: <MdOutlineHome />,
-      endIcon: <RiArrowDropDownLine />,
-      link: "/dashboard",
-      options: [],
-    },
-    {
-      selector: "Category",
-      initialIcon: <RiMenuFold4Line />,
-      endIcon: <RiArrowDropDownLine />,
-      options: [
-        { value: "Add Category", link: "/add-category" },
-        { value: "List Category", link: "/categories-list" },
-      ],
-    },
-    {
-      selector: "Users",
-      initialIcon: <FiUsers />,
-      endIcon: <RiArrowDropDownLine />,
-      options: [{ value: "List Users", link: "/get-all-user" }],
-    },
-    {
-      selector: "Organizer",
-      initialIcon: <GoOrganization />,
-      endIcon: <RiArrowDropDownLine />,
-      options: [
-        { value: "Add Organizer", link: "/add-organizer" },
-        { value: "List Organizer", link: "/organizers" },
-      ],
-    },
-    {
-      selector: "Internal Team",
-      initialIcon: <RiTeamLine />,
-      endIcon: <RiArrowDropDownLine />,
-      options: [
-        { value: "Add Employee", link: "/add-internal-team" },
-        { value: "List Employee", link: "/list-internal-team" },
-      ],
-    },
-    {
-      selector: "Events",
-      initialIcon: <MdEvent />,
-      endIcon: <RiArrowDropDownLine />,
-      options: [
-        { value: "Add Event", link: "/add-event" },
-        { value: "Active Events", link: "/events/active" },
-        { value: "Pending Events", link: "/events/pending" },
-        { value: "Completed Events", link: "/events/completed" },
-        { value: "Rejected Events", link: "/events/rejected" },
-      ],
-    },
-  ];
+  {
+    selector: "Dashboard",
+    initialIcon: <MdOutlineHome />,
+    endIcon: <RiArrowDropDownLine />,
+    link: "/dashboard",
+    options: [],
+  },
+  {
+    selector: "Categories",
+    initialIcon: <RiMenuFold4Line />,
+    endIcon: <RiArrowDropDownLine />,
+    options: [
+      { value: "Add Category", link: "/add-category" },
+      { value: "List Categories", link: "/categories-list" },
+    ],
+  },
+  {
+    selector: "User Management",
+    initialIcon: <FiUsers />,
+    endIcon: <RiArrowDropDownLine />,
+    options: [{ value: "List Users", link: "/get-all-user" }],
+  },
+  {
+    selector: "Organizers",
+    initialIcon: <GoOrganization />,
+    endIcon: <RiArrowDropDownLine />,
+    options: [
+      { value: "Add Organizer", link: "/add-organizer" },
+      { value: "List Organizers", link: "/organizers" },
+    ],
+  },
+  {
+    selector: "Team Members",
+    initialIcon: <RiTeamLine />,
+    endIcon: <RiArrowDropDownLine />,
+    options: [
+      { value: "Add Employee", link: "/add-internal-team" },
+      { value: "List Employees", link: "/list-internal-team" },
+    ],
+  },
+  {
+    selector: "Events",
+    initialIcon: <MdEvent />,
+    endIcon: <RiArrowDropDownLine />,
+    options: [
+      { value: "Add Event", link: "/add-event" },
+      { value: "Active Events", link: "/events/active" },
+      { value: "Pending Events", link: "/events/pending" },
+      { value: "Completed Events", link: "/events/completed" },
+      { value: "Rejected Events", link: "/events/rejected" },
+    ],
+  },
+];
+
 
   const navigate = useNavigate();
   const dispatch = useDispatch();

@@ -6,17 +6,17 @@ import Config from "../../App/service/config";
 
 const AddOrganizer = () => {
   const [formData, setFormData] = useState({
-    full_name: "",
-    email: "",
-    password: "",
-    country_code: "+91",
-    mobile: "",
-    user_role: "organizer",
-    college_name: "",
-    college_code: "",
-    location: "",
-    longitude: "",
-    latitude: "",
+    "name": "",
+    "email": "",
+    "ccode": "+91",
+    "mobile": "",
+    "role": "organizer",
+    "password": "",
+    "location": "",
+    "longitude": "",
+    "latitude": "",
+    "collegeName": "",
+    "collegeCode": "",
   });
 
   const [noc, setNoc] = useState(null);
@@ -54,15 +54,14 @@ const AddOrganizer = () => {
 
     const data = new FormData();
 
-    data.append("org-noc", noc);
+    data.append("noc", noc);
     idCard.forEach((file, index) => {
-      data.append("org-id-card", file);
+      data.append("proof", file);
     });
     data.append("data", JSON.stringify(formData));
-
     try {
       const response = await axios.post(
-        `${Config.baseUrl}/admin/organizer/create`,
+        `${Config.baseUrl}/auth/organizer/signup`,
         data,
         {
           headers: {
@@ -71,8 +70,9 @@ const AddOrganizer = () => {
           },
         },
       );
-      console.log(`${Config.baseUrl}/admin/organizer/create`);
-      if (response.data.status == true) {
+      console.log(`${Config.baseUrl}/admin/organizer/signup`);
+      console.log("FROM SIGNUP RESPONSE ::::" + Object.keys(response.data))
+      if (response.data.success) {
         toast.success(
           response.data.message ?? "Organizer created successfully.",
           {
@@ -166,8 +166,8 @@ const AddOrganizer = () => {
               Full Name:
               <input
                 type="text"
-                name="full_name"
-                value={formData.full_name}
+                name="name"
+                value={formData.name}
                 onChange={handleChange}
                 className="mt-1 block w-full p-2 border border-gray-300 rounded shadow-sm"
               />
@@ -191,13 +191,13 @@ const AddOrganizer = () => {
                 Code:
                 <select
                   onChange={() => handleChange}
-                  value={formData.college_code}
+                  value={formData.ccode}
                   className="mt-1 block w-full py-2  border border-gray-300 rounded shadow-sm"
-                  name="college_code"
+                  name="ccode"
                   id=""
                 >
                   <option value="+91">+91</option>
-                  <option value="+65">+91</option>
+                  <option value="+65">+65</option>
                 </select>
               </label>
             </div>
@@ -219,8 +219,8 @@ const AddOrganizer = () => {
               College Name:
               <input
                 type="text"
-                name="college_name"
-                value={formData.college_name}
+                name="collegeName"
+                value={formData.collegeName}
                 onChange={handleChange}
                 className="mt-1 block w-full p-2 border border-gray-300 rounded shadow-sm"
               />
@@ -231,8 +231,8 @@ const AddOrganizer = () => {
               College Code:
               <input
                 type="text"
-                name="college_code"
-                value={formData.college_code}
+                name="collegeCode"
+                value={formData.collegeCode}
                 onChange={handleChange}
                 className="mt-1 block w-full p-2 border border-gray-300 rounded shadow-sm"
               />

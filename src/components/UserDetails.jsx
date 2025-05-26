@@ -73,10 +73,10 @@ const UserDetails = ({ popup, setPopup, userDetail }) => {
       <div className="flex items-center gap-4 ">
         <p className="text-md text-txt-color font-semibold text-xl absolute top-12 right-12">
           {" "}
-          {data.user_role}
+          {data.role}
         </p>
         <img
-          src={`${Config.orgIdCardImgBaseUrl}${data.id_card[0]}`}
+          src={`${Config.orgIdCardImgBaseUrl}${(data.proof !== null) ? data.proof[0] : ''}`}
           alt="Profile"
           className="w-20 h-20 rounded-md border-[1px] border-white-smoke"
         />
@@ -84,14 +84,14 @@ const UserDetails = ({ popup, setPopup, userDetail }) => {
           <div className="flex gap-4 items-center">
             <div>
               <h2 className="text-2xl text-txt-color font-semibold">
-                {data.full_name}
+                {data.name}
               </h2>
               <p className="text-sm text-txt-color">{data.email}</p>
             </div>
             <p
-              className={`text-sm ${data.verified_status === "active" ? "bg-green-700" : "bg-red"} text-white rounded-md flex items-center justify-center py-1 px-2`}
+              className={`text-sm ${data.status === "active" ? "bg-green-700" : "bg-red"} text-white rounded-md flex items-center justify-center py-1 px-2`}
             >
-              {data.verified_status}
+              {data.status}
             </p>
           </div>
         </div>
@@ -101,7 +101,7 @@ const UserDetails = ({ popup, setPopup, userDetail }) => {
           <div className="flex items-center gap-1">
             <IoCallOutline color="green" />
             <span className="text-txt-color text-md font-semibold">
-              {data.country_code}-
+              {data.c_code}-
             </span>
             <p className="text-txt-color text-md font-semibold">
               {data.mobile}

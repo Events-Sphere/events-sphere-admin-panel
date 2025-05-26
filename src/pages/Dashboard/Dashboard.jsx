@@ -62,7 +62,7 @@ const Dashboard = () => {
   return (
     <div className="pt-1 px-4 w-full  bg-no-repeat bg-cover h-[100vh]">
       <div>
-        <h1 className="heading text-white">DASHBOARD</h1>
+        <h1 className="heading text-gray">DASHBOARD</h1>
       </div>
       <div className="flex flex-wrap justify-center gap-3 pt-4">
         {data.map((data, index) => (

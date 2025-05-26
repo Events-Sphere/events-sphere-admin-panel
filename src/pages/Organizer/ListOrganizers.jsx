@@ -1,14 +1,20 @@
 import React, { useEffect, useState } from "react";
-import DisplayTable from "../../components/DisplayTable";
-import Paginate from "../../components/Paginate";
-import Filter from "../../components/Filter";
-import NotFound from "../../pages/NotFound";
-import Search from "../../components/Search";
+// import DisplayTable from "../../components/DisplayTable";
+// import Paginate from "../../components/Paginate";
+// import Filter from "../../components/Filter";
+// import NotFound from "../../pages/NotFound";
+// import Search from "../../components/Search";
 import axiosInstance from "../../utilities/axiosInstance";
 import ClipLoader from "react-spinners/ClipLoader";
 import UserDetails from "../../components/UserDetails";
 import OrganizerDetailCard from "./OrganizerDetailCard";
-const ListOrganizer = ({ showMenu, setShowMenu }) => {
+import UserEdit from "../Users/Components/UserEdit";
+import UserFilterPanel from "../Users/Components/UserFilterPanel";
+import UserTable from "../Users/Components/UserTable";
+import UserPagination from "../Users/Components/UserPagination";
+import UserTableRow from "../Users/Components/UserTableRow";
+import OrganizerDetails from "./Components.jsx/OrganizerDetails";
+const ListOrganizer = () => {
   const [page, setPage] = useState(1);
   const [data, setData] = useState([]);
   const [title, setTitle] = useState([]);
@@ -25,6 +31,11 @@ const ListOrganizer = ({ showMenu, setShowMenu }) => {
   const [userDetail, setUserDetail] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loadingDetail, setLoadingDetail] = useState(false);
+    const [active, setActive] = useState(false);
+  const [modelType, setModelType] = useState(null);
+  const [refresh, setRefresh] = useState(false);
+
+
   const handleStatus = (e) => {
     if (status.includes(e.target.value)) {
       const role = status.filter((data) => data != e.target.value);
@@ -36,12 +47,18 @@ const ListOrganizer = ({ showMenu, setShowMenu }) => {
   const getAllUser = async () => {
     try {
       setLoading(true);
-      const response = await axiosInstance.get(
-        `admin/users?page=${page}&search=${search}&roles=${roles}&limit=${limit}&v_status=${status}`,
+      const response = await axiosInstance.post(
+        `admin/organizers`,
+        {
+          "page": page,
+          "search": search,
+          "roles": roles,
+          "limit": limit,
+          "status": status,
+        }
       );
-
-      if (response.data.success == true && response.data.data) {
-        setData(response.data.data);
+      if (response.data.status == true && response.data.data) {
+        setData(response.data.data.organizers);
         setTitle(Object.keys(response.data.data[0]));
         setTotalPage(response.data.totalPage);
         setUserCategory(response.data.category);
@@ -77,96 +94,52 @@ const ListOrganizer = ({ showMenu, setShowMenu }) => {
   useEffect(() => {
     getAllUser();
   }, [page, search, roles, limit, status]);
-  return (
-    <div className="h-screen ml-8 bg-white ">
-      <div className="flex justify-between mt-10 mx-3 items-center ">
-        <h1 className="heading text-txt-color">USERS LIST</h1>
-        <Search
-          className="h-10 w-[100%] ml-1 border-2 border-blue  rounded-lg p-2"
-          placeholder="Search user"
-          type="text"
-          setSearch={setSearch}
-          search={search}
-        />
-        <div>
-          {user.length > 0 && (
-            <div className="flex">
-              <h1 className="font-bold text-black">STATUS</h1>
-              {user.map((user, index) => (
-                <div className="px-2 flex align-middle " key={index}>
-                  <input
-                    className=""
-                    type="checkbox"
-                    id={user}
-                    value={user}
-                    onChange={handleStatus}
-                  />
-                  <label className="pl-1 text-black" htmlFor={user}>
-                    {user === "true" ? "Verified" : "Unverified"}
-                  </label>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-      </div>
-      {loading ? (
-        <div className="flex justify-center items-center mt-56">
-          <ClipLoader
-            className=""
-            loading={loading}
-            color="#1312f2"
-            speedMultiplier={3}
-            size={50}
-            aria-label="Loading Spinner"
-            data-testid="loader"
-          />
-        </div>
-      ) : data.length > 0 ? (
-        <div>
-          <div className="flex justify-center mt-4 ">
-            <DisplayTable
-              getUserDetail={getUserDetail}
-              data={data}
-              page={page}
-              setPage={setPage}
-              title={title}
-              popup={popup}
-              setPopup={setPopup}
-              setUserId={setUserId}
-            />
-          </div>
-        </div>
-      ) : (
-        <NotFound />
-      )}
-      {loadingDetail ? (
-        <div className="flex justify-center items-center -mt-72">
-          <ClipLoader
-            className=""
-            loadingDetail={loadingDetail}
-            color="#1312f2"
-            speedMultiplier={3}
-            size={50}
-            aria-label="Loading Spinner"
-            data-testid="loader"
-          />
-        </div>
-      ) : (
-        popup && (
-          <OrganizerDetailCard
-            popup={popup}
-            setPopup={setPopup}
-            userDetail={userDetail}
-          />
-        )
-      )}
 
-      {data.length > 0 && !loading && (
-        <div className="absolute bottom-0 left-[calc(100vw-55%)]">
-          <Paginate totalPage={totalPage} page={page} setPage={setPage} />
-        </div>
-      )}
+  const handleViewChange = async (_id) => {
+    setModelType("view")
+    getUserDetail(_id)
+  }
+
+  const handleEditChange = async (_id) => {
+    setModelType("edit");
+    getUserDetail(_id)
+  }
+
+
+  return (
+       <div className="h-[100vh] overflow-x-hidden overflow-y-hidden">
+      {
+        modelType === "view" && (<OrganizerDetails setModelType={setModelType} singleUserData={userDetail} />)
+      }
+      {
+        modelType === "edit" && (<UserEdit setModelType={setModelType} data={userDetail} setRefresh={setRefresh} />)
+      }
+      {
+        loading && (
+          <div className="h-screen w-full flex items-center justify-center">
+            <ClipLoader size={80} />
+          </div>
+
+        )
+      }
+      <>
+        <UserFilterPanel search={search} setSearch={setSearch} setStatus={setStatus} />
+        <UserTable>
+          {data && data.length > 0 ? (
+            <UserTableRow
+              user={data}
+              active={active}
+              setActive={setActive}
+              handleViewChange={handleViewChange}
+              handleEditChange={handleEditChange}
+            />
+          ) : (
+            <div className="text-center text-gray-500 py-8 w-full">No users found.</div>
+          )}
+        </UserTable>
+        <UserPagination totalPage={totalPage} page={page} setPage={setPage} />
+      </>
+
     </div>
   );
 };
