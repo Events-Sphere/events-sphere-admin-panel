@@ -66,19 +66,7 @@ const InternalTeamList = ({ showMenu, setShowMenu }) => {
   };
   const viewInternalTeam = async () => {};
   const editInternalTeam = async (userId) => {
-    try {
-      setLoadingEdit(true);
-      const response = await axiosInstance.post(`admin/internal-teams/single`, {
-        emp_id: userId,
-      });
-      if (response.data.status == true && response.data.data) {
-        setUserDetailEdit(response.data.data);
-      }
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoadingEdit(false);
-    }
+    setUserDetailEdit(data.filter(user=>user._id === userId));
   };
 
   useEffect(() => {

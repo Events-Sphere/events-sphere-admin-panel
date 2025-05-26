@@ -1,16 +1,22 @@
 import React, { useState } from "react";
 import axiosInstance from "../../utilities/axiosInstance";
+import { Bounce, toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+
 
 const AddInternalTeam = () => {
   const [formData, setFormData] = useState({
-    full_name: "",
+    name: "",
     email: "",
-    country_code: "+91",
-    mobile: "",
     password: "",
+    c_code: "+91",
+    mobile: "",
+    location: "",
   });
+  const [loading, setLoading] = useState(false);
   const [profile, setProfile] = useState();
-  console.log(formData);
+  const navigate = useNavigate();
+
   const handleChange = (e) => {
     const { name, value, files } = e.target;
     if (name === "profile") {
@@ -25,13 +31,14 @@ const AddInternalTeam = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    setLoading(true);
     const data = new FormData();
     data.append("internal-profile", profile);
     data.append("data", JSON.stringify(formData));
 
     try {
       const response = await axiosInstance.post(
-        "/admin/internal-teams/create",
+        "admin/squard/create",
         data,
         {
           headers: {
@@ -39,23 +46,50 @@ const AddInternalTeam = () => {
           },
         },
       );
-      console.log(response);
 
-      if (response.data.status === true) {
-        alert(response.data.message);
+      if (response.data.success) {
+        toast.success(
+          response.data.message ?? "internal team member created successfully.",
+          {
+            position: "top-right",
+            autoClose: 1500,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+            transition: Bounce,
+          },
+        );
+        navigate("/list-internal-team")
       }
     } catch (error) {
-      console.log(error);
-      alert(error.response.data.message || "An error occurred");
+      toast.error(
+        error.message || "An error occurred",
+        {
+          position: "top-right",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          transition: Bounce,
+        },
+      );
     } finally {
       setFormData({
-        full_name: "",
+        name: "",
         email: "",
-        country_code: "+91",
+        c_code: "+91",
         mobile: "",
         password: "",
+        location: ""
       });
       setProfile("");
+      setLoading(false);
     }
   };
 
@@ -74,8 +108,8 @@ const AddInternalTeam = () => {
             <label className="font-semibold text-black">Full Name:</label>
             <input
               type="text"
-              name="full_name"
-              value={formData.full_name}
+              name="name"
+              value={formData.name}
               onChange={handleChange}
               className="mt-2 p-1 border  rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue"
               placeholder="Enter full name"
@@ -93,7 +127,7 @@ const AddInternalTeam = () => {
               <label className="font-semibold text-black">Mobile No:</label>
               <div className="w-full flex">
                 <select
-                  value={formData.country_code}
+                  value={formData.c_code}
                   onChange={handleChange}
                   className="mt-2  p-1 border  rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue w-1/5 "
                   name="country_code"
@@ -115,14 +149,24 @@ const AddInternalTeam = () => {
               </div>
             </div>
             <label className="font-semibold text-black">Password:</label>
-            <input
-              type="text"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              className="mt-2 p-1 border  rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue"
-              placeholder="Enter password"
-            />
+            <div className="flex justify-between">
+              <input
+                type="text"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                className="mt-2 p-1 border  rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue"
+                placeholder="Enter password"
+              />
+              <input
+                type="text"
+                name="location"
+                value={formData.location}
+                onChange={handleChange}
+                className="mt-2 p-1 border  rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue"
+                placeholder="City"
+              />
+            </div>
           </div>
           <div className="flex flex-col">
             <label className="font-semibold ">Profile Image:</label>
@@ -160,12 +204,21 @@ const AddInternalTeam = () => {
             </div>
           </div>
         </div>
-        <button
-          type="submit"
-          className="mt-6 w-full py-3 bg-bannar text-white font-semibold rounded-lg shadow hover:bg-blue hover:text-black transition"
-        >
-          Submit
-        </button>
+        <div className="flex justify-end mt-5">
+          <button
+            type="submit"
+            disabled={loading}
+            className={`w-full py-3 flex align-middle justify-center gap-2 ${loading ? "bg-btn-color opacity-35" : "bg-btn-color"
+              }  text-white font-semibold rounded-lg shadow hover:bg-primary-dark transition`}
+          >
+            {loading && (
+              <div className="flex items-center justify-center">
+                <div className="h-6 w-6 border-4 border-t-[#640D5F] border-[#A888B5] rounded-full animate-spin"></div>
+              </div>
+            )}
+            <span>Login</span>
+          </button>
+        </div>
       </form>
     </div>
   );

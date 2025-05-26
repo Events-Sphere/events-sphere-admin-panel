@@ -3,6 +3,7 @@ import axiosInstance from "../../utilities/axiosInstance";
 import { toast, Bounce } from "react-toastify";
 import axios from "axios";
 import Config from "../../App/service/config";
+import { useNavigate } from "react-router-dom";
 
 const AddOrganizer = () => {
   const [formData, setFormData] = useState({
@@ -22,6 +23,7 @@ const AddOrganizer = () => {
   const [noc, setNoc] = useState(null);
   const [idCard, setIdCard] = useState([]);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     if (e.target.name == "noc") {
@@ -102,6 +104,7 @@ const AddOrganizer = () => {
         });
         setIdCard([]);
         setNoc(null);
+        navigate("/organizers")
       } else {
         toast.warning(
           response.data.message ?? "Something went wrong. try again!",

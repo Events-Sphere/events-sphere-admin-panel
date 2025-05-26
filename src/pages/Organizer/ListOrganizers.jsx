@@ -14,6 +14,10 @@ import UserTable from "../Users/Components/UserTable";
 import UserPagination from "../Users/Components/UserPagination";
 import UserTableRow from "../Users/Components/UserTableRow";
 import OrganizerDetails from "./Components.jsx/OrganizerDetails";
+import OrganizerEdit from "./Components.jsx/OrganizerEdit";
+import DebugLogger from "../../utilities/DebugLogger";
+import OrganizerPagination from "./Components.jsx/OgranizerPagination";
+
 const ListOrganizer = () => {
   const [page, setPage] = useState(1);
   const [data, setData] = useState([]);
@@ -22,7 +26,7 @@ const ListOrganizer = () => {
   const [totalPage, setTotalPage] = useState(null);
   const [search, setSearch] = useState("");
   const [roles, setRoles] = useState("organizer");
-  const [limit, setLimit] = useState("");
+  const [limit, setLimit] = useState(10);
   const [status, setStatus] = useState([]);
   const [sortColumn, setsortColumn] = useState("");
   const [userCategory, setUserCategory] = useState([]);
@@ -31,7 +35,7 @@ const ListOrganizer = () => {
   const [userDetail, setUserDetail] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loadingDetail, setLoadingDetail] = useState(false);
-    const [active, setActive] = useState(false);
+  const [active, setActive] = useState(false);
   const [modelType, setModelType] = useState(null);
   const [refresh, setRefresh] = useState(false);
 
@@ -59,8 +63,8 @@ const ListOrganizer = () => {
       );
       if (response.data.status == true && response.data.data) {
         setData(response.data.data.organizers);
-        setTitle(Object.keys(response.data.data[0]));
-        setTotalPage(response.data.totalPage);
+        setTitle(response.data.data.message);
+        setTotalPage(response.data.data.totalPage);
         setUserCategory(response.data.category);
       }
     } catch (error) {
@@ -71,29 +75,30 @@ const ListOrganizer = () => {
     }
   };
   const getUserDetail = async (userID) => {
-    try {
-      setLoadingDetail(true);
-      console.log("function called", userID);
-      const response = await axiosInstance.post(`/admin/users/single`, {
-        user_id: userID,
-      });
-      console.log("response", response.data);
-      if (response.data.status == true && response.data.data) {
-        console.log(response.data.data);
-        setUserDetail(response.data.data);
-      }
-    } catch (error) {
-      if (error.response.status == 500) {
-        alert("Check internet connection");
-      }
-    } finally {
-      setLoadingDetail(false);
-    }
+    // try {
+    //   setLoadingDetail(true);
+    //   console.log("function called", userID);
+    //   const response = await axiosInstance.post(`/admin/organizer/single`, {
+    //     _id: userID,
+    //   });
+    //   console.log("response", response.data);
+    //   if (response.data.status == true && response.data.data) {
+    //     console.log(response.data.data);
+    //     setUserDetail(response.data.data.users); /// response.data.data
+    //   }
+    // } catch (error) {
+    //   if (error.response.status == 500) {
+    //     alert("Check internet connection");
+    //   }
+    // } finally {
+    //   setLoadingDetail(false);
+    // }\
+    setUserDetail(data.filter((user) => user._id === userID));
   };
 
   useEffect(() => {
     getAllUser();
-  }, [page, search, roles, limit, status]);
+  }, [page, search, roles, limit, status, refresh]);
 
   const handleViewChange = async (_id) => {
     setModelType("view")
@@ -107,23 +112,18 @@ const ListOrganizer = () => {
 
 
   return (
-       <div className="h-[100vh] overflow-x-hidden overflow-y-hidden">
+    <div className="h-[100vh] overflow-x-hidden overflow-y-hidden">
       {
         modelType === "view" && (<OrganizerDetails setModelType={setModelType} singleUserData={userDetail} />)
       }
       {
-        modelType === "edit" && (<UserEdit setModelType={setModelType} data={userDetail} setRefresh={setRefresh} />)
-      }
-      {
-        loading && (
-          <div className="h-screen w-full flex items-center justify-center">
-            <ClipLoader size={80} />
-          </div>
-
-        )
+        modelType === "edit" && (<OrganizerEdit setModelType={setModelType} data={userDetail} setRefresh={setRefresh} />)
       }
       <>
+        {/* <DebugLogger data={data} label="Organizer details"/> */}
         <UserFilterPanel search={search} setSearch={setSearch} setStatus={setStatus} />
+
+
         <UserTable>
           {data && data.length > 0 ? (
             <UserTableRow
@@ -137,7 +137,7 @@ const ListOrganizer = () => {
             <div className="text-center text-gray-500 py-8 w-full">No users found.</div>
           )}
         </UserTable>
-        <UserPagination totalPage={totalPage} page={page} setPage={setPage} />
+        <OrganizerPagination totalPage={totalPage} page={page} setPage={setPage} />
       </>
 
     </div>

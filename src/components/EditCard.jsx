@@ -3,12 +3,12 @@ import axiosInstance from "../utilities/axiosInstance";
 import Config from "../App/service/config";
 const EditCard = ({ userDetailEdit, popupEdit, setPopupEdit, circle }) => {
   const [value, setValue] = useState({
-    full_name: userDetailEdit[0].full_name,
+    name: userDetailEdit[0].name,
     mobile: userDetailEdit[0].mobile,
     email: userDetailEdit[0].email,
     password: "",
   });
-  const id = userDetailEdit[0].emp_id;
+  const id = userDetailEdit[0]._id;
   console.log(id);
   const [image, setImage] = useState(null);
   console.log("value", value);
@@ -65,8 +65,8 @@ const EditCard = ({ userDetailEdit, popupEdit, setPopupEdit, circle }) => {
               <label className="font-semibold text-gray-700">Full Name:</label>
               <input
                 type="text"
-                name="full_name"
-                value={value.full_name}
+                name="name"
+                value={value.name}
                 onChange={handleChange}
                 className="mt-1 p-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary"
                 placeholder="Enter category name"
@@ -95,7 +95,7 @@ const EditCard = ({ userDetailEdit, popupEdit, setPopupEdit, circle }) => {
               />
             </div>
             <div className="flex flex-col">
-              <label className="font-semibold text-gray-700">Password:</label>
+              {/* <label className="font-semibold text-gray-700">Password:</label>
               <input
                 type="text"
                 name="password"
@@ -103,8 +103,8 @@ const EditCard = ({ userDetailEdit, popupEdit, setPopupEdit, circle }) => {
                 onChange={handleChange}
                 className="mt-1 p-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary"
                 placeholder="Enter image URL"
-              />
-            </div>
+              />*/}
+            </div> 
             <div className="flex flex-col">
               <label className="font-semibold text-gray-700">Image:</label>
               <input
