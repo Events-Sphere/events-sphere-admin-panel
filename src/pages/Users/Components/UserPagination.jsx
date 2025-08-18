@@ -11,7 +11,7 @@ const UserPagination = ({totalPage, page, setPage}) => {
     <div className="flex justify-center mb-2 select-none transition ease-in">
       <ul className="flex justify-center items-center paginate gap-1">
         <div
-          className={`bg-bannar px-4 py-2 rounded-sm text-white cursor-pointer ${
+          className={`bg-[var(--color-secondary)] px-4 py-2 rounded-sm text-white cursor-pointer ${
             page === 1 ? "opacity-50 cursor-not-allowed" : ""
           }`}
           onClick={() => {
@@ -26,7 +26,7 @@ const UserPagination = ({totalPage, page, setPage}) => {
                 <div
                   onClick={() => changePage(p + 1)}
                   className={`${
-                    page === p + 1 ? "bg-bannar" : "bg-[#B9B4C7]"
+                    page === p + 1 ? "bg-[var(--color-secondary)]" : "bg-[#B9B4C7]"
                   } font-semibold px-4 py-2 rounded-sm text-white cursor-pointer`}
                 >
                   {p + 1}
@@ -38,7 +38,7 @@ const UserPagination = ({totalPage, page, setPage}) => {
                 <div
                   onClick={() => changePage(p + 1)}
                   className={`${
-                    page === p + 1 ? "bg-bannar" : "bg-[#B9B4C7]"
+                    page === p + 1 ? "bg-[var(--color-secondary)]" : "bg-[#B9B4C7]"
                   } font-semibold px-4 py-2 rounded-sm text-white cursor-pointer`}
                 >
                   {p + 1}
@@ -47,7 +47,7 @@ const UserPagination = ({totalPage, page, setPage}) => {
             ))}
 
         <div
-          className={`bg-bannar px-4 py-2 rounded-sm text-white cursor-pointer ${
+          className={`bg-[var(--color-secondary)] px-4 py-2 rounded-sm text-white cursor-pointer ${
             page === totalPage ? "opacity-50 cursor-not-allowed" : ""
           }`}
           onClick={() => {

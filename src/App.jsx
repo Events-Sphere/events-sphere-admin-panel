@@ -1,35 +1,31 @@
-import React, { useEffect, useReducer, useState } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
-import Dashboard from "./pages/Dashboard/Dashboard";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Navigate, Route, Routes } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
-import Login from "./pages/Login/Login";
-import AddEvent from "./pages/Events/AddEvent";
-import { useSelector } from "react-redux";
+import { logOut, setCredentials } from "./App/Features/Auth/authSlice";
+import Config from "./App/service/config";
 import NavBar from "./components/NavBar";
+import ProtectedRoute from "./components/ProtectedRoute";
 import SideMenuBar from "./components/SideMenuBar";
 import AddCategory from "./pages/Category/AddCategory";
 import CategoriesList from "./pages/Category/CategoriesList";
+import Dashboard from "./pages/Dashboard/Dashboard";
+import CreateEvent from "./pages/Events/CreateEvent";
+import EventDetail from "./pages/Events/EventDetail";
+import ListEvents from "./pages/Events/ListEvents";
 import AddInternalTeam from "./pages/Internal Team/AddInternalTeam";
 import InternalTeamList from "./pages/Internal Team/InternalTeamList";
-import AddOrganizer from "./pages/Organizer/AddOrganizer";
-import ListEvents from "./pages/Events/ListEvents";
-import EventDetail from "./pages/Events/EventDetail";
-import ListPendingEvents from "./pages/Events/ListPendingEvents";
-import ListRejectedEvents from "./pages/Events/ListRejectedEvents";
-import ListCompletedEvents from "./pages/Events/ListCompletedEvents";
+import Login from "./pages/Login/Login";
 import NotFound from "./pages/NotFound";
+import AddOrganizer from "./pages/Organizer/AddOrganizer";
 import ListOrganizer from "./pages/Organizer/ListOrganizers";
-import ProtectedRoute from "./components/ProtectedRoute";
-import { useDispatch } from "react-redux";
-import { logOut } from "./App/Features/Auth/authSlice";
-import Config from "./App/service/config";
-import { ToastContainer, toast, Bounce } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { setCredentials } from "./App/Features/Auth/authSlice";
 import UserManagementPage from "./pages/Users/UserManagementPage";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
+  const [showMenu, setShowMenu] = useState(true);
   const dispatch = useDispatch();
 
   const { isAuthenticated } = useSelector((state) => state.auth);
@@ -48,8 +44,7 @@ const App = () => {
       }
       return false;
     } catch (error) {
-      console.error("Token validation failed:", error);
-      return false;
+            return false;
     }
   };
 
@@ -86,8 +81,12 @@ const App = () => {
       {isAuthenticated ? (
         <>
           <NavBar />
-          <SideMenuBar />
-          <div className="pl-52 select-none">
+          <SideMenuBar showMenu={showMenu} setShowMenu={setShowMenu} />
+          <div
+            className={`select-none transition-all duration-300 ${showMenu ? "pl-52" : "pl-4"
+              }`}
+          >
+
             <Routes>
               <Route element={<ProtectedRoute />}>
                 <Route path="/" element={<Navigate to="/dashboard" />} />
@@ -95,7 +94,7 @@ const App = () => {
                 <Route path="/add-category" element={<AddCategory />} />
                 <Route path="/categories-list" element={<CategoriesList />} />
                 <Route path="/get-all-user" element={<UserManagementPage />} />
-                <Route path="/add-event" element={<AddEvent />} />
+                <Route path="/add-event" element={<CreateEvent />} />
                 <Route path="/organizers" element={<ListOrganizer />} />
                 <Route
                   path="/add-internal-team"
@@ -107,7 +106,7 @@ const App = () => {
                 />
                 <Route path="/add-organizer" element={<AddOrganizer />} />
                 <Route path="/events/active" element={<ListEvents />} />
-                <Route path="/events/pending" element={<ListPendingEvents />} />
+                {/* <Route path="/events/pending" element={<ListPendingEvents />} />
                 <Route
                   path="/events/rejected"
                   element={<ListRejectedEvents />}
@@ -115,7 +114,7 @@ const App = () => {
                 <Route
                   path="/events/completed"
                   element={<ListCompletedEvents />}
-                />
+                /> */}
                 <Route path="/eventdetail" element={<EventDetail />} />
                 <Route path="*" element={<NotFound />} />
               </Route>

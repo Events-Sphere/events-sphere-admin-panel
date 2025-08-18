@@ -71,7 +71,7 @@ const OrganizerDetailCard = ({ popup, setPopup, userDetail }) => {
   const renderUserInfo = (data) => (
     <div className="mb-4 select-none">
       <div className="flex items-center gap-4 ">
-        <p className="text-md text-txt-color font-semibold text-xl absolute top-12 right-12">
+        <p className="text-md text-gray-600 font-semibold text-xl absolute top-12 right-12">
           {" "}
           {data.user_role}
         </p>
@@ -83,10 +83,10 @@ const OrganizerDetailCard = ({ popup, setPopup, userDetail }) => {
         <div>
           <div className="flex gap-4 items-center">
             <div>
-              <h2 className="text-2xl text-txt-color font-semibold">
+              <h2 className="text-2xl text-gray-600 font-semibold">
                 {data.full_name}
               </h2>
-              <p className="text-sm text-txt-color">{data.email}</p>
+              <p className="text-sm text-gray-600">{data.email}</p>
             </div>
             <p
               className={`text-sm ${data.verified_status === "active" ? "bg-green-700" : "bg-red"} text-white rounded-md flex items-center justify-center py-1 px-2`}
@@ -100,10 +100,10 @@ const OrganizerDetailCard = ({ popup, setPopup, userDetail }) => {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1">
             <IoCallOutline color="green" />
-            <span className="text-txt-color text-md font-semibold">
+            <span className="text-gray-600 text-md font-semibold">
               {data.country_code}-
             </span>
-            <p className="text-txt-color text-md font-semibold">
+            <p className="text-gray-600 text-md font-semibold">
               {data.mobile}
             </p>
           </div>
@@ -138,7 +138,7 @@ const OrganizerDetailCard = ({ popup, setPopup, userDetail }) => {
                 <></>
               )}
 
-              <h3 className="text-lg text-txt-color mb-2">Location</h3>
+              <h3 className="text-lg text-gray-600 mb-2">Location</h3>
               <iframe
                 src={`https://www.google.com/maps?q=${data.latitude},${data.longitude}&z=15&output=embed`}
                 width="100%"

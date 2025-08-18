@@ -4,7 +4,7 @@ import axiosInstance from "../../../utilities/axiosInstance";
 import Config from "../../../App/service/config";
 
 
-const UserEdit = ({ data, setModelType, setRefresh }) => {
+const OrganizerEdit = ({ data, setModelType, setRefresh }) => {
     const [showRejectReason, setShowRejectReason] = useState(false);
     const [rejectReason, setRejectReason] = useState("");
 
@@ -167,4 +167,4 @@ const UserEdit = ({ data, setModelType, setRefresh }) => {
     );
 };
 
-export default UserEdit;
+export default OrganizerEdit;

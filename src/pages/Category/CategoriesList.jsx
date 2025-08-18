@@ -15,8 +15,7 @@ const CategoriesList = () => {
       const getCategory = async () => {
     try {
       const response = await axiosInstance.get(Config.getAllEventCategory);
-      console.log(response.data.data.categories);
-      if (response.data.success == true && response.data.data.categories) {
+            if (response.data.success == true && response.data.data.categories) {
         setCategory(response.data.data.categories);
       }
     } catch (error) {
@@ -104,14 +103,14 @@ const CategoriesList = () => {
   };
 
   return (
-    <div className="  container mx-auto pt-2 pb-5 pr-5 pl-10 h-screen bg-white self-center ">
-      <h2 className="text-2xl font-bold mb-4 text-txt-color ">
+    <div className=" container mx-auto pt-2 pb-5 pr-5 h-screen self-center">
+      <h2 className="text-2xl font-bold mb-4 text-gray-600 ml-10 ">
         Categories List
       </h2>
-      <div className="max-h-[32rem] flex justify-center ">
-        <table className="min-w-full  bg-white  shadow">
+      <div className="max-h-[32rem] flex justify-center ml-10">
+        <table className="min-w-full  bg-white  shadow ">
           <thead className="sticky top-0 ">
-            <tr className="bg-bannar text-white">
+            <tr className="bg-[var(--color-secondary)] text-white">
               <th className="py-3 px-4 text-left">ID</th>
               <th className="py-3 px-4 text-left">Image</th>
               <th className="py-3 px-4 text-left">Name</th>
@@ -128,7 +127,7 @@ const CategoriesList = () => {
                 <td className="py-3 px-4">
                   <img
                     src={`${Config.categoryImgBaseUrl}${category.image}`}
-                    alt={`${category.name}`}
+                    alt={`${category.name}.png`}
                     className="w-16 h-16 object-cover rounded item-center"
                   />
                 </td>   
@@ -139,7 +138,7 @@ const CategoriesList = () => {
                     className="flex self-center items-center gap-2 cursor-pointer justify-center"
                   >
                     <BiEditAlt color="grey"/>
-                    <span className="text-txt-color font-semibold  ">EDIT</span>
+                    <span className="text-gray-600 font-semibold  ">EDIT</span>
                   </div>
                 </td>
               </tr>
@@ -151,12 +150,12 @@ const CategoriesList = () => {
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center  bg-black bg-opacity-75">
           <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-            <h3 className="text-xl font-bold mb-4 text-txt-color">
+            <h3 className="text-xl font-bold mb-4 text-gray-600">
               MADE CHANGES ON CATEGORY
             </h3>
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="flex flex-col mb-2">
-                <label className="font-semibold text-txt-color">
+                <label className="font-semibold text-gray-600">
                   change category name
                 </label>
                 <input
@@ -169,7 +168,7 @@ const CategoriesList = () => {
                 />
               </div>
               <div className="">
-                <label className="font-semibold text-txt-color">
+                <label className="font-semibold text-gray-600">
                   Change category image
                 </label>
                 <div className="flex items-center justify-center p-4 mt-3 border-2 border-dashed border-black rounded-lg hover:border-blue transition">
@@ -201,7 +200,7 @@ const CategoriesList = () => {
                 <button
                   type="submit"
                   disabled={loading}
-                  className={`w-full py-3 flex align-middle justify-center gap-2 ${loading ? "bg-btn-color opacity-35 " : "bg-btn-color"
+                  className={`w-full py-3 flex align-middle justify-center gap-2 ${loading ? "bg-[var(--color-secondary)] opacity-35 " : "bg-[var(--color-secondary)]"
                     }  text-white font-semibold rounded-lg shadow hover:bg-primary-dark transition`}
                 >
                   {loading && (

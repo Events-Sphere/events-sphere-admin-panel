@@ -4,7 +4,7 @@ import axiosInstance from "../../../utilities/axiosInstance";
 import Config from "../../../App/service/config";
 
 
-const OrganizerEdit = ({ data, setModelType, setRefresh }) => {
+const SquadEdits = ({ data, setModelType, setRefresh }) => {
     const [showRejectReason, setShowRejectReason] = useState(false);
     const [rejectReason, setRejectReason] = useState("");
 
@@ -34,8 +34,7 @@ const OrganizerEdit = ({ data, setModelType, setRefresh }) => {
                 toast.error("Approval failed. Try again.");
             }
         } catch (error) {
-            console.error("Approval error:", error);
-            toast.error("Error while approving user.",
+                        toast.error("Error while approving user.",
                 {
                     position: "top-right",
                     autoClose: 800,
@@ -71,8 +70,7 @@ const OrganizerEdit = ({ data, setModelType, setRefresh }) => {
                 toast.error("Rejection failed. Please try again.");
             }
         } catch (error) {
-            console.error("Rejection error:", error);
-            toast.error("Error while rejecting user.");
+                        toast.error("Error while rejecting user.");
         } finally {
             setRejectReason("");
             setRefresh(prev => !prev);
@@ -169,4 +167,4 @@ const OrganizerEdit = ({ data, setModelType, setRefresh }) => {
     );
 };
 
-export default OrganizerEdit;
+export default SquadEdits;

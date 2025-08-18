@@ -1,22 +1,11 @@
 import React, { useEffect, useState } from "react";
-// import DisplayTable from "../../components/DisplayTable";
-// import Paginate from "../../components/Paginate";
-// import Filter from "../../components/Filter";
-// import NotFound from "../../pages/NotFound";
-// import Search from "../../components/Search";
 import axiosInstance from "../../utilities/axiosInstance";
-import ClipLoader from "react-spinners/ClipLoader";
-import UserDetails from "../../components/UserDetails";
-import OrganizerDetailCard from "./OrganizerDetailCard";
-import UserEdit from "../Users/Components/UserEdit";
 import UserFilterPanel from "../Users/Components/UserFilterPanel";
 import UserTable from "../Users/Components/UserTable";
-import UserPagination from "../Users/Components/UserPagination";
 import UserTableRow from "../Users/Components/UserTableRow";
-import OrganizerDetails from "./Components.jsx/OrganizerDetails";
-import OrganizerEdit from "./Components.jsx/OrganizerEdit";
-import DebugLogger from "../../utilities/DebugLogger";
-import OrganizerPagination from "./Components.jsx/OgranizerPagination";
+import OrganizerPagination from "./Components/OgranizerPagination";
+import OrganizerDetails from "./Components/OrganizerDetails";
+import OrganizerEdit from "./Components/OrganizerEdit";
 
 const ListOrganizer = () => {
   const [page, setPage] = useState(1);
@@ -68,8 +57,7 @@ const ListOrganizer = () => {
         setUserCategory(response.data.category);
       }
     } catch (error) {
-      console.log(error);
-      setLoading(false);
+            setLoading(false);
     } finally {
       setLoading(false);
     }
@@ -77,14 +65,11 @@ const ListOrganizer = () => {
   const getUserDetail = async (userID) => {
     // try {
     //   setLoadingDetail(true);
-    //   console.log("function called", userID);
-    //   const response = await axiosInstance.post(`/admin/organizer/single`, {
+    //       //   const response = await axiosInstance.post(`/admin/organizer/single`, {
     //     _id: userID,
     //   });
-    //   console.log("response", response.data);
-    //   if (response.data.status == true && response.data.data) {
-    //     console.log(response.data.data);
-    //     setUserDetail(response.data.data.users); /// response.data.data
+    //       //   if (response.data.status == true && response.data.data) {
+    //         //     setUserDetail(response.data.data.users); /// response.data.data
     //   }
     // } catch (error) {
     //   if (error.response.status == 500) {
@@ -113,35 +98,80 @@ const ListOrganizer = () => {
 
   return (
     <div className="h-[100vh] overflow-x-hidden overflow-y-hidden">
+      <>
+        {/* <DebugLogger data={data} label="Organizer details"/> */}
+        <UserFilterPanel search={search} setSearch={setSearch} setStatus={setStatus} />
+        {
+          loading ? (
+            <div>
+              <div
+                className="grid ml-[4rem] text-white gap-x-1 border-b py-2 bg-[var(--color-secondary)] rounded mt-10 mr-5"
+                style={{
+                  gridTemplateColumns: "1fr 1.5fr 2fr 3fr 2fr 2fr 1.5fr 2fr",
+                }}
+              >
+                <div>ID</div>
+                <div>USER ID</div>
+                <div>EMAIL</div>
+                <div>FULL NAME</div>
+                <div>MOBILE</div>
+                <div>ROLE</div>
+                <div>VERIFIED STATUS</div>
+                <div>DETAILS</div>
+              </div>
+              <div>
+                {Array.from({ length: 10 }).map((_, index) => (
+                  <React.Fragment key={index}>{shimmerRow}</React.Fragment>
+                ))}
+              </div>
+            </div>
+          ) :
+            (
+              <>
+                <UserTable>
+                  {data && data.length > 0 ? (
+                    <UserTableRow
+                      user={data}
+                      active={active}
+                      setActive={setActive}
+                      handleViewChange={handleViewChange}
+                      handleEditChange={handleEditChange}
+                    />
+                  ) : (
+                    <div className="text-center text-gray-500 py-8 w-full">No users found.</div>
+                  )}
+                </UserTable>
+                <OrganizerPagination totalPage={totalPage} page={page} setPage={setPage} />
+              </>
+            )
+        }
+      </>
+
       {
         modelType === "view" && (<OrganizerDetails setModelType={setModelType} singleUserData={userDetail} />)
       }
       {
         modelType === "edit" && (<OrganizerEdit setModelType={setModelType} data={userDetail} setRefresh={setRefresh} />)
       }
-      <>
-        {/* <DebugLogger data={data} label="Organizer details"/> */}
-        <UserFilterPanel search={search} setSearch={setSearch} setStatus={setStatus} />
-
-
-        <UserTable>
-          {data && data.length > 0 ? (
-            <UserTableRow
-              user={data}
-              active={active}
-              setActive={setActive}
-              handleViewChange={handleViewChange}
-              handleEditChange={handleEditChange}
-            />
-          ) : (
-            <div className="text-center text-gray-500 py-8 w-full">No users found.</div>
-          )}
-        </UserTable>
-        <OrganizerPagination totalPage={totalPage} page={page} setPage={setPage} />
-      </>
-
     </div>
   );
 };
+
+const shimmerRow = (
+  <div
+    className="grid ml-[4rem]  gap-x-1 border-b py-2 bg-white animate-pulse"
+    style={{
+      gridTemplateColumns: "1fr 1.5fr 2fr 3fr 2fr 2fr 1.5fr 2fr",
+    }}
+  >
+    {Array.from({ length: 8 }).map((_, index) => (
+      <div
+        key={index}
+        className="h-10 bg-gray-300 rounded-md bg-light-gray"
+        style={{ width: index === 3 ? "80%" : "60%" }}
+      />
+    ))}
+  </div>
+);
 
 export default ListOrganizer;

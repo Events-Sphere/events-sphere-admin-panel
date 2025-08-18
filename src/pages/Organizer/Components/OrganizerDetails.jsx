@@ -14,7 +14,7 @@ const OrganizerDetails = ({ setModelType, singleUserData: data }) => {
                         <div className="flex items-center justify-between border-b pb-2">
                             <h2 className="text-2xl font-bold text-blue-700">Organizer Information</h2>
                             <div
-                                className="absolute top-0 right-0 h-10 w-10 bg-red hover:bg-red-700 text-white flex items-center justify-center rounded-bl-md rounded-tr-md cursor-pointer"
+                                className="absolute top-0 right-0 h-10 w-10 bg-red-400 hover:bg-red-700 text-white flex items-center justify-center rounded-bl-md rounded-tr-md cursor-pointer"
                                 onClick={() => setModelType(null)}
                             >
                                 X

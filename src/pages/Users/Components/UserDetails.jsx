@@ -134,7 +134,7 @@ export default UserDetails;
 //                         <div className="bg-white p-6 rounded-2xl shadow-xl max-w-sm w-full text-center">
 //                             <div className="mb-4 select-none">
 //                                 <div className="flex items-center gap-4 ">
-//                                     <p className="text-md text-txt-color font-semibold text-xl absolute top-12 right-12">
+//                                     <p className="text-md text-gray-600 font-semibold text-xl absolute top-12 right-12">
 //                                         {" "}
 //                                         {data[0].role}
 //                                     </p>
@@ -146,10 +146,10 @@ export default UserDetails;
 //                                     <div>
 //                                         <div className="flex gap-4 items-center">
 //                                             <div>
-//                                                 <h2 className="text-2xl text-txt-color font-semibold">
+//                                                 <h2 className="text-2xl text-gray-600 font-semibold">
 //                                                     {data[0].name}
 //                                                 </h2>
-//                                                 <p className="text-sm text-txt-color">{data.email}</p>
+//                                                 <p className="text-sm text-gray-600">{data.email}</p>
 //                                             </div>
 //                                             <p
 //                                                 className={`text-sm ${data[0].status === "active" ? "bg-green-700" : "bg-red"} text-white rounded-md flex items-center justify-center py-1 px-2`}
@@ -163,10 +163,10 @@ export default UserDetails;
 //                                     <div className="flex items-center justify-between">
 //                                         <div className="flex items-center gap-1">
 //                                             <IoCallOutline color="green" />
-//                                             <span className="text-txt-color text-md font-semibold">
+//                                             <span className="text-gray-600 text-md font-semibold">
 //                                                 {data[0].c_code}-
 //                                             </span>
-//                                             <p className="text-txt-color text-md font-semibold">
+//                                             <p className="text-gray-600 text-md font-semibold">
 //                                                 {data[0].mobile}
 //                                             </p>
 //                                         </div>
@@ -201,7 +201,7 @@ export default UserDetails;
 //                            <></>
 //                          )}
            
-//                          <h3 className="text-lg text-txt-color mb-2">Location</h3>
+//                          <h3 className="text-lg text-gray-600 mb-2">Location</h3>
 //                          <iframe
 //                            src={`https://www.google.com/maps?q=${data.latitude},${data.longitude}&z=15&output=embed`}
 //                            width="100%"

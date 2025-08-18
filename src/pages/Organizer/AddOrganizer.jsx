@@ -72,8 +72,7 @@ const AddOrganizer = () => {
           },
         },
       );
-      console.log(`${Config.baseUrl}/admin/organizer/signup`);
-      console.log("FROM SIGNUP RESPONSE ::::" + Object.keys(response.data))
+            console.log("FROM SIGNUP RESPONSE ::::" + Object.keys(response.data))
       if (response.data.success) {
         toast.success(
           response.data.message ?? "Organizer created successfully.",
@@ -330,7 +329,7 @@ const AddOrganizer = () => {
             type="submit"
             disabled={loading}
             className={`w-full py-3 flex align-middle justify-center gap-2 ${
-              loading ? "bg-btn-color opacity-35" : "bg-btn-color"
+              loading ? "bg-[var(--color-secondary)] opacity-35" : "bg-[var(--color-secondary)]"
             }  text-white font-semibold rounded-lg shadow hover:bg-primary-dark transition`}
           >
             {loading && (

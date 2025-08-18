@@ -9,13 +9,10 @@ const EditCard = ({ userDetailEdit, popupEdit, setPopupEdit, circle }) => {
     password: "",
   });
   const id = userDetailEdit[0]._id;
-  console.log(id);
-  const [image, setImage] = useState(null);
-  console.log("value", value);
-  const handleChange = (e) => {
+    const [image, setImage] = useState(null);
+    const handleChange = (e) => {
     if (e.target.files) {
-      console.log(e.target.files);
-      setImage(e.target.files[0]);
+            setImage(e.target.files[0]);
     } else {
       setValue({ ...value, [e.target.name]: e.target.value });
     }
@@ -38,11 +35,9 @@ const EditCard = ({ userDetailEdit, popupEdit, setPopupEdit, circle }) => {
     try {
       const response = await axiosInstance.put(Config.updateInternalTeam, data);
       alert(response.data.message);
-      console.log(response);
-      setPopupEdit(!setPopupEdit);
+            setPopupEdit(!setPopupEdit);
     } catch (err) {
-      console.log(err);
-      alert(err.response.data.message);
+            alert(err.response.data.message);
     }
   };
   return (

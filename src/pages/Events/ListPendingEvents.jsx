@@ -24,12 +24,10 @@ const ListPendingEvents = () => {
         Config.mainEventPending +
           `?page=${page}&search=${search}&location=${location}&limit=${limit}`,
       );
-      console.log(response);
-      setData(response.data.data.eventData);
+            setData(response.data.data.eventData);
       setTotalPage(response.data.data.totalPage);
     } catch (err) {
-      console.log(err);
-    } finally {
+          } finally {
       setLoading(false);
     }
   };

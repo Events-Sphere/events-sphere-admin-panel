@@ -20,7 +20,7 @@ const DebugLogger = ({ data, label = "Debug Log", onClose }) => {
           <h2 className="text-lg font-bold text-gray-800">{label}</h2>
           (
             <button
-              onClick={onClose}
+              onClick={() => window.history.back()}
               className="text-red-900 hover:text-red font-bold text-2xl"
             >
               Close ✕

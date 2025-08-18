@@ -10,8 +10,7 @@ import UserDetails from "./Components/UserDetails";
 import UserEdit from "./Components/UserEdit";
 import NotFound from "../NotFound";
 import { Bounce, toast } from "react-toastify";
-import DebugLogger from "../../utilities/DebugLogger";
-
+import React from "react";
 
 const UserManagementPage = () => {
   const [pageCount, setPageCount] = useState(1);
@@ -61,8 +60,7 @@ const UserManagementPage = () => {
       const userValues = Object.values(response.data);
       setUserDetail(userValues[1].users || null);
     } catch (err) {
-      console.error("Error fetching user details:", err);
-    } finally {
+          } finally {
       setLoadingDetail(false);
     }
   };
@@ -91,38 +89,69 @@ const UserManagementPage = () => {
   return (
     <div className="h-[100vh] overflow-x-hidden overflow-y-hidden">
       {/* <DebugLogger data={data} label="User Log"/> */}
+      <UserFilterPanel search={search} setSearch={setSearch} setStatus={setStatus} />
       {
-        modelType === "view" && (<UserDetails setModelType={setModelType} singleUserData={userDetail} />)
-      }
-      {
-        modelType === "edit" && (<UserEdit setModelType={setModelType} data={userDetail} setRefresh={setRefresh} />)
-      }
-      {
-        loading && (
-          <div className="h-screen w-full flex items-center justify-center">
-            <ClipLoader size={80} />
-          </div>
+        loading ? (
+  <div>
+    <div
+      className="grid ml-[4rem] gap-x-1 border-b py-2 bg-[var(--color-secondary)] mt-5 rounded mr-5 text-white font-semibold"
+      style={{
+        gridTemplateColumns: "1fr 1.5fr 2fr 3fr 2fr 2fr 1.5fr 2fr",
+      }}
+    >
+      <div>ID</div>
+      <div>USER ID</div>
+      <div>EMAIL</div>
+      <div>FULL NAME</div>
+      <div>MOBILE</div>
+      <div>ROLE</div>
+      <div>VERIFIED STATUS</div>
+      <div>DETAILS</div>
+    </div>
 
-        )
+    {/* Shimmer rows */}
+    {Array.from({ length: 10 }).map((_, index) => (
+      <div
+        key={index}
+        className="grid ml-[4rem]  gap-x-1 border-b py-2 bg-white animate-pulse"
+        style={{
+          gridTemplateColumns: "1fr 1.5fr 2fr 3fr 2fr 2fr 1.5fr 2fr",
+        }}
+      >
+        {Array.from({ length: 8 }).map((_, colIndex) => (
+          <div
+            key={colIndex}
+            className="h-6 rounded bg-gray-300"
+            style={{ width: colIndex === 3 ? "80%" : "60%" }}
+          />
+        ))}
+      </div>
+    ))}
+  </div>
+) :
+          <>
+            <UserTable>
+              {data && data.length > 0 ? (
+                <UserTableRow
+                  user={data}
+                  active={active}
+                  setActive={setActive}
+                  handleViewChange={handleViewChange}
+                  handleEditChange={handleEditChange}
+                />
+              ) : (
+                <div className="text-center text-gray-500 py-8 w-full">No users found.</div>
+              )}
+              {
+                modelType === "view" && (<UserDetails setModelType={setModelType} singleUserData={userDetail} />)
+              }
+              {
+                modelType === "edit" && (<UserEdit setModelType={setModelType} data={userDetail} setRefresh={setRefresh} />)
+              }
+            </UserTable>
+            <UserPagination totalPage={totalPage} page={page} setPage={setPage} />
+          </>
       }
-      <>
-        <UserFilterPanel search={search} setSearch={setSearch} setStatus={setStatus} />
-        <UserTable>
-          {data && data.length > 0 ? (
-            <UserTableRow
-              user={data}
-              active={active}
-              setActive={setActive}
-              handleViewChange={handleViewChange}
-              handleEditChange={handleEditChange}
-            />
-          ) : (
-            <div className="text-center text-gray-500 py-8 w-full">No users found.</div>
-          )}
-        </UserTable>
-        <UserPagination totalPage={totalPage} page={page} setPage={setPage} />
-      </>
-
     </div>
   );
 };
@@ -143,8 +172,7 @@ export const useFetch = (apiCall, dependencies = []) => {
         setData(response.data);
       } catch (err) {
         setError(err);
-        console.error("API Error:", err);
-      } finally {
+              } finally {
         setLoading(false);
       }
     };
@@ -159,40 +187,40 @@ export const useErrorHandling = (error, setRefresh) => {
   useEffect(() => {
     if (error) {
       if (error.response?.status === 500) {
-            toast.warning("Check your internet connection.", {
-                    position: "top-right",
-                    autoClose: 1000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "colored",
-                    transition: Bounce,
-                });
+        toast.warning("Check your internet connection.", {
+          position: "top-right",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          transition: Bounce,
+        });
       } else {
-          toast.error(error.message || "Something went wrong. Try again..", {
-                    position: "top-right",
-                    autoClose: 1500,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "colored",
-                    transition: Bounce,
-                });
+        toast.error(error.message || "Something went wrong. Try again..", {
+          position: "top-right",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          transition: Bounce,
+        });
       }
-        setTimeout(()=>{
-          setRefresh(prev => !prev);
-        }, 5000);
+      setTimeout(() => {
+        setRefresh(prev => !prev);
+      }, 5000);
     }
   }, [error]);
 };
 
 const shimmerRow = (
   <div
-    className="grid ml-10  gap-x-1 border-b py-2 bg-white animate-pulse"
+    className="grid ml-[4rem]  gap-x-1 border-b py-2 bg-white animate-pulse"
     style={{
       gridTemplateColumns: "1fr 1.5fr 2fr 3fr 2fr 2fr 1.5fr 2fr",
     }}

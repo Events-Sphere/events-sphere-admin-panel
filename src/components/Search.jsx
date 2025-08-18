@@ -7,7 +7,7 @@ const Search = ({ placeholder, type, setSearch, search }) => {
   return (
     <div className="">
       <input
-        className="h-10 w-[30vw] border-[1px] border-txt-color text-txt-color rounded-md bg-white py-2 px-4"
+        className="h-10 w-[30vw] border-[1px] border-[var(--color-secondary)] text-txt-color rounded-md bg-white py-2 px-4"
         placeholder={placeholder}
         type={type}
         value={search}

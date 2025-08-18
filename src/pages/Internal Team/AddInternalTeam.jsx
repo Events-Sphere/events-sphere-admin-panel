@@ -208,8 +208,8 @@ const AddInternalTeam = () => {
           <button
             type="submit"
             disabled={loading}
-            className={`w-full py-3 flex align-middle justify-center gap-2 ${loading ? "bg-btn-color opacity-35" : "bg-btn-color"
-              }  text-white font-semibold rounded-lg shadow hover:bg-primary-dark transition`}
+            className={`w-full py-3 flex align-middle justify-center gap-2 ${loading ? "bg-[var(--color-secondary)] opacity-35" : "bg-[var(--color-secondary)]"
+              }  text-white font-semibold rounded-lg shadow hover:bg-[var(--color-gray-600)] transition`}
           >
             {loading && (
               <div className="flex items-center justify-center">

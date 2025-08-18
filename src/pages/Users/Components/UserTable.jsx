@@ -12,9 +12,9 @@ const UserTable = ({ children }) => {
   ];
 
   return (
-       <div className="relative ml-10 mr-2 mx-auto mt-5 overflow-hidden">
+       <div className="relative ml-[4rem] mr-2 mx-auto mt-5 overflow-hidden">
      <div
-        className="sticky top-0 z-10 grid bg-bannar text-white font-semibold text-sm uppercase tracking-wide p-2 rounded-tr-md rounded-tl-md"
+        className="sticky top-0 z-10 grid bg-[var(--color-secondary)] text-white font-semibold text-sm uppercase tracking-wide p-2 rounded-tr-md rounded-tl-md"
         style={{
           gridTemplateColumns: "0.5fr 0.5fr 1fr 2fr 1fr 1fr 1fr 1fr 0.5fr",
         }}

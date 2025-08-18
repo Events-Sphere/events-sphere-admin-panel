@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const UserFilterPanel = ({ search, setSearch, setStatus }) => {
+const FilterEvents = ({setStatus}) => {
   const _status = ["Active", "Pending", "Rejected"];
   const [selectedStatuses, setSelectedStatuses] = useState([]);
 
@@ -21,17 +21,7 @@ const UserFilterPanel = ({ search, setSearch, setStatus }) => {
   };
 
   return (
-    <div className="h-[8vh] shadow-md z-50 w-full flex justify-around items-center space-y-2 pl-10 pr-10">
-      <div>
-        <input
-          className="h-10 w-[30vw] border-[1px] border-[var(--color-secondary)] text-gray-600 rounded-md bg-white py-2 px-4"
-          placeholder="search users"
-          type="text"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-      </div>
-
+    <div className="flex justify-around items-center space-y-2 pl-10 pr-10">
       {_status.length > 0 && (
         <div className="flex pt-5 md:p-0 gap-2 text-white">
           {_status.map((status, idx) => (
@@ -63,4 +53,4 @@ const UserFilterPanel = ({ search, setSearch, setStatus }) => {
   );
 };
 
-export default UserFilterPanel;
+export default FilterEvents;

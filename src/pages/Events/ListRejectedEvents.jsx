@@ -24,12 +24,10 @@ const ListRejectedEvents = () => {
         Config.mainEventRejected +
           `?page=${page}&search=${search}&location=${location}&limit=${limit}`,
       );
-      console.log(response);
-      setData(response.data.data.eventData);
+            setData(response.data.data.eventData);
       setTotalPage(response.data.data.totalPage);
     } catch (err) {
-      console.log(err);
-    } finally {
+          } finally {
       setLoading(false);
     }
   };
@@ -73,10 +71,8 @@ const ListRejectedEvents = () => {
     "Viluppuram",
     "Virudhunagar",
   ];
-  console.log(location);
-  const handleLocation = (e) => {
-    console.log("start");
-
+    const handleLocation = (e) => {
+    
     const value = e.target.value;
     if (location.includes(value)) {
       const newLocation = location.filter((data) => data != value);

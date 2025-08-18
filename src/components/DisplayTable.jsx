@@ -1,4 +1,5 @@
 import React from "react";
+import DebugLogger from "../utilities/DebugLogger";
 const DisplayTable = ({
   title,
   data,
@@ -14,17 +15,17 @@ const DisplayTable = ({
   const userTitle = [...title, "DETAILS"];
   const employeeTitle = [...title, "DETAILS", "EDIT"];
   const handleUserId = (id) => {
-    console.log("idddd", id);
-    setPopup(!popup);
+        setPopup(!popup);
 
     getUserDetail(id);
   };
   const handleUserEdit = (id) => {
-    console.log("emp", id);
-    setPopupEdit(!popupEdit);
+        setPopupEdit(!popupEdit);
     editInternalTeam(id);
   };
+  return (<DebugLogger data={data} label="Internal team details"/>)
   return (
+
     <>
       <div className="relative ml-10 mr-2 max-w-full mx-auto overflow-hidden">
         <div

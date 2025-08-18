@@ -1,24 +1,38 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { format } from "date-fns";
 import { BiLocationPlus } from "react-icons/bi";
 import Config from "../App/service/config";
+import DebugLogger from "../utilities/DebugLogger";
 
 const EventCard = ({ data }) => {
   const navigate = useNavigate();
+  const [eventDetails, setEventDetails] = useState([]);
   const handleEvent = async (id) => {
+    // console.log("BEFORE NAVIGATE INTO EVENT DETAILS ::::" + data)
+    const eventData = data.filter((item)=>item._id === id);
+    console.log("EVENT DATA :::"+ eventData)
     navigate("/eventdetail", {
       state: {
-        id: id,
+        data: eventData,
       },
     });
   };
-  const formatDate = (dateString) => {
-    return format(new Date(dateString), "dd MMMM yyyy");
-  };
+  // const formatDate = (dateString) => {
+  //   return format(new Date(dateString), "dd MMMM yyyy");
+  // };
+
+  const formatDate = (date) => {
+  const d = new Date(date);
+  console.log(date)
+  return isNaN(d.getTime()) ? new Date().toLocaleDateString() : d.toLocaleString(); // or custom format
+};
+// return (<DebugLogger data={data} label="Event Card page"/>)
+
+const IMAGE_URL = "https://cdn.pixabay.com/photo/2017/12/08/11/53/event-party-3005668_640.jpg";
 
   return (
-    <div className="h-[80vh] bg-gray-100 p-4 overflow-auto">
+    <div className="h-[80vh] p-4 overflow-auto ">
       <div className="flex flex-wrap grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-x-4 gap-y-6 justify-start">
         {data.map((data, index) => (
           <div
@@ -28,9 +42,16 @@ const EventCard = ({ data }) => {
             <div className="relative">
               <img
                 className="w-full h-[8rem] object-cover rounded-t-lg"
-                src={Config.eventMainImgBaseUrl + data.image}
+                src={IMAGE_URL}
                 alt={data.name}
               />
+              <span className={`absolute top-0 right-0 bg-red-500 text-white pl-1 pr-1 rounded-s ${
+                data.active_status === "active"
+                  ? " bg-[#32CD32]"
+                  : data.active_status === "pending"
+                  ? " bg-[#FEBE10] "
+                  : " bg-[#E76161]"
+              }`}>{data.active_status}</span>
             </div>
 
             <div className="p-2">
@@ -38,32 +59,34 @@ const EventCard = ({ data }) => {
                 {data.name}
               </h1>
 
-              <div className=" text-xs text-gray-500">
-                <div className="mt-1 flex flex-col items-start text-sm text-gray-600 space-y-1">
-                  <div className="flex items-center space-x-2">
-                    <span className="font-semibold text-gray-800">
-                      📅 Start:
-                    </span>
-                    <span>{formatDate(data.startDate)}</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <span className="font-semibold text-gray-800">⏳ End:</span>
-                    <span>{formatDate(data.endDate)}</span>
-                  </div>
-                </div>
-                <div className="flex justify-between">
-                  <div className="flex items-center text-sm text-gray-600 mt-1 gap-2">
-                    <BiLocationPlus />
-                    <span>{data.location}</span>
-                  </div>
-                  <button
-                    className="mt-1 bg-blue-600 text-txt-color rounded-md h-8 px-3 text-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 border-[1px]"
-                    onClick={() => handleEvent(data.id)}
-                  >
-                    View
-                  </button>
-                </div>
-              </div>
+              <div className="text-xs text-gray-600 mt-3 space-y-3">
+  {/* Start and End Dates */}
+  <div className="flex flex-col gap-1 text-sm">
+    <div className="flex items-center gap-2">
+      <span className="font-semibold text-gray-800">📅 From:</span>
+      <span className="text-gray-700">{formatDate(data.starting_date)}</span>
+    </div>
+    <div className="flex items-center gap-2">
+      <span className="font-semibold text-gray-800">📅 End:</span>
+      <span className="text-gray-700">{formatDate(data.ending_date)}</span>
+    </div>
+  </div>
+
+  {/* Location and View Button */}
+  <div className="flex items-center justify-between">
+    <div className="flex items-center gap-1 text-gray-700 text-sm truncate max-w-[8rem]">
+      <BiLocationPlus className="text-blue-600" />
+      <span className="truncate">{data.location}</span>
+    </div>
+    <button
+      className="ml-2 bg-[var(--color-secondary)] text-white rounded-md px-3 py-1 text-sm hover:bg-blue-700 transition duration-200 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+      onClick={() => handleEvent(data._id)}
+    >
+      View
+    </button>
+  </div>
+</div>
+
             </div>
           </div>
         ))}

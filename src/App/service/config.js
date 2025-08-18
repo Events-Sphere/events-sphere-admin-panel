@@ -1,13 +1,13 @@
 
-const  isLocalServer = true;
+const isLocalServer = true;
 
 export default class Config {
-  static localHostUrl = "http://localhost:3000/api/v1";
-  static authBaseUrl =  "http://localhost:3000/";
+  static localHostUrl = "http://localhost:8080/api/v1";
+  static authBaseUrl = "http://localhost:8080/";
   static OnlineUrl = "https://event-backend-0000.onrender.com/api/v1";
-  static baseUrl =  isLocalServer ? this.localHostUrl : this.OnlineUrl;
+  static baseUrl = isLocalServer ? this.localHostUrl : this.OnlineUrl;
   static imageBaseUrl = "https://firebasestorage.googleapis.com/v0/b/stuhub-36067.firebasestorage.app/o";
-  
+
 
   static categoryImgBaseUrl = `${this.imageBaseUrl}/`;
   static eventCoverImgBaseUrl = `${this.imageBaseUrl}/ev_cover_img/`;
@@ -20,7 +20,7 @@ export default class Config {
   static userProfileImgBaseUrl = `${this.imageBaseUrl}/user_profile/`;
   static verifiedUserImgBaseUrl = `${this.imageBaseUrl}/verified_user/`;
 
-  
+
   static login = "/admin/login";
   static createInternalTeam = "/admin/internal-teams/create";
   static deleteInternalTeam = "/admin/internal-teams/delete";
@@ -28,12 +28,13 @@ export default class Config {
   static singleInternalTeam = "/admin/internal-teams/single";
   static getAllInternalTeam = "/admin/internal-teams";
 
-  static createEvent = "/event/create";
+  static createEvent = "/admin/events/create";
   static mainEventActive = "/admin/events/active";
   static mainEventPending = "/admin/events/pending";
   static mainEventCompleted = "/admin/events/completed";
   static mainEventRejected = "/admin/events/rejected";
   static subEvents = "/admin/subevents/";
+  static getEventsByStatus = "/events/geteventbystatus"
 
   static approveUser = "/admin/user/approve";
   static rejectUser = "/admin/user/reject";

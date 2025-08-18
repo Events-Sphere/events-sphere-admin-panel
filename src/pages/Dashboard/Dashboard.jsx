@@ -1,17 +1,16 @@
-import React from "react";
-import { MdEvent } from "react-icons/md";
 import { FiUsers } from "react-icons/fi";
 import { GoOrganization } from "react-icons/go";
+import { MdEvent } from "react-icons/md";
 import {
-  LineChart,
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Legend,
   Line,
+  LineChart,
+  Tooltip,
   XAxis,
   YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  BarChart,
-  Bar,
 } from "recharts";
 
 const Dashboard = () => {
@@ -41,6 +40,7 @@ const Dashboard = () => {
       numbers: "60",
       icons: <MdEvent />,
     },
+    
   ];
 
   const userDemographicsData = [
@@ -60,15 +60,13 @@ const Dashboard = () => {
   ];
 
   return (
-    <div className="pt-1 px-4 w-full  bg-no-repeat bg-cover h-[100vh]">
-      <div>
-        <h1 className="heading text-gray">DASHBOARD</h1>
-      </div>
+    <div className="pt-1 px-5 w-full flex flex-col justify-around bg-no-repeat bg-cover h-[100vh]">
+      
       <div className="flex flex-wrap justify-center gap-3 pt-4">
         {data.map((data, index) => (
           <div
             key={index}
-            className="flex justify-between items-center  bg-white p-2 px-4 rounded shadow-lg hover:scale-105 w-56"
+            className="flex justify-between items-center  bg-white p-2 px-5 rounded shadow-lg hover:scale-105 w-56"
           >
             <div className="flex flex-col  text-center gap-2">
               <span className="flex flex-wrap">{data.title}</span>
@@ -85,7 +83,7 @@ const Dashboard = () => {
 
       <div className="sm:grid sm:grid-cols-2 sm:gap-8 mt-6 flex flex-col gap-2 sm:px-4">
         {/* user's Demographics */}
-        <div className="bg-white p-4 rounded-lg shadow-md overflow-hidden ">
+        <div className="bg-white p-4 rounded-lg shadow-md overflow-hidden ml-5">
           <h3 className="text-lg font-semibold mb-4">User's Demographics</h3>
           <LineChart width={450} height={300} data={userDemographicsData}>
             <XAxis dataKey="year" />
