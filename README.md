@@ -36,8 +36,8 @@ A modern and intuitive **web-based administrative interface** for **Events-Spher
 
 ## Login Credentials:
   (Make sure backend is running...)
-   - USER_NAME - prasanth123@gmail.com
-   - PASSWORD - prasanth123
+   - USER_NAME - admin123@gmail.com
+   - PASSWORD - admin123
 
 ## ✨ Features
 - 🔐 Role-based access control  
@@ -109,7 +109,7 @@ Navigate to http://localhost:3000 to access the admin panel locally.
 ---
 
 ## Live Demo
-  - http://demo.app/
+  - [http://demo.app/](https://event-super-admin-panel.vercel.app)
 
 ---
 
